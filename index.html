@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<!--
+    ===================================================================
+    projetosgn · Portfólio de Soluções
+    ===================================================================
+    Objetivo:
+        Apresentar projetos de tecnologia e inovação em um formato
+        de carrossel interativo. O foco está no pensamento computacional,
+        código limpo e soluções transformadoras. Cada slide representa
+        um projeto ou seção institucional, com navegação por botões
+        e indicadores visuais.
+
+    Autor : Gisele Nunes
+    Data  : 2026
+    ===================================================================
+-->
+
+<!-- Define o idioma principal da página como Português do Brasil -->
+<html lang="pt-BR">
+
+<!-- Início do cabeçalho da página: contém metadados e links para recursos externos -->
+
+<head>
+    <!-- Define a codificação de caracteres como UTF-8 (suporte a acentos e caracteres especiais) -->
+    <meta charset="UTF-8">
+
+    <!--
+        Configura a viewport para dispositivos móveis:
+        - width=device-width: largura igual à tela do dispositivo
+        - initial-scale=1.0: zoom inicial padrão
+        - viewport-fit=cover: garante que o conteúdo ocupe toda a tela em iPhones com notch
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <!-- Título que aparece na aba do navegador -->
+    <title>projetosgn · Portfólio de Soluções</title>
+
+    <!-- Link para o arquivo CSS externo que contém os estilos da página -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<!-- Corpo da página: todo o conteúdo visível fica dentro desta tag -->
+
+<body>
+    <!--
+        Wrapper: div principal que agrupa todo o conteúdo.
+        Serve como contêiner para aplicar estilos de largura máxima,
+        centralização e sombras, se necessário.
+    -->
+    <div class="wrapper">
+
+        <!--
+            Seção hero: área de destaque no topo da página.
+            Contém logo, título principal e uma linha de código simbólica.
+        -->
+        <div class="hero">
+            <!-- Div que agrupa logo e título para alinhamento -->
+            <div class="logo-titulo">
+                <!--
+                    Imagem do logo.
+                    - src: caminho da imagem
+                    - alt: texto alternativo para acessibilidade
+                    - onerror: fallback caso a imagem não carregue (esconde o elemento)
+                -->
+                <img src="assets/images/logo_projetosgn_2.png" alt="logo projetosgn" class="logo-simbolo"
+                    onerror="this.style.display='none'">
+                <!-- Título principal do site (nível 1) -->
+                <h1>projetosgn</h1>
+            </div>
+
+            <!-- Subtítulo ou slogan da marca -->
+            <div class="tagline">IDEIAS • CÓDIGO • SOLUÇÕES</div>
+
+            <!--
+                Exemplo de código JavaScript estilizado como um snippet.
+                Representa a filosofia de transformar ideias em resultados.
+            -->
+            <div class="code-snippet">
+                const resposta = transformar(ideias, código, resultado);
+            </div>
+        </div>
+
+        <!--
+            CARROSSEL DE PROJETOS
+            Estrutura principal para exibir os slides interativos.
+        -->
+        <div class="carrossel-container">
+            <!--
+                Contêiner dos slides: terá largura suficiente para acomodar todos os itens
+                em linha (horizontal). O JavaScript manipula a posição de scroll ou transform.
+            -->
+            <div class="carrossel-slides" id="carrosselSlides">
+
+                <!-- ========== SLIDE 1: Cartilha Pedagógica (1º ao 5º Ano) ========== -->
+                <!-- Cada slide é uma div com a classe 'carrossel-item' -->
+                <div class="carrossel-item">
+                    <!-- Card individual que representa um projeto -->
+                    <div class="card-projeto">
+                        <!-- Logo do projeto (UTFPR) -->
+                        <img src="assets/images/UTFPR_logo.png" alt="Logo UTFPR" class="logo-projeto"
+                            onerror="this.src='https://placehold.co/140x110?text=UTFPR'">
+                        <!-- Título do projeto -->
+                        <h3>Cartilha Pedagógica</h3>
+                        <!-- Descrição curta: público-alvo e abordagem -->
+                        <div class="desc-curta">🎓 1º ao 5º Ano · Pensamento Criativo</div>
+                        <!-- Descrição principal mais detalhada -->
+                        <div class="descricao-principal">
+                            Introdução ao Scratch para Professores da Educação Básica (1º ao 5º Ano)<br>
+                            Material didático interativo e acessível.
+                        </div>
+                        <!--
+                            Link/botão para acessar o projeto.
+                            - href: URL do projeto externo
+                            - target="_blank": abre em nova aba
+                            - rel="noopener noreferrer": segurança para evitar ataques via window.opener
+                        -->
+                        <a href="https://barbosa-rodrigo-1979.github.io/scratch-na-educacao-basica/" class="btn-projeto"
+                            target="_blank" rel="noopener noreferrer">
+                            <span>🔗</span> Acessar projeto
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ========== SLIDE 2: Cartilha Pedagógica (6º ao 9º Ano) ========== -->
+                <div class="carrossel-item">
+                    <div class="card-projeto">
+                        <img src="assets/images/UTFPR_logo.png" alt="Logo UTFPR" class="logo-projeto"
+                            onerror="this.src='https://placehold.co/140x110?text=UTFPR'">
+                        <h3>Cartilha Pedagógica</h3>
+                        <div class="desc-curta">🧠 6º ao 9º Ano · Pensamento Computacional</div>
+                        <div class="descricao-principal">
+                            Uma sequência didática para desenvolver o Pensamento Computacional do 6º ao 9º ano<br>
+                            Estratégias práticas com Scratch.
+                        </div>
+                        <a href="https://barbosa-rodrigo-1979.github.io/scratch-na-educacao-basica-2/"
+                            class="btn-projeto" target="_blank" rel="noopener noreferrer">
+                            <span>🔗</span> Acessar projeto
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ========== SLIDE 3: Sobre Mim (Criador) ========== -->
+                <div class="carrossel-item">
+                    <div class="card-projeto">
+                        <!-- Logo com fundo preto (classe específica) -->
+                        <img src="assets/images/logo_projetosgn_6.png" alt="Rodrigo Barbosa"
+                            class="logo-projeto logo-fundo-preto"
+                            onerror="this.src='https://placehold.co/140x110?text=RB'">
+                        <h3>Bio</h3>
+                        <div class="desc-curta">👤 Institucional · Criador</div>
+                        <div class="descricao-principal">
+                            Conheça a trajetória, formação acadêmica e filosofia de trabalho<br>
+                            de Gisele Nunes, idealizador do projetosgn.
+                        </div>
+                        <!-- Link para uma página interna (sobre_mim.html) -->
+                        <a href="pages/bio.html" class="btn-projeto">
+                            <span>👤</span> Conhecer criador
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ========== SLIDE 4: Novos Horizontes (Projeto Futuro) ========== -->
+                <div class="carrossel-item">
+                    <div class="card-projeto">
+                        <img src="assets/images/logo_projetosgn_6.png" alt="Logo projetosgn"
+                            class="logo-projeto logo-fundo-preto"
+                            onerror="this.src='https://placehold.co/140x110?text=projetosgn'">
+                        <h3>Novos Horizontes</h3>
+                        <div class="desc-curta">🚀 Em breve · inovação</div>
+                        <div class="descricao-principal">
+                            Reservado para projetos futuros<br>
+                            Novas soluções, tecnologias emergentes e ideias em evolução.
+                        </div>
+                        <!--
+                            Botão não é um link, mas um elemento interativo.
+                            O JavaScript pode adicionar um alerta ou outra ação.
+                            ID único para referência no script.
+                        -->
+                        <button class="btn-projeto" id="btnProjetoFuturo">
+                            <span>✨</span> Em desenvolvimento
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!--
+                Botão de navegação "Anterior".
+                - class: estilização geral dos botões
+                - class específica para posicionamento à esquerda
+                - id: referência para o JavaScript
+                - aria-label: descrição para leitores de tela (acessibilidade)
+            -->
+            <button class="carrossel-btn carrossel-btn-prev" id="btnPrev" aria-label="Anterior">❮</button>
+
+            <!-- Botão de navegação "Próximo" -->
+            <button class="carrossel-btn carrossel-btn-next" id="btnNext" aria-label="Próximo">❯</button>
+
+            <!--
+                Div que conterá os indicadores (pontinhos) gerados dinamicamente pelo JavaScript.
+                Cada indicador representa um slide e permite navegação direta.
+            -->
+            <div class="carrossel-indicadores" id="carrosselIndicadores"></div>
+        </div>
+
+        <!--
+            Rodapé da página (footer).
+            Contém informações de direitos autorais e uma mensagem simbólica em formato de console.log.
+        -->
+        <div class="footer">
+            <span>projetosgn · IDEIAS • CÓDIGO • SOLUÇÕES</span>
+            <span>|</span>
+            <span>console.log('Inovação. Criatividade. Resultado.');</span>
+        </div>
+    </div>
+
+    <!--
+        Inclusão do arquivo JavaScript externo.
+        Deve ser carregado após o HTML para que os elementos existam quando o script executar.
+    -->
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>

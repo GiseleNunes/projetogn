@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<!--
+    ===================================================================
+        Titulo do documento: Sobre Gisele Nunes - Página Institucional
+    ===================================================================
+    Objetivo:
+        Exibir informações profissionais, acadêmicas e de contato de Gisele Nunes.
+        A página inclui um cabeçalho com logo, uma seção principal com foto,
+        idade calculada dinamicamente, formação acadêmica, uma breve biografia
+        e um rodapé com informações complementares.
+        A idade é calculada automaticamente via JavaScript com base na data
+        de nascimento (10/04/1992), tornando o conteúdo sempre atualizado.
+    Autor : Gisele Nunes
+    Data  : 2026
+    ===================================================================
+-->
+
+<!-- Início do documento HTML -->
+<html lang="pt-BR"> <!-- Define o idioma da página como português do Brasil -->
+
+<!-- Cabeçalho do documento: contém metadados, título e link para o CSS -->
+
+<head>
+  <!-- Define o conjunto de caracteres como UTF-8, permitindo acentos e caracteres especiais -->
+  <meta charset="UTF-8">
+  <!-- Configura a viewport para dispositivos móveis: escala 1:1 e ajuste de tela -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <!-- Título exibido na aba do navegador -->
+  <title>projetosgn · Sobre Gisele Nunes</title>
+  <!-- Link para o arquivo de estilos CSS externo (responsável pela aparência) -->
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<!-- Corpo do documento: todo o conteúdo visível da página -->
+
+<body>
+  <!-- Wrapper principal: agrupa todo o conteúdo e centraliza na página -->
+  <div class="wrapper">
+
+    <!-- Seção hero (destaque principal) -->
+    <div class="hero">
+      <!-- Bloco que contém o logo e o título principal -->
+      <div class="logo-titulo">
+        <!-- Imagem do logo: caso não seja encontrada, o evento onerror esconde a imagem -->
+        <img src="../assets/images/logo_projetosgn_2.png" alt="logo projetosgn" class="logo-simbolo"
+          onerror="this.style.display='none'">
+        <!-- Título principal da página -->
+        <h1>projetosgn</h1>
+      </div>
+      <!-- Linha de chamada (slogan) -->
+      <div class="tagline">IDEIAS • CÓDIGO • SOLUÇÕES</div>
+      <!-- Exemplo de código JavaScript fictício, apenas para estilo visual -->
+      <div class="code-snippet">
+        const perfil = new GiseleNunes(experiência, paixão, tecnologia);
+      </div>
+    </div>
+
+    <!-- Seção principal: contém as informações sobre Gisele Nunes -->
+    <div class="sobre-container">
+      <!-- Card principal que agrupa todas as informações da pessoa -->
+      <div class="card-sobre">
+
+        <!-- Bloco do avatar (foto de perfil) -->
+        <div class="avatar-placeholder" id="avatarGisele">
+          <!-- Imagem da foto de perfil: caso não seja encontrada, usa um placeholder do placehold.co -->
+          <img src="../assets/images/avatar_gisele.png" alt="Gisele Nunes" class="avatar-img"
+            onerror="this.src='https://placehold.co/180x180?text=Gisele+Nunes'">
+        </div>
+
+        <!-- Nome da pessoa -->
+        <h2>Gisele Nunes</h2>
+
+        <!-- Linha com informações de destaque: idade (dinâmica) e áreas de atuação -->
+        <div class="info-destaque">
+          <!-- Span vazio que será preenchido pelo JavaScript com a idade calculada -->
+          <span class="idade" id="idadeGisele"></span> •
+          <span>👩‍💻 Especialista em Business Intelligence | Bacharel em Sistemas de Informação | Licenciatura em
+            Computação (em andamento)</span>
+        </div>
+
+        <!-- Bloco de detalhes: contato e formação acadêmica -->
+        <div class="detalhes">
+          <!-- Bloco de contato -->
+          <div class="bloco-contato">
+            <h3>📞 Contato</h3>
+            <!-- Link para telefone (dispositivos móveis abrem o discador) -->
+            <p>📱 <a href="tel:+5543996096936">(43) 9.9609-6936</a></p>
+            <!-- Link para e-mail (abre o cliente de e-mail padrão) -->
+            <p>✉️ <a href="mailto:giseleacn@gmail.com">giseleacn@gmail.com</a></p>
+          </div>
+
+          <!-- Bloco de formação acadêmica -->
+          <div class="bloco-formacao">
+            <h3>🎓 Formação Acadêmica</h3>
+            <!-- Lista não ordenada com os cursos e períodos -->
+            <ul style="color: #ffffff;">
+              <li><strong>Sistemas de Informação</strong> – 2009 a 2013</li>
+              <li><strong>MBI em Business Intelligence</strong> – 2014 a 2016</li>
+              <li><strong>Licenciatura em Computação</strong> – 2024 até o momento</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Biografia resumida -->
+        <div class="bio">
+          <p>
+            💡 Profissional com sólida base em tecnologia e negócios, unindo análise de dados,
+            desenvolvimento de soluções e agora licenciatura para transformar o ensino da computação.
+            Apaixonada por criar pontes entre dados, pessoas e aprendizado.
+          </p>
+        </div>
+
+        <!-- Botão para voltar à página inicial (portfolio) -->
+        <a href="../index.html" class="btn-projeto voltar-btn">
+          <span>←</span> Voltar ao portfólio
+        </a>
+      </div>
+    </div>
+
+    <!-- Rodapé da página -->
+    <div class="footer">
+      <!-- Primeiro bloco com slogan -->
+      <span>projetosgn · IDEIAS • CÓDIGO • SOLUÇÕES</span>
+      <span>|</span>
+      <!-- Segundo bloco com mensagem simulada em console.log (estilo visual) -->
+      <span>console.log('Gisele Nunes - Inovação. Criatividade. Resultado.');</span>
+    </div>
+  </div>
+
+  <!-- Inclusão do arquivo JavaScript externo (responsável por calcular a idade dinamicamente) -->
+  <script src="../assets/js/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,2508 @@
+/*===================================================================
+    Titulo do documento: Estilos CSS para Portfólio de Projetos - Gisele Nunes
+    ===================================================================
+    Objetivo:
+        Este arquivo define todos os estilos visuais para o site de portfólio,
+        incluindo layout do carrossel de projetos, página sobre, efeitos de vidro
+        (glassmorphism), responsividade e animações. Garante uma experiência
+        visual moderna, legível e consistente em diferentes dispositivos.
+    Autor : Gisele Nunes
+    Data  : 2026
+===================================================================*/
+
+/* ==========================================================================
+   1. RESET E CONFIGURAÇÕES GLOBAIS
+   ========================================================================== */
+
+/*
+ * SELETOR UNIVERSAL (*)
+ * O asterisco (*) seleciona TODOS os elementos HTML da página.
+ * Isso inclui tags como <body>, <div>, <p>, <h1>, etc.
+ * Aplicamos regras que serão herdadas por todos os elementos,
+ * garantindo uma base consistente em qualquer navegador.
+ */
+* {
+	/* Remove todas as margens externas padrão que os navegadores aplicam */
+	margin: 0;
+
+	/* Remove todos os preenchimentos internos padrão */
+	padding: 0;
+
+	/* 
+     * box-sizing: border-box
+     * Por padrão, a largura (width) de um elemento não inclui bordas e padding.
+     * Com 'border-box', a largura e altura TOTAL do elemento incluem conteúdo,
+     * padding e borda. Isso facilita muito o cálculo de layouts responsivos,
+     * pois evita que elementos "estourem" o container pai ao adicionar padding.
+     */
+	box-sizing: border-box;
+}
+
+/*
+ * ELEMENTO BODY
+ * O <body> é o contêiner visível principal da página. Todo conteúdo que o
+ * usuário vê está dentro dele.
+ */
+body {
+	/* 
+     * font-family: Define a pilha de fontes (fallback)
+     * O navegador tenta usar a primeira fonte disponível. Se não encontrar,
+     * vai para a próxima, e assim por diante.
+     * - 'Segoe UI': Fonte moderna do Windows.
+     * - 'Courier New': Fonte monoespaçada (cada letra tem mesma largura).
+     * - monospace: Garantia de fonte monoespaçada caso as anteriores falhem.
+     * - system-ui: Força o sistema operacional a usar sua fonte padrão de interface.
+     */
+	font-family: 'Segoe UI', 'Courier New', monospace, system-ui;
+
+	/* 
+     * background-image: Define uma imagem como fundo do site.
+     * O caminho é relativo ao arquivo CSS. '..' significa "voltar um nível".
+     * Como o CSS está em assets/css/style.css, '../images/fundo_projetosgn.png'
+     * aponta para a pasta 'images' que está no mesmo nível de 'assets'.
+     */
+	background-image: url('../images/fundo_projetosgn.png');
+
+	/* 
+     * background-size: cover
+     * Redimensiona a imagem de fundo para cobrir completamente o elemento,
+     * mantendo sua proporção. Pode cortar levemente as bordas, mas garante
+     * que não haverá espaços vazios.
+     */
+	background-size: cover;
+
+	/* 
+     * background-position: center
+     * Centraliza a imagem de fundo tanto na horizontal quanto na vertical.
+     * Isso garante que a parte mais interessante da imagem fique visível.
+     */
+	background-position: center;
+
+	/* 
+     * background-repeat: no-repeat
+     * Impede que a imagem se repita caso seja menor que o elemento.
+     * Queremos apenas uma instância da imagem.
+     */
+	background-repeat: no-repeat;
+
+	/* 
+     * background-attachment: fixed
+     * Fixa a imagem de fundo em relação à viewport (janela do navegador).
+     * Quando o usuário rola a página, o conteúdo se move, mas a imagem de fundo
+     * permanece estática, criando um efeito parallax suave e elegante.
+     */
+	background-attachment: fixed;
+
+	/* 
+     * min-height: 100vh
+     * Garante que o body tenha no mínimo 100% da altura da viewport (vh = viewport height).
+     * Isso é crucial para centralizar conteúdo verticalmente e para que o fundo
+     * cubra toda a tela inicial, mesmo com pouco conteúdo.
+     */
+	min-height: 100vh;
+
+	/* 
+     * display: flex
+     * Ativa o Flexbox, um modelo de layout unidimensional poderoso.
+     * Permite alinhar e distribuir espaço entre os itens filhos de forma eficiente.
+     */
+	display: flex;
+
+	/* 
+     * align-items: center
+     * Alinha os itens filhos (no caso, o .wrapper) ao centro do eixo transversal.
+     * Como o flex-direction padrão é 'row' (linha), o eixo transversal é o vertical.
+     * Portanto, centraliza o conteúdo VERTICALMENTE dentro do body.
+     */
+	align-items: center;
+
+	/* 
+     * justify-content: center
+     * Alinha os itens filhos ao centro do eixo principal.
+     * Com flex-direction: row (padrão), o eixo principal é o horizontal.
+     * Portanto, centraliza o conteúdo HORIZONTALMENTE dentro do body.
+     */
+	justify-content: center;
+
+	/* 
+     * padding: 2rem
+     * Adiciona um espaçamento interno de 2rem em TODOS os lados do body.
+     * rem é uma unidade relativa ao tamanho da fonte raiz (<html>).
+     * Por padrão, 1rem = 16px. Então, 2rem = 32px.
+     * Isso evita que o conteúdo grude nas bordas da tela em telas pequenas.
+     */
+	padding: 2rem;
+
+	/* 
+     * position: relative
+     * Cria um novo contexto de posicionamento. Elementos com position: absolute
+     * dentro do body serão posicionados em relação a ele, não à viewport.
+     * Necessário para o pseudo-elemento ::before funcionar corretamente.
+     */
+	position: relative;
+}
+
+/*
+ * PSEUDO-ELEMENTO BODY::BEFORE
+ * Um pseudo-elemento é como um "elemento fantasma" criado via CSS.
+ * ::before significa "antes do conteúdo do body".
+ * É usado aqui para criar uma camada de overlay (sobreposição) escura
+ * sobre a imagem de fundo, melhorando a legibilidade do texto.
+ */
+body::before {
+	/* 
+     * content: ""
+     * A propriedade 'content' é OBRIGATÓRIA para pseudo-elementos ::before e ::after.
+     * Mesmo vazia, deve ser declarada para que o elemento exista no DOM.
+     */
+	content: "";
+
+	/* 
+     * position: fixed
+     * Posiciona o elemento em relação à viewport (janela do navegador).
+     * Ao contrário de 'absolute', 'fixed' não rola com a página.
+     * Isso garante que o overlay escuro cubra a tela inteira mesmo rolando,
+     * já que o fundo é fixed e o conteúdo rola sobre ele.
+     */
+	position: fixed;
+
+	/* top, left, right, bottom: 0 */
+	/* Define que o elemento deve se esticar para tocar todas as bordas da viewport */
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+
+	/* 
+     * background: rgba(0, 0, 0, 0.3)
+     * Cor preta (0,0,0) com 30% de opacidade (0.3 = 30% visível, 70% transparente).
+     * rgba = Red, Green, Blue, Alpha (canal alfa = transparência).
+     * Escurece a imagem de fundo, fazendo o texto branco se destacar mais.
+     */
+	background: rgba(0, 0, 0, 0.3);
+
+	/* 
+     * z-index: 0
+     * Controla a ordem de empilhamento (eixo Z).
+     * Quanto MAIOR o z-index, mais À FRENTE o elemento aparece.
+     * Com z-index:0, este overlay fica atrás do conteúdo (que terá z-index maior).
+     */
+	z-index: 0;
+}
+
+/* ==========================================================================
+   2. ESTRUTURA PRINCIPAL (WRAPPER)
+   ========================================================================== */
+
+/*
+ * .wrapper
+ * Classe CSS (identificada pelo ponto .) que envolve TODO o conteúdo principal.
+ * É a caixa centralizada e estilizada que contém hero, carrossel e footer.
+ */
+.wrapper {
+	/* 
+     * position: relative
+     * Cria um novo contexto de posicionamento para os elementos filhos absolutos.
+     * Também permite que o z-index funcione corretamente dentro deste container.
+     */
+	position: relative;
+
+	/* 
+     * z-index: 2
+     * Garante que o wrapper e todo seu conteúdo fiquem ACIMA do overlay escuro
+     * do body::before (que tem z-index:0).
+     */
+	z-index: 2;
+
+	/* 
+     * max-width: 1200px
+     * Define uma largura máxima para o container.
+     * Em telas muito grandes (ex: 4K), o conteúdo não ficará excessivamente largo,
+     * mantendo a legibilidade e o conforto visual.
+     */
+	max-width: 1200px;
+
+	/* 
+     * width: 100%
+     * Ocupa 100% da largura disponível do elemento pai (o body centralizado),
+     * mas respeita o limite de max-width:1200px.
+     */
+	width: 100%;
+
+	/* 
+     * background: rgba(20, 30, 45, 0.5)
+     * Fundo azul-escuro (20,30,45) com 50% de opacidade.
+     * A transparência permite que a imagem de fundo (já escurecida pelo overlay)
+     * apareça levemente através do conteúdo, criando profundidade.
+     */
+	background: rgba(20, 30, 45, 0.5);
+
+	/* 
+     * backdrop-filter: blur(2px)
+     * Aplica um efeito de desfoque (blur) de 2px aos elementos que estão ATRÁS
+     * do .wrapper. Isso cria o famoso efeito "glassmorphism" (vidro fosco),
+     * onde o fundo parece estar embaçado atrás do conteúdo, similar a vidro.
+     * Diferente de 'filter', 'backdrop-filter' não desfoca o próprio elemento.
+     */
+	backdrop-filter: blur(2px);
+
+	/* 
+     * border-radius: 2rem
+     * Arredonda os cantos do wrapper. 2rem = 32px (considerando 1rem=16px).
+     * Dá um aspecto mais suave e moderno ao container principal.
+     */
+	border-radius: 2rem;
+
+	/* 
+     * padding: 2rem
+     * Adiciona espaço interno de 2rem em todos os lados.
+     * O conteúdo interno (hero, carrossel, footer) não encosta nas bordas arredondadas.
+     */
+	padding: 2rem;
+
+	/* 
+     * box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3)
+     * Adiciona uma sombra externa ao elemento.
+     * Sintaxe: offset-x | offset-y | blur-radius | spread-radius | cor
+     * - offset-x: 0 (sombra centralizada horizontalmente)
+     * - offset-y: 25px (sombra para baixo)
+     * - blur-radius: 45px (quanto maior, mais esfumada a sombra)
+     * - cor: preto com 30% opacidade
+     * Cria a ilusão de que o wrapper está flutuando sobre o fundo.
+     */
+	box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3);
+
+	/* 
+     * border: 1px solid rgba(0, 180, 200, 0.4)
+     * Adiciona uma borda fina de 1px na cor ciano/azul claro com 40% opacidade.
+     * A borda sutíl reforça as bordas do glassmorphism, dando um "brilho" nas extremidades.
+     */
+	border: 1px solid rgba(0, 180, 200, 0.4);
+}
+
+/* ==========================================================================
+   3. SEÇÃO HERO (CABEÇALHO DE APRESENTAÇÃO)
+   ========================================================================== */
+
+/*
+ * .hero
+ * Seção de destaque no topo do site. Contém logo, título principal e tagline.
+ * É a primeira impressão visual do portfólio.
+ */
+.hero {
+	/* 
+     * text-align: center
+     * Centraliza horizontalmente todo o conteúdo de texto dentro da hero.
+     * Títulos, parágrafos, spans, etc, ficarão centralizados.
+     */
+	text-align: center;
+
+	/* 
+     * margin-bottom: 2rem
+     * Adiciona um espaçamento externo abaixo da hero, separando-a do carrossel.
+     * 2rem = 32px (espaço confortável entre seções).
+     */
+	margin-bottom: 2rem;
+
+	/* 
+     * padding: 1.5rem 1rem
+     * Espaçamento interno:
+     * - 1.5rem (24px) no topo e na base (vertical)
+     * - 1rem (16px) nas laterais (horizontal)
+     */
+	padding: 1.5rem 1rem;
+
+	/* 
+     * background: rgba(30, 45, 65, 0.55)
+     * Fundo um pouco mais escuro e opaco que o wrapper para criar contraste.
+     * Cor azul-marinho (30,45,65) com 55% opacidade.
+     */
+	background: rgba(30, 45, 65, 0.55);
+
+	/* 
+     * backdrop-filter: blur(4px)
+     * Desfoque de 4px no fundo atrás da hero. Mais intenso que o blur(2px) do wrapper,
+     * destacando ainda mais esta seção e melhorando a legibilidade do texto.
+     */
+	backdrop-filter: blur(4px);
+
+	/* 
+     * border-radius: 1.5rem
+     * Cantos arredondados de 1.5rem (24px). Um pouco menos arredondado que o wrapper.
+     */
+	border-radius: 1.5rem;
+
+	/* 
+     * border-bottom: 2px solid #00ccdd
+     * Adiciona uma borda apenas na PARTE INFERIOR da hero.
+     * Cor ciano brilhante (#00ccdd) com 2px de espessura.
+     * Funciona como uma linha de destaque que separa visualmente a hero do conteúdo abaixo.
+     */
+	border-bottom: 2px solid #00ccdd;
+
+	/* 
+     * position: relative
+     * Para que o 'overflow: hidden' funcione corretamente e também para
+     * futuros elementos posicionados absolutamente dentro da hero.
+     */
+	position: relative;
+
+	/* 
+     * overflow: hidden
+     * Esconde qualquer conteúdo que ultrapasse as bordas arredondadas da hero.
+     * Garante que os cantos fiquem perfeitamente redondos sem "vazamentos".
+     */
+	overflow: hidden;
+
+	/* 
+     * box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2)
+     * Sombra sutil que dá um leve destaque, fazendo a hero "flutuar" levemente
+     * acima do wrapper, adicionando profundidade ao design.
+     */
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/*
+ * .logo-titulo
+ * Container flexível que agrupa a imagem do logo e o título <h1>.
+ */
+.logo-titulo {
+	/* 
+     * display: flex
+     * Ativa o Flexbox para alinhar o logo e o título na mesma linha horizontal.
+     */
+	display: flex;
+
+	/* 
+     * align-items: center
+     * Alinha verticalmente o logo e o título ao centro.
+     * Se um for maior que o outro, o menor será centralizado verticalmente.
+     */
+	align-items: center;
+
+	/* 
+     * justify-content: center
+     * Centraliza o grupo (logo + título) horizontalmente dentro do container pai (.hero).
+     */
+	justify-content: center;
+
+	/* 
+     * gap: 0.8rem
+     * Define um espaçamento de 0.8rem (cerca de 13px) entre o logo e o título.
+     * O 'gap' é uma propriedade do Flexbox e Grid que simplifica margens entre itens.
+     */
+	gap: 0.8rem;
+
+	/* 
+     * flex-wrap: wrap
+     * Permite que os itens internos (logo e título) quebrem para a linha de baixo
+     * se não houver espaço horizontal suficiente em telas muito pequenas.
+     * Isso evita que o layout "estoure" ou crie scroll horizontal.
+     */
+	flex-wrap: wrap;
+
+	/* 
+     * margin-bottom: 0.3rem
+     * Pequeno espaçamento abaixo do grupo logo-titulo, separando-o da tagline.
+     */
+	margin-bottom: 0.3rem;
+}
+
+/*
+ * .logo-simbolo
+ * Estilo específico para a imagem do logo/símbolo.
+ */
+.logo-simbolo {
+	/* 
+     * height: 72px
+     * Define uma altura fixa de 72 pixels.
+     * Ao definir apenas a altura, a largura se ajusta automaticamente (width: auto)
+     * para manter a proporção original da imagem.
+     */
+	height: 72px;
+
+	/* 
+     * width: auto
+     * A largura é calculada automaticamente baseada na altura definida (72px)
+     * e na proporção (aspect ratio) da imagem original.
+     */
+	width: auto;
+
+	/* 
+     * filter: drop-shadow(0 0 8px #00ccdd)
+     * Aplica uma sombra diretamente ao redor da imagem, respeitando seus contornos
+     * e áreas transparentes (diferente de box-shadow, que cria uma sombra retangular).
+     * Cria um efeito de brilho neon ciano ao redor do logo.
+     */
+	filter: drop-shadow(0 0 8px #00ccdd);
+
+	/* 
+     * transition: transform 0.3s ease
+     * Suaviza a animação de qualquer mudança na propriedade 'transform'.
+     * Quando a transformação ocorrer (ex: no hover), levará 0.3 segundos
+     * com uma aceleração 'ease' (começa devagar, acelera, desacelera no fim).
+     */
+	transition: transform 0.3s ease;
+
+	/* 
+     * border-radius: 16px
+     * Arredonda os cantos da imagem do logo em 16 pixels.
+     * Dá um aspecto mais suave e integrado ao design.
+     */
+	border-radius: 16px;
+
+	/* 
+     * background: rgba(0, 0, 0, 0.2)
+     * Adiciona um fundo preto com 20% de opacidade atrás da imagem.
+     * Útil se o logo tiver áreas transparentes ou for muito claro, garantindo contraste.
+     */
+	background: rgba(0, 0, 0, 0.2);
+
+	/* 
+     * padding: 4px
+     * Espaçamento interno de 4px. Cria uma pequena borda entre a imagem e o fundo
+     * definido acima, ou entre a imagem e a borda arredondada.
+     */
+	padding: 4px;
+}
+
+/*
+ * Efeito ao passar o mouse sobre o logo.
+ * A pseudo-classe :hover é ativada quando o cursor do mouse está sobre o elemento.
+ */
+.logo-simbolo:hover {
+	/* 
+     * transform: scale(1.02)
+     * Aumenta o elemento em 2% (1.02 = 102% do tamanho original).
+     * Combinado com o 'transition' definido acima, o crescimento é suave e sutil.
+     */
+	transform: scale(1.02);
+}
+
+/*
+ * TÍTULO PRINCIPAL H1
+ * Representa o título mais importante da página (geralmente o nome do portfólio).
+ */
+h1 {
+	/* 
+     * font-size: 3.9rem
+     * Tamanho da fonte: 3.9rem = 3.9 * 16px = aproximadamente 62.4px.
+     * Um tamanho grande e impactante para o título principal.
+     */
+	font-size: 3.9rem;
+
+	/* 
+     * background: linear-gradient(135deg, #e0f0ff, #7accee, #5aeecc)
+     * Cria um gradiente linear de 135 graus (diagonal, da esquerda inferior para direita superior).
+     * As cores do gradiente: azul muito claro -> azul médio -> verde-água.
+     * Este gradiente será usado como COR DE FUNDO do texto.
+     */
+	background: linear-gradient(135deg, #e0f0ff, #7accee, #5aeecc);
+
+	/* 
+     * background-clip: text
+     * Esta é a propriedade mágica! Ela faz com que o fundo (no caso, o gradiente)
+     * seja recortado para se ajustar exatamente ao formato do texto.
+     * O resultado é que o texto parece ter uma cor gradiente.
+     * Suporte em navegadores modernos.
+     */
+	background-clip: text;
+
+	/* 
+     * -webkit-background-clip: text
+     * Versão com prefixo para compatibilidade com navegadores baseados em WebKit
+     * (Chrome, Safari, Edge, Opera, etc). Necessária para garantir o funcionamento.
+     */
+	-webkit-background-clip: text;
+
+	/* 
+     * color: transparent
+     * Torna a cor do texto propriamente dita completamente transparente.
+     * Assim, o que vemos é o GRADIENTE que está atrás (graças ao background-clip: text).
+     * Se a cor não fosse transparente, ela se sobreporia ao gradiente.
+     */
+	color: transparent;
+
+	/* 
+     * letter-spacing: 2px
+     * Adiciona 2 pixels de espaçamento entre cada caractere do texto.
+     * Torna o título mais arejado e com um visual mais moderno.
+     */
+	letter-spacing: 2px;
+
+	/* 
+     * font-weight: 700
+     * Define a espessura da fonte. 700 é equivalente a 'bold' (negrito).
+     * A maioria das fontes suporta valores de 100 (mais fino) a 900 (mais grosso).
+     */
+	font-weight: 700;
+
+	/* 
+     * text-shadow: 0 0 15px rgba(0, 200, 220, 0.3)
+     * Adiciona uma sombra externa ao texto (não ao container).
+     * offset-x: 0 | offset-y: 0 | blur-radius: 15px | cor: ciano com 30% opacidade.
+     * Cria um efeito de brilho suave (glow) ao redor das letras.
+     */
+	text-shadow: 0 0 15px rgba(0, 200, 220, 0.3);
+}
+
+/*
+ * .tagline
+ * Texto de apoio ou subtítulo que aparece abaixo do título principal.
+ */
+.tagline {
+	/* 
+     * font-size: 1rem
+     * Tamanho padrão da fonte: 1rem = 16px (a menos que a raiz seja modificada).
+     * É o tamanho base para texto corrido.
+     */
+	font-size: 1rem;
+
+	/* 
+     * letter-spacing: 2px
+     * Mesmo espaçamento entre letras do título, mantendo a coerência visual.
+     */
+	letter-spacing: 2px;
+
+	/* 
+     * color: #c5eaff
+     * Define a cor do texto como um azul bem claro e suave.
+     * Contrasta com o fundo escuro e combina com o tema tecnológico.
+     */
+	color: #c5eaff;
+
+	/* 
+     * font-weight: 600
+     * Peso semi-negrito (600). Um pouco mais grosso que o normal (400),
+     * mas não tão grosso quanto o bold (700).
+     */
+	font-weight: 600;
+
+	/* 
+     * margin: 0.5rem 0
+     * Margem externa:
+     * - 0.5rem (8px) no topo e na base (vertical)
+     * - 0 nas laterais (horizontal)
+     */
+	margin: 0.5rem 0;
+
+	/* 
+     * border-top e border-bottom
+     * Adiciona bordas tracejadas (dashed) nas partes superior e inferior.
+     * Isso cria uma linha de destaque que "emoldura" visualmente a tagline.
+     */
+	border-top: 1px dashed #5aaece;
+	border-bottom: 1px dashed #5aaece;
+
+	/* 
+     * display: inline-block
+     * Por padrão, um <p> ou <div> é block (ocupa toda a linha).
+     * inline-block faz o elemento ocupar apenas a largura do seu conteúdo,
+     * permitindo que outros elementos (se houvessem) fiquem na mesma linha.
+     * Aqui, faz a tagline ficar centralizada e com largura ajustada ao texto.
+     */
+	display: inline-block;
+
+	/* 
+     * padding: 0.4rem 1.2rem
+     * Espaçamento interno:
+     * - 0.4rem (6.4px) no topo/base
+     * - 1.2rem (19.2px) nas laterais
+     * Dá um "respiro" entre o texto e as bordas tracejadas.
+     */
+	padding: 0.4rem 1.2rem;
+
+	/* 
+     * backdrop-filter: blur(4px)
+     * Aplica desfoque de 4px no fundo atrás da tagline.
+     * Melhora a legibilidade quando o fundo tem muito contraste.
+     */
+	backdrop-filter: blur(4px);
+}
+
+/*
+ * .code-snippet
+ * Simula um trecho de código, usado para dar um toque "tech" à apresentação.
+ */
+.code-snippet {
+	/* 
+     * background: rgba(30, 46, 62, 0.8)
+     * Fundo escuro azulado com 80% opacidade, quase opaco.
+     * Garante que o "código" seja bem legível.
+     */
+	background: rgba(30, 46, 62, 0.8);
+
+	/* 
+     * padding: 0.5rem 1.2rem
+     * Espaçamento interno confortável: 8px vertical, ~19px horizontal.
+     */
+	padding: 0.5rem 1.2rem;
+
+	/* 
+     * border-radius: 40px
+     * Valor alto para criar um formato de "pílula" (retângulo com bordas muito arredondadas).
+     */
+	border-radius: 40px;
+
+	/* 
+     * display: inline-block
+     * Faz com que o elemento ocupe apenas a largura do seu conteúdo,
+     * permitindo centralização fácil e layout mais compacto.
+     */
+	display: inline-block;
+
+	/* 
+     * font-family: 'Courier New', monospace
+     * Força uma fonte monoespaçada (cada caractere tem a mesma largura),
+     * que é o padrão para representar código de programação.
+     */
+	font-family: 'Courier New', monospace;
+
+	/* 
+     * color: #7affd0
+     * Cor verde-menta claro, típica de sintaxe de código em muitos editores.
+     */
+	color: #7affd0;
+
+	/* 
+     * font-size: 1.04rem
+     * Ligeiramente maior que o padrão (1rem = 16px, 1.04rem ≈ 16.6px).
+     * Pequeno destaque sem exageros.
+     */
+	font-size: 1.04rem;
+
+	/* 
+     * border: 1px solid #3acce0
+     * Borda sólida de 1px na cor ciano, reforçando o visual "tech".
+     */
+	border: 1px solid #3acce0;
+
+	/* 
+     * margin-top: 0.8rem
+     * Espaço acima de 0.8rem (≈13px), separando o snippet da tagline.
+     */
+	margin-top: 0.8rem;
+
+	/* 
+     * box-shadow: 0 0 10px rgba(0, 200, 210, 0.2)
+     * Sombra externa com brilho ciano, dando um leve "glow" ao elemento.
+     */
+	box-shadow: 0 0 10px rgba(0, 200, 210, 0.2);
+
+	/* 
+     * font-weight: 500
+     * Peso da fonte médio (500). Entre o normal (400) e o semi-negrito (600).
+     */
+	font-weight: 500;
+}
+
+/* ==========================================================================
+   4. CARROSSEL DE PROJETOS
+   ========================================================================== */
+
+/*
+ * .carrossel-container
+ * Container principal do carrossel. Envolve os slides e os botões de navegação.
+ * É o elemento que define a área do carrossel.
+ */
+.carrossel-container {
+	/* 
+     * position: relative
+     * Necessário para posicionar os botões de navegação (.carrossel-btn)
+     * com position: absolute dentro deste container.
+     */
+	position: relative;
+
+	/* 
+     * margin: 1.5rem 0
+     * Margem vertical: 1.5rem (24px) no topo e na base.
+     * Margem horizontal: 0.
+     */
+	margin: 1.5rem 0;
+
+	/* 
+     * padding: 0 3rem
+     * Espaçamento interno:
+     * - 0 no topo e base (vertical)
+     * - 3rem (48px) nas laterais (horizontal)
+     * Este padding lateral é crucial: ele cria espaço para os botões de navegação
+     * (prev e next) que estão posicionados absolutamente com left/right negativos.
+     * Sem esse padding, os botões poderiam sobrepor o conteúdo.
+     */
+	padding: 0 3rem;
+
+	/* 
+     * overflow: visible
+     * Permite que os botões de navegação (que estão posicionados com left/right negativo,
+     * "fora" da caixa do container) sejam visíveis. Se fosse 'hidden', eles seriam cortados.
+     */
+	overflow: visible;
+}
+
+/*
+ * .carrossel-slides
+ * Container que agrupa todos os slides lado a lado (horizontalmente).
+ * A transição da propriedade 'transform' neste elemento cria o efeito de deslize.
+ */
+.carrossel-slides {
+	/* 
+     * display: flex
+     * Coloca todos os elementos .carrossel-item um ao lado do outro em uma linha.
+     */
+	display: flex;
+
+	/* 
+     * transition: transform 0.4s ease-out
+     * Define a animação suave para a propriedade 'transform'.
+     * Quando o transform mudar (ex: de translateX(0) para translateX(-100%)),
+     * levará 0.4 segundos com uma aceleração 'ease-out' (rápido no início, desacelera no fim).
+     */
+	transition: transform 0.4s ease-out;
+
+	/* 
+     * border-radius: 1.5rem
+     * Cantos arredondados no container. Como os slides filhos herdam esse arredondamento
+     * através dos cards, isso garante que nenhum canto pontudo apareça.
+     */
+	border-radius: 1.5rem;
+
+	/* 
+     * width: 100%
+     * Ocupa 100% da largura do .carrossel-container.
+     */
+	width: 100%;
+}
+
+/*
+ * .carrossel-item
+ * Cada slide individual do carrossel.
+ */
+.carrossel-item {
+	/* 
+     * flex: 0 0 100%
+     * Shorthand para flex-grow, flex-shrink e flex-basis.
+     * - flex-grow: 0 → O item não cresce para ocupar espaço extra.
+     * - flex-shrink: 0 → O item não encolhe se o container for menor.
+     * - flex-basis: 100% → O item ocupará 100% da largura do container pai.
+     * O resultado: cada slide ocupa exatamente a largura total do container,
+     * e como estão em um flex container, eles se alinham lado a lado.
+     * É assim que o carrossel funciona: cada slide é uma "tela" de 100% de largura.
+     */
+	flex: 0 0 100%;
+
+	/* 
+     * padding: 0.5rem
+     * Pequeno padding interno de 0.5rem (8px) em todos os lados.
+     * Garante um espaçamento mínimo entre o slide e o card de projeto.
+     */
+	padding: 0.5rem;
+}
+
+/*
+ * .card-projeto
+ * O cartão que contém todas as informações de um projeto (logo, título, descrição, botão).
+ * É a "cara" de cada projeto no carrossel.
+ */
+.card-projeto {
+	/* 
+     * background: rgba(25, 35, 50, 0.65)
+     * Fundo azul escuro (25,35,50) com 65% opacidade.
+     * Escuro o suficiente para contraste com texto claro, mas ainda transparente.
+     */
+	background: rgba(25, 35, 50, 0.65);
+
+	/* 
+     * backdrop-filter: blur(12px)
+     * Desfoque FORTE de 12px nos elementos atrás do card.
+     * Intensifica o efeito glassmorphism, fazendo o card parecer de vidro fosco.
+     */
+	backdrop-filter: blur(12px);
+
+	/* 
+     * border-radius: 1.5rem
+     * Cantos arredondados de 1.5rem (24px), combinando com o container dos slides.
+     */
+	border-radius: 1.5rem;
+
+	/* 
+     * padding: 1.5rem
+     * Espaçamento interno generoso de 1.5rem (24px) em todos os lados.
+     * O conteúdo do card não encosta nas bordas.
+     */
+	padding: 1.5rem;
+
+	/* 
+     * text-align: center
+     * Centraliza todo o conteúdo textual dentro do card.
+     */
+	text-align: center;
+
+	/* 
+     * border: 1px solid rgba(0, 200, 220, 0.35)
+     * Borda ciano sutil com 35% opacidade, completando o visual "vidro".
+     */
+	border: 1px solid rgba(0, 200, 220, 0.35);
+
+	/* 
+     * box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.3)
+     * Sombra externa com um valor negativo de spread (-8px).
+     * Isso faz a sombra ser um pouco menor que o elemento, criando um efeito mais suave.
+     */
+	box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.3);
+
+	/* 
+     * transition: all 0.3s
+     * Aplica transição suave de 0.3 segundos para TODAS as propriedades que mudarem.
+     * Usado principalmente para o efeito :hover.
+     */
+	transition: all 0.3s;
+
+	/* 
+     * max-width: 500px
+     * Largura máxima de 500px para o card.
+     * Evita que o card fique extremamente largo em monitores grandes,
+     * mantendo a legibilidade (linhas de texto não ficam muito longas).
+     */
+	max-width: 500px;
+
+	/* 
+     * margin: 0 auto
+     * Centraliza o card horizontalmente dentro do .carrossel-item.
+     * 'auto' nas margens laterais distribui o espaço restante igualmente.
+     */
+	margin: 0 auto;
+
+	/* 
+     * position: relative
+     * Necessário para o pseudo-elemento ::before, que adicionará uma camada extra.
+     */
+	position: relative;
+}
+
+/*
+ * Pseudo-elemento .card-projeto::before
+ * Adiciona uma camada escura extra dentro do card, melhorando a legibilidade do texto.
+ */
+.card-projeto::before {
+	/* 
+     * content: ""
+     * Obrigatório para pseudo-elementos existirem.
+     */
+	content: "";
+
+	/* 
+     * position: absolute
+     * Posiciona esta camada em relação ao .card-projeto (que tem position: relative).
+     */
+	position: absolute;
+
+	/* 
+     * top, left, right, bottom: 0
+     * Faz a camada escura se esticar para ocupar TODO o card.
+     */
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+
+	/* 
+     * background: rgba(0, 0, 0, 0.2)
+     * Cor preta com 20% de opacidade. Escurece levemente o fundo do card.
+     */
+	background: rgba(0, 0, 0, 0.2);
+
+	/* 
+     * border-radius: 1.5rem
+     * Mesmo arredondamento do card, para que a camada escura não apareça nos cantos.
+     */
+	border-radius: 1.5rem;
+
+	/* 
+     * z-index: 0
+     * Coloca esta camada atrás do conteúdo do card (que terá z-index maior).
+     */
+	z-index: 0;
+
+	/* 
+     * pointer-events: none
+     * Permite que cliques "atravessem" esta camada.
+     * Se um botão estiver dentro do card, mesmo com esta camada sobreposta,
+     * o clique chegará ao botão. Essencial para a usabilidade.
+     */
+	pointer-events: none;
+}
+
+/*
+ * Seletor que afeta TODOS os filhos diretos de .card-projeto.
+ * O símbolo '>' significa "filho direto" (não netos, nem bisnetos).
+ */
+.card-projeto>* {
+	/* 
+     * position: relative
+     * Necessário para que o z-index funcione em elementos que não são posicionados.
+     * Garante que o conteúdo fique acima do pseudo-elemento ::before (z-index:0).
+     */
+	position: relative;
+
+	/* 
+     * z-index: 1
+     * Coloca todo o conteúdo do card (textos, imagens, botões) ACIMA da camada escura.
+     */
+	z-index: 1;
+}
+
+/*
+ * Efeito ao passar o mouse sobre o card do projeto.
+ */
+.card-projeto:hover {
+	/* 
+     * border-color: #00ddff
+     * Muda a cor da borda para um ciano ainda mais brilhante e saturado.
+     */
+	border-color: #00ddff;
+
+	/* 
+     * box-shadow: 0 0 20px rgba(0, 200, 230, 0.25)
+     * Adiciona uma sombra brilhante (glow) ao redor do card, sem offset (0,0).
+     * Cria um efeito de "iluminação" que destaca o card.
+     */
+	box-shadow: 0 0 20px rgba(0, 200, 230, 0.25);
+
+	/* 
+     * transform: translateY(-3px)
+     * Move o card 3 pixels para cima.
+     * Dá a sensação de que o card está "levantando" quando o mouse passa por cima.
+     */
+	transform: translateY(-3px);
+
+	/* 
+     * background: rgba(30, 42, 60, 0.75)
+     * Torna o fundo do card um pouco mais claro (valores RGB um pouco maiores)
+     * e ligeiramente mais opaco (0.75 vs 0.65).
+     */
+	background: rgba(30, 42, 60, 0.75);
+}
+
+/*
+ * .logo-projeto
+ * Estilo para as imagens/logos dos projetos dentro dos cards.
+ */
+.logo-projeto {
+	/* 
+     * width: 140px
+     * Largura fixa de 140 pixels para todos os logos.
+     */
+	width: 140px;
+
+	/* 
+     * height: 110px
+     * Altura fixa de 110 pixels.
+     * A combinação de largura e altura fixas padroniza o tamanho de todos os logos.
+     */
+	height: 110px;
+
+	/* 
+     * object-fit: contain
+     * Ajusta a imagem para caber DENTRO da caixa de 140x110 sem distorcer.
+     * A imagem inteira será visível, mas pode haver espaços vazios (barras pretas)
+     * nas laterais ou no topo/base, dependendo da proporção original.
+     * Diferente de 'cover', que preenche a caixa mas pode cortar a imagem.
+     */
+	object-fit: contain;
+
+	/* 
+     * margin-bottom: 0.8rem
+     * Espaço abaixo da imagem, separando-a do título.
+     */
+	margin-bottom: 0.8rem;
+
+	/* 
+     * border-radius: 12px
+     * Cantos levemente arredondados para a imagem.
+     */
+	border-radius: 12px;
+
+	/* 
+     * padding: 8px
+     * Espaçamento interno de 8px entre a imagem e a borda da caixa.
+     * Útil quando o fundo da imagem é definido.
+     */
+	padding: 8px;
+
+	/* 
+     * display: block
+     * Torna a imagem um elemento de bloco.
+     * Necessário para que 'margin-left: auto' e 'margin-right: auto'
+     * funcionem e centralizem a imagem.
+     */
+	display: block;
+
+	/* 
+     * margin-left: auto; margin-right: auto
+     * Centraliza a imagem horizontalmente dentro do container pai (.card-projeto).
+     */
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/*
+ * Seletor de ATRIBUTO.
+ * [src*="UTFPR_logo"] seleciona imagens cujo atributo 'src' CONTENHA o texto "UTFPR_logo".
+ * Útil para aplicar um estilo específico à logo da UTFPR.
+ */
+.logo-projeto[src*="UTFPR_logo"] {
+	/* 
+     * background: #ffffff
+     * Força o fundo da imagem a ser BRANCO.
+     * A logo da UTFPR tem texto preto, então um fundo branco garante o contraste.
+     */
+	background: #ffffff;
+}
+
+/*
+ * Seletor para a imagem específica com "logo_projetosgn_6" no src.
+ */
+.logo-projeto[src*="logo_projetosgn_6"] {
+	/* 
+     * background: #000000
+     * Força o fundo a ser PRETO para esta imagem específica.
+     */
+	background: #000000;
+}
+
+/*
+ * Seletor para TODAS as outras imagens .logo-projeto que NÃO são da UTFPR.
+ * A pseudo-classe :not() nega a condição.
+ * Ou seja, aplica o estilo a todas as logos que NÃO têm "UTFPR_logo" no src.
+ */
+.logo-projeto:not([src*="UTFPR_logo"]) {
+	/* 
+     * background: #000000
+     * Define o fundo padrão como preto para todas as outras logos.
+     * Isso cria um visual consistente, já que a maioria das logos tem elementos claros.
+     */
+	background: #000000;
+}
+
+/*
+ * .logo-fundo-preto
+ * Classe auxiliar para garantir fundo preto com cantos arredondados.
+ * Pode ser redundante com os seletores acima, mas adiciona robustez.
+ */
+.logo-fundo-preto {
+	border-radius: 16px;
+}
+
+/*
+ * TÍTULO DO PROJETO (H3)
+ */
+h3 {
+	/* 
+     * font-size: 1.4rem
+     * 1.4rem ≈ 22.4px. Tamanho destacado, mas não tão grande quanto o h1.
+     */
+	font-size: 1.4rem;
+
+	/* 
+     * color: #ffffff
+     * Branco puro para máximo contraste com o fundo escuro.
+     */
+	color: #ffffff;
+
+	/* 
+     * margin-bottom: 0.3rem
+     * Pequeno espaço abaixo do título, separando-o da descrição curta.
+     */
+	margin-bottom: 0.3rem;
+
+	/* 
+     * font-weight: 700
+     * Negrito para dar destaque.
+     */
+	font-weight: 700;
+
+	/* 
+     * text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5)
+     * Sombra escura no texto para garantir legibilidade, especialmente se o fundo for claro.
+     */
+	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+
+	/* 
+     * letter-spacing: 0.5px
+     * Espaçamento sutil entre letras para um visual mais limpo.
+     */
+	letter-spacing: 0.5px;
+}
+
+/*
+ * .desc-curta
+ * Descrição breve, geralmente o tipo ou categoria do projeto.
+ */
+.desc-curta {
+	/* 
+     * font-size: 0.8rem
+     * Menor que o texto padrão (0.8rem ≈ 12.8px).
+     * Para informações complementares menos importantes.
+     */
+	font-size: 0.8rem;
+
+	/* 
+     * color: #c5ecff
+     * Azul claro, consistente com a paleta de cores do site.
+     */
+	color: #c5ecff;
+
+	/* 
+     * background: rgba(0, 0, 0, 0.35)
+     * Fundo escuro semi-transparente para destacar o texto.
+     */
+	background: rgba(0, 0, 0, 0.35);
+
+	/* 
+     * display: inline-block
+     * Ajusta a largura ao conteúdo, permitindo centralização via text-align:center.
+     */
+	display: inline-block;
+
+	/* 
+     * padding: 0.2rem 0.8rem
+     * Espaçamento interno: ~3px vertical, ~13px horizontal.
+     * Dá um "respiro" ao redor do texto.
+     */
+	padding: 0.2rem 0.8rem;
+
+	/* 
+     * border-radius: 50px
+     * Valor alto para formato de pílula (completamente arredondado).
+     */
+	border-radius: 50px;
+
+	/* 
+     * margin-bottom: 0.8rem
+     * Espaço abaixo, separando da descrição principal.
+     */
+	margin-bottom: 0.8rem;
+
+	/* 
+     * font-weight: 500
+     * Peso médio da fonte.
+     */
+	font-weight: 500;
+
+	/* 
+     * text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3)
+     * Sombra sutil para legibilidade.
+     */
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/*
+ * .descricao-principal
+ * Texto principal que descreve o projeto em detalhes.
+ */
+.descricao-principal {
+	/* 
+     * color: #f0f8ff
+     * Azul muito claro, quase branco (aliceblue). Excelente contraste.
+     */
+	color: #f0f8ff;
+
+	/* 
+     * line-height: 1.45
+     * Altura da linha: 1.45 vezes o tamanho da fonte.
+     * Valor maior que 1 melhora a legibilidade de textos longos.
+     */
+	line-height: 1.45;
+
+	/* 
+     * margin: 0.8rem 0
+     * Margem vertical: 0.8rem (≈13px) no topo e base.
+     * Separa a descrição dos elementos vizinhos.
+     */
+	margin: 0.8rem 0;
+
+	/* 
+     * font-size: 0.9rem
+     * Levemente menor que o padrão (0.9rem ≈ 14.4px).
+     */
+	font-size: 0.9rem;
+
+	/* 
+     * text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4)
+     * Sombra escura para garantir legibilidade contra o fundo transparente.
+     */
+	text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+
+	/* 
+     * font-weight: 500
+     * Peso médio da fonte.
+     */
+	font-weight: 500;
+
+	/* 
+     * background: rgba(0, 0, 0, 0.15)
+     * Fundo preto muito sutil (15% opacidade) para dar um mínimo de contraste.
+     */
+	background: rgba(0, 0, 0, 0.15);
+
+	/* 
+     * border-radius: 12px
+     * Cantos arredondados no bloco de texto.
+     */
+	border-radius: 12px;
+
+	/* 
+     * padding: 0.6rem
+     * Espaçamento interno de 0.6rem (≈9.6px) para o texto não encostar nas bordas.
+     */
+	padding: 0.6rem;
+}
+
+/*
+ * .btn-projeto
+ * Botão de ação do projeto (geralmente "Saiba mais" ou link para o repositório).
+ */
+.btn-projeto {
+	/* 
+     * display: inline-flex
+     * Similar ao inline-block, mas ativa o Flexbox DENTRO do botão.
+     * Útil para alinhar ícones e texto com facilidade.
+     */
+	display: inline-flex;
+
+	/* 
+     * align-items: center
+     * Centraliza verticalmente o conteúdo interno do botão (ícone + texto).
+     */
+	align-items: center;
+
+	/* 
+     * justify-content: center
+     * Centraliza horizontalmente o conteúdo interno.
+     */
+	justify-content: center;
+
+	/* 
+     * gap: 6px
+     * Espaço de 6 pixels entre os itens internos (ex: entre ícone e texto).
+     */
+	gap: 6px;
+
+	/* 
+     * background: linear-gradient(95deg, #1a8aaa, #0e6e8a)
+     * Gradiente linear com ângulo de 95 graus (quase horizontal).
+     * Cores: azul médio para azul escuro, dando um efeito de profundidade.
+     */
+	background: linear-gradient(95deg, #1a8aaa, #0e6e8a);
+
+	/* 
+     * border: none
+     * Remove a borda padrão que navegadores aplicam a botões.
+     */
+	border: none;
+
+	/* 
+     * padding: 0.5rem 1.2rem
+     * Espaçamento interno: 0.5rem (8px) vertical, 1.2rem (~19px) horizontal.
+     */
+	padding: 0.5rem 1.2rem;
+
+	/* 
+     * border-radius: 40px
+     * Formato de pílula (bordas muito arredondadas).
+     */
+	border-radius: 40px;
+
+	/* 
+     * color: white
+     * Texto branco para máximo contraste.
+     */
+	color: white;
+
+	/* 
+     * font-weight: bold
+     * Negrito (equivalente a 700).
+     */
+	font-weight: bold;
+
+	/* 
+     * text-decoration: none
+     * Remove o sublinhado padrão de links, caso o botão seja um <a>.
+     */
+	text-decoration: none;
+
+	/* 
+     * font-size: 0.85rem
+     * Fonte um pouco menor que o padrão (≈13.6px).
+     */
+	font-size: 0.85rem;
+
+	/* 
+     * transition: 0.2s
+     * Transição rápida de 0.2 segundos para todos os efeitos hover.
+     */
+	transition: 0.2s;
+
+	/* 
+     * cursor: pointer
+     * Muda o cursor do mouse para uma "mãozinha", indicando que o elemento é clicável.
+     */
+	cursor: pointer;
+
+	/* 
+     * margin-top: 0.3rem
+     * Pequeno espaçamento acima do botão.
+     */
+	margin-top: 0.3rem;
+
+	/* 
+     * box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3)
+     * Sombra sutil para dar profundidade ao botão.
+     */
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+/*
+ * Span dentro do botão (caso exista).
+ */
+.btn-projeto span {
+	/* 
+     * font-style: normal
+     * Garante que o texto não fique em itálico (por herança).
+     */
+	font-style: normal;
+}
+
+/*
+ * Efeito hover no botão do projeto.
+ */
+.btn-projeto:hover {
+	/* 
+     * background: linear-gradient(95deg, #2ac0e0, #1a90b0)
+     * Gradiente mais claro e brilhante, com tons de ciano mais vivos.
+     */
+	background: linear-gradient(95deg, #2ac0e0, #1a90b0);
+
+	/* 
+     * transform: scale(1.02)
+     * Aumenta o botão em 2% suavemente, criando um efeito de "zoom".
+     */
+	transform: scale(1.02);
+
+	/* 
+     * box-shadow: 0 0 12px rgba(0, 200, 220, 0.5)
+     * Adiciona um brilho (glow) ciano ao redor do botão.
+     */
+	box-shadow: 0 0 12px rgba(0, 200, 220, 0.5);
+}
+
+/* ==========================================================================
+   5. BOTÕES DE NAVEGAÇÃO DO CARROSSEL
+   ========================================================================== */
+
+/*
+ * .carrossel-btn
+ * Classe base para os botões de navegação (anterior e próximo).
+ */
+.carrossel-btn {
+	/* 
+     * position: absolute
+     * Posiciona os botões em relação ao .carrossel-container (que tem position: relative).
+     */
+	position: absolute;
+
+	/* 
+     * top: 50%
+     * Coloca o topo do botão a 50% da altura do container pai.
+     * O botão começa no meio, mas seu topo está no meio, não seu centro.
+     */
+	top: 50%;
+
+	/* 
+     * transform: translateY(-50%)
+     * Move o botão para cima em 50% da sua PRÓPRIA altura.
+     * Combinado com top:50%, isso centraliza o botão VERTICALMENTE perfeitamente.
+     */
+	transform: translateY(-50%);
+
+	/* 
+     * background: rgba(30, 55, 75, 0.9)
+     * Fundo azul escuro com 90% opacidade (quase opaco).
+     */
+	background: rgba(30, 55, 75, 0.9);
+
+	/* 
+     * border: 2px solid #2acce0
+     * Borda sólida de 2px na cor ciano brilhante para destaque.
+     */
+	border: 2px solid #2acce0;
+
+	/* 
+     * color: #c0ecff
+     * Cor do ícone (seta) em azul claro.
+     */
+	color: #c0ecff;
+
+	/* 
+     * font-size: 1.8rem
+     * Tamanho grande para o ícone da seta (≈28.8px).
+     */
+	font-size: 1.8rem;
+
+	/* 
+     * width: 48px; height: 48px
+     * Define um quadrado de 48x48 pixels.
+     */
+	width: 48px;
+	height: 48px;
+
+	/* 
+     * border-radius: 50%
+     * Torna o botão perfeitamente redondo (círculo).
+     * 50% arredonda o quadrado em um círculo.
+     */
+	border-radius: 50%;
+
+	/* 
+     * cursor: pointer
+     * Indica que é clicável.
+     */
+	cursor: pointer;
+
+	/* 
+     * backdrop-filter: blur(8px)
+     * Desfoque de 8px no fundo atrás do botão, integrando o efeito glassmorphism.
+     */
+	backdrop-filter: blur(8px);
+
+	/* 
+     * transition: 0.2s
+     * Transição rápida para efeitos hover.
+     */
+	transition: 0.2s;
+
+	/* 
+     * font-weight: bold
+     * Garante que a seta (ícone) fique em negrito.
+     */
+	font-weight: bold;
+
+	/* 
+     * z-index: 10
+     * Garante que os botões fiquem acima de todos os outros elementos do carrossel.
+     */
+	z-index: 10;
+
+	/* 
+     * box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3)
+     * Sombra sutil para destacar o botão do fundo.
+     */
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+
+	/* 
+     * display: flex
+     * Ativa flexbox dentro do botão.
+     */
+	display: flex;
+
+	/* 
+     * align-items: center; justify-content: center
+     * Centraliza perfeitamente o ícone (seta) dentro do botão redondo.
+     */
+	align-items: center;
+	justify-content: center;
+}
+
+/*
+ * Efeito hover para os botões de navegação.
+ */
+.carrossel-btn:hover {
+	/* 
+     * background: #2acce0
+     * Muda o fundo para o ciano brilhante, tornando o botão mais visível.
+     */
+	background: #2acce0;
+
+	/* 
+     * color: #1a2a3a
+     * Muda a cor da seta para um tom escuro, invertendo o contraste.
+     */
+	color: #1a2a3a;
+
+	/* 
+     * border-color: white
+     * Muda a borda para branco, criando um destaque ainda maior.
+     */
+	border-color: white;
+
+	/* 
+     * transform: translateY(-50%) scale(1.1)
+     * Mantém a centralização vertical (translateY(-50%)) e aumenta o botão em 10%.
+     * Combinado, faz o botão crescer enquanto permanece centralizado.
+     */
+	transform: translateY(-50%) scale(1.1);
+}
+
+/*
+ * Botão "anterior" (voltar).
+ */
+.carrossel-btn-prev {
+	/* 
+     * left: -20px
+     * Posiciona o botão 20 pixels para FORA do container, à esquerda.
+     * O valor negativo faz o botão "flutuar" ao lado do carrossel.
+     */
+	left: -20px;
+}
+
+/*
+ * Botão "próximo" (avançar).
+ */
+.carrossel-btn-next {
+	/* 
+     * right: -20px
+     * Posiciona o botão 20 pixels para FORA do container, à direita.
+     */
+	right: -20px;
+}
+
+/* ==========================================================================
+   6. INDICADORES (DOTS) DO CARROSSEL
+   ========================================================================== */
+
+/*
+ * .carrossel-indicadores
+ * Container que agrupa as bolinhas indicadoras (dots).
+ */
+.carrossel-indicadores {
+	/* 
+     * display: flex
+     * Coloca as bolinhas em linha (uma ao lado da outra).
+     */
+	display: flex;
+
+	/* 
+     * justify-content: center
+     * Centraliza o grupo de bolinhas horizontalmente.
+     */
+	justify-content: center;
+
+	/* 
+     * gap: 10px
+     * Espaçamento de 10px entre cada bolinha.
+     */
+	gap: 10px;
+
+	/* 
+     * margin-top: 20px
+     * Espaço acima das bolinhas, separando-as do carrossel.
+     */
+	margin-top: 20px;
+}
+
+/*
+ * .dot
+ * Cada bolinha indicadora individual.
+ */
+.dot {
+	/* 
+     * width: 10px; height: 10px
+     * Tamanho pequeno: 10x10 pixels.
+     * Como a altura e largura são iguais, e o border-radius será alto, vira um círculo.
+     */
+	width: 10px;
+	height: 10px;
+
+	/* 
+     * background: rgba(74, 106, 130, 0.8)
+     * Cor azul acinzentada com 80% opacidade.
+     */
+	background: rgba(74, 106, 130, 0.8);
+
+	/* 
+     * border-radius: 30px
+     * Valor maior que a largura/altura, resultando em um círculo perfeito.
+     */
+	border-radius: 30px;
+
+	/* 
+     * cursor: pointer
+     * Indica que a bolinha é clicável.
+     */
+	cursor: pointer;
+
+	/* 
+     * transition: 0.2s
+     * Transição suave para mudanças de estilo (ex: ao ficar ativa).
+     */
+	transition: 0.2s;
+
+	/* 
+     * border: none
+     * Remove qualquer borda padrão.
+     */
+	border: none;
+}
+
+/*
+ * .dot.active
+ * Estilo para a bolinha que representa o slide ATUAL.
+ * A classe 'active' é adicionada via JavaScript.
+ */
+.dot.active {
+	/* 
+     * background: #2acce0
+     * Muda a cor para ciano brilhante, destacando qual slide está visível.
+     */
+	background: #2acce0;
+
+	/* 
+     * width: 24px
+     * Aumenta a largura para 24px, criando um formato de "pílula" (retângulo arredondado).
+     * Isso diferencia visualmente a bolinha ativa das demais.
+     */
+	width: 24px;
+
+	/* 
+     * box-shadow: 0 0 8px #2acce0
+     * Adiciona um brilho (glow) ciano ao redor da bolinha ativa.
+     */
+	box-shadow: 0 0 8px #2acce0;
+}
+
+/* ==========================================================================
+   7. RODAPÉ (FOOTER)
+   ========================================================================== */
+
+/*
+ * .footer
+ * Rodapé da página, contém informações de copyright ou links adicionais.
+ */
+.footer {
+	/* 
+     * text-align: center
+     * Centraliza o texto do rodapé.
+     */
+	text-align: center;
+
+	/* 
+     * margin-top: 2rem
+     * Espaço acima do rodapé, separando-o do carrossel/indicadores.
+     */
+	margin-top: 2rem;
+
+	/* 
+     * padding: 0.8rem
+     * Espaçamento interno de 0.8rem (≈13px) em todos os lados.
+     */
+	padding: 0.8rem;
+
+	/* 
+     * border-top: 1px solid rgba(0, 180, 200, 0.3)
+     * Linha superior sutil na cor ciano com 30% opacidade.
+     * Funciona como uma divisória visual entre o conteúdo principal e o rodapé.
+     */
+	border-top: 1px solid rgba(0, 180, 200, 0.3);
+
+	/* 
+     * font-size: 0.91rem
+     * Fonte ligeiramente menor que o padrão (≈14.5px).
+     */
+	font-size: 0.91rem;
+
+	/* 
+     * color: #c0d8f0
+     * Azul claro suave, consistente com a paleta.
+     */
+	color: #c0d8f0;
+
+	/* 
+     * display: flex
+     * Ativa flexbox para alinhar os elementos do rodapé.
+     */
+	display: flex;
+
+	/* 
+     * flex-wrap: wrap
+     * Permite que os itens do rodapé quebrem para a linha de baixo em telas pequenas.
+     */
+	flex-wrap: wrap;
+
+	/* 
+     * justify-content: center
+     * Centraliza os itens horizontalmente.
+     */
+	justify-content: center;
+
+	/* 
+     * gap: 0.5rem
+     * Espaçamento de 0.5rem (8px) entre os itens do rodapé.
+     */
+	gap: 0.5rem;
+
+	/* 
+     * font-weight: 500
+     * Peso médio da fonte.
+     */
+	font-weight: 500;
+
+	/* 
+     * text-shadow: 0 0 2px rgba(0, 0, 0, 0.3)
+     * Sombra sutil para melhorar a legibilidade.
+     */
+	text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================================================
+   8. PÁGINA "SOBRE GISELE NUNES"
+   ========================================================================== */
+
+/*
+ * .sobre-container
+ * Container principal da página sobre, usado para centralizar o card de informações.
+ */
+.sobre-container {
+	/* 
+     * margin: 1.5rem 0
+     * Margem vertical de 1.5rem (24px) no topo e na base.
+     */
+	margin: 1.5rem 0;
+
+	/* 
+     * display: flex
+     * Ativa flexbox.
+     */
+	display: flex;
+
+	/* 
+     * justify-content: center
+     * Centraliza o card horizontalmente.
+     */
+	justify-content: center;
+
+	/* 
+     * align-items: center
+     * Centraliza o card verticalmente (se houver altura disponível).
+     */
+	align-items: center;
+}
+
+/*
+ * .card-sobre
+ * Cartão que exibe todas as informações da autora (Gisele Nunes).
+ */
+.card-sobre {
+	/* 
+     * background: rgba(25, 35, 50, 0.75)
+     * Fundo azul escuro com 75% opacidade, semelhante aos cards de projeto.
+     */
+	background: rgba(25, 35, 50, 0.75);
+
+	/* 
+     * backdrop-filter: blur(12px)
+     * Desfoque forte (glassmorphism) para dar o efeito de vidro.
+     */
+	backdrop-filter: blur(12px);
+
+	/* 
+     * border-radius: 2rem
+     * Cantos bem arredondados (2rem = 32px), mais suave que os cards de projeto.
+     */
+	border-radius: 2rem;
+
+	/* 
+     * padding: 2rem
+     * Espaçamento interno generoso de 2rem (32px).
+     */
+	padding: 2rem;
+
+	/* 
+     * max-width: 750px
+     * Largura máxima para manter a legibilidade, mesmo em telas grandes.
+     */
+	max-width: 750px;
+
+	/* 
+     * width: 100%
+     * Ocupa toda a largura disponível até o limite de max-width.
+     */
+	width: 100%;
+
+	/* 
+     * border: 1px solid rgba(0, 200, 220, 0.5)
+     * Borda ciano com 50% opacidade.
+     */
+	border: 1px solid rgba(0, 200, 220, 0.5);
+
+	/* 
+     * box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.4)
+     * Sombra mais pronunciada, dando a sensação de que o card flutua.
+     */
+	box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.4);
+
+	/* 
+     * transition: transform 0.3s ease
+     * Transição suave para o efeito hover.
+     */
+	transition: transform 0.3s ease;
+
+	/* 
+     * text-align: center
+     * Centraliza todo o texto dentro do card.
+     */
+	text-align: center;
+}
+
+/*
+ * Efeito hover no card sobre.
+ */
+.card-sobre:hover {
+	/* 
+     * transform: translateY(-4px)
+     * Levanta o card em 4 pixels quando o mouse passa por cima.
+     */
+	transform: translateY(-4px);
+
+	/* 
+     * border-color: #2acce0
+     * Torna a borda mais brilhante (ciano puro).
+     */
+	border-color: #2acce0;
+
+	/* 
+     * box-shadow: 0 0 25px rgba(0, 200, 230, 0.2)
+     * Adiciona um brilho externo sutil.
+     */
+	box-shadow: 0 0 25px rgba(0, 200, 230, 0.2);
+}
+
+/*
+ * .avatar-placeholder
+ * Container para a imagem de avatar/foto de perfil.
+ */
+.avatar-placeholder {
+	/* 
+     * margin-bottom: 1rem
+     * Espaço abaixo do avatar, separando-o do nome/título.
+     */
+	margin-bottom: 1rem;
+}
+
+/*
+ * .avatar-img
+ * Estilo para a imagem do avatar.
+ */
+.avatar-img {
+	/* 
+     * width: 150px; height: 150px
+     * Define um quadrado de 150x150 pixels para o avatar.
+     */
+	width: 150px;
+	height: 150px;
+
+	/* 
+     * object-fit: cover
+     * Ajusta a imagem para preencher TODO o espaço de 150x150, mesmo que precise cortar.
+     * Diferente de 'contain', 'cover' garante que não haja espaços vazios.
+     */
+	object-fit: cover;
+
+	/* 
+     * border-radius: 50%
+     * Torna a imagem perfeitamente redonda (círculo).
+     */
+	border-radius: 50%;
+
+	/* 
+     * border: 3px solid #2acce0
+     * Borda ciano de 3px ao redor do avatar.
+     */
+	border: 3px solid #2acce0;
+
+	/* 
+     * box-shadow: 0 0 15px rgba(42, 204, 224, 0.4)
+     * Brilho externo ciano para destacar o avatar.
+     */
+	box-shadow: 0 0 15px rgba(42, 204, 224, 0.4);
+
+	/* 
+     * background: #0a1a2a
+     * Cor de fundo de fallback (enquanto a imagem carrega).
+     */
+	background: #0a1a2a;
+
+	/* 
+     * padding: 4px
+     * Pequeno espaçamento entre a imagem e a borda.
+     */
+	padding: 4px;
+}
+
+/*
+ * TÍTULO SECUNDÁRIO (H2) - usado na página sobre.
+ */
+h2 {
+	/* 
+     * font-size: 2rem
+     * 2rem = 32px. Tamanho grande, mas menor que o h1.
+     */
+	font-size: 2rem;
+
+	/* 
+     * background: linear-gradient(135deg, #ffffff, #7accee)
+     * Gradiente do branco ao azul claro, aplicado ao texto.
+     */
+	background: linear-gradient(135deg, #ffffff, #7accee);
+
+	/* 
+     * background-clip: text; -webkit-background-clip: text
+     * Aplica o gradiente ao texto (efeito de texto gradiente).
+     */
+	background-clip: text;
+	-webkit-background-clip: text;
+
+	/* 
+     * color: transparent
+     * Torna a cor do texto transparente para mostrar o gradiente.
+     */
+	color: transparent;
+
+	/* 
+     * margin-bottom: 0.5rem
+     * Espaço abaixo do título.
+     */
+	margin-bottom: 0.5rem;
+}
+
+/*
+ * .info-destaque
+ * Informações como cargo, localização ou especialidade.
+ */
+.info-destaque {
+	/* 
+     * font-size: 1rem
+     * Tamanho padrão da fonte.
+     */
+	font-size: 1rem;
+
+	/* 
+     * color: #c5ecff
+     * Azul claro.
+     */
+	color: #c5ecff;
+
+	/* 
+     * background: rgba(0, 0, 0, 0.4)
+     * Fundo escuro semi-transparente para destacar o texto.
+     */
+	background: rgba(0, 0, 0, 0.4);
+
+	/* 
+     * display: inline-block
+     * Largura ajustada ao conteúdo.
+     */
+	display: inline-block;
+
+	/* 
+     * padding: 0.3rem 1rem
+     * Espaçamento interno confortável.
+     */
+	padding: 0.3rem 1rem;
+
+	/* 
+     * border-radius: 50px
+     * Formato de pílula.
+     */
+	border-radius: 50px;
+
+	/* 
+     * margin-bottom: 1.5rem
+     * Espaço abaixo, separando do bloco de detalhes.
+     */
+	margin-bottom: 1.5rem;
+}
+
+/*
+ * .detalhes
+ * Container flexível que agrupa os blocos de contato e formação.
+ */
+.detalhes {
+	/* 
+     * display: flex
+     * Coloca os blocos lado a lado horizontalmente.
+     */
+	display: flex;
+
+	/* 
+     * flex-wrap: wrap
+     * Permite que os blocos quebrem para a linha de baixo em telas pequenas.
+     */
+	flex-wrap: wrap;
+
+	/* 
+     * gap: 1.5rem
+     * Espaçamento de 1.5rem (24px) entre os blocos.
+     */
+	gap: 1.5rem;
+
+	/* 
+     * margin: 1.8rem 0
+     * Margem vertical de 1.8rem (≈29px) no topo e base.
+     */
+	margin: 1.8rem 0;
+
+	/* 
+     * text-align: left
+     * Alinha o texto à esquerda dentro dos blocos (revertendo o centralizado do card).
+     */
+	text-align: left;
+}
+
+/*
+ * .bloco-contato e .bloco-formacao
+ * Estilos compartilhados para os blocos de contato e formação.
+ */
+.bloco-contato,
+.bloco-formacao {
+	/* 
+     * flex: 1
+     * Faz cada bloco ocupar uma parte igual do espaço disponível.
+     * Se houver dois blocos, cada um ocupa 50% da largura (respeitando o wrap).
+     */
+	flex: 1;
+
+	/* 
+     * background: rgba(0, 0, 0, 0.25)
+     * Fundo preto com 25% opacidade, escurecendo levemente o fundo do card.
+     */
+	background: rgba(0, 0, 0, 0.25);
+
+	/* 
+     * border-radius: 1.2rem
+     * Cantos arredondados de 1.2rem (≈19px).
+     */
+	border-radius: 1.2rem;
+
+	/* 
+     * padding: 1rem
+     * Espaçamento interno de 1rem (16px).
+     */
+	padding: 1rem;
+
+	/* 
+     * border-left: 3px solid #2acce0
+     * Adiciona uma borda lateral ESQUERDA de 3px na cor ciano.
+     * Funciona como um destaque visual vertical.
+     */
+	border-left: 3px solid #2acce0;
+}
+
+/*
+ * Títulos H3 dentro dos blocos de contato/formação.
+ */
+.bloco-contato h3,
+.bloco-formacao h3 {
+	/* 
+     * font-size: 1.2rem
+     * Tamanho médio (≈19px) para subtítulos.
+     */
+	font-size: 1.2rem;
+
+	/* 
+     * margin-bottom: 0.8rem
+     * Espaço abaixo do título.
+     */
+	margin-bottom: 0.8rem;
+
+	/* 
+     * color: #aaffee
+     * Cor verde-água claro para os subtítulos.
+     */
+	color: #aaffee;
+
+	/* 
+     * text-align: center
+     * Centraliza os títulos dentro de cada bloco.
+     */
+	text-align: center;
+}
+
+/*
+ * Parágrafos no bloco de contato e listas no bloco de formação.
+ */
+.bloco-contato p,
+.bloco-formacao ul {
+	/* 
+     * margin: 0.5rem 0
+     * Margem vertical de 0.5rem (8px).
+     */
+	margin: 0.5rem 0;
+
+	/* 
+     * font-size: 0.9rem
+     * Fonte ligeiramente menor (≈14.4px).
+     */
+	font-size: 0.9rem;
+}
+
+/*
+ * Links dentro do bloco de contato.
+ */
+.bloco-contato a {
+	/* 
+     * color: #c5ecff
+     * Cor azul clara para os links.
+     */
+	color: #c5ecff;
+
+	/* 
+     * text-decoration: none
+     * Remove o sublinhado padrão dos links.
+     */
+	text-decoration: none;
+
+	/* 
+     * transition: 0.2s
+     * Transição suave para o hover.
+     */
+	transition: 0.2s;
+}
+
+/*
+ * Efeito hover nos links de contato.
+ */
+.bloco-contato a:hover {
+	/* 
+     * color: #2acce0
+     * Muda a cor do link para ciano brilhante.
+     */
+	color: #2acce0;
+
+	/* 
+     * text-decoration: underline
+     * Adiciona sublinhado ao passar o mouse, indicando que é clicável.
+     */
+	text-decoration: underline;
+}
+
+/*
+ * Remove os marcadores padrão (bolinhas) da lista de formação.
+ */
+.bloco-formacao ul {
+	/* 
+     * list-style: none
+     * Remove os marcadores padrão (disc, circle, square).
+     */
+	list-style: none;
+
+	/* 
+     * padding-left: 0
+     * Remove o recuo esquerdo padrão que as listas possuem.
+     */
+	padding-left: 0;
+}
+
+/*
+ * Cada item da lista de formação (<li>).
+ */
+.bloco-formacao li {
+	/* 
+     * margin-bottom: 0.5rem
+     * Espaço entre cada item da lista.
+     */
+	margin-bottom: 0.5rem;
+
+	/* 
+     * padding-left: 1.2rem
+     * Espaço à esquerda para posicionar o marcador customizado.
+     */
+	padding-left: 1.2rem;
+
+	/* 
+     * position: relative
+     * Permite que o pseudo-elemento ::before seja posicionado relativamente a este <li>.
+     */
+	position: relative;
+}
+
+/*
+ * Pseudo-elemento ::before para cada item da lista de formação.
+ * Cria um marcador customizado (seta) no lugar da bolinha padrão.
+ */
+.bloco-formacao li::before {
+	/* 
+     * content: "▹"
+     * Insere o caractere "▹" (uma seta pequena) antes do conteúdo do <li>.
+     */
+	content: "▹";
+
+	/* 
+     * position: absolute
+     * Posiciona o marcador em relação ao <li> (que tem position: relative).
+     */
+	position: absolute;
+
+	/* 
+     * left: 0
+     * Coloca o marcador no canto esquerdo do <li>.
+     */
+	left: 0;
+
+	/* 
+     * color: #2acce0
+     * Cor ciano para o marcador, combinando com o tema.
+     */
+	color: #2acce0;
+}
+
+/*
+ * .bio
+ * Bloco de biografia ou texto pessoal.
+ */
+.bio {
+	/* 
+     * background: rgba(0, 0, 0, 0.3)
+     * Fundo preto com 30% opacidade.
+     */
+	background: rgba(0, 0, 0, 0.3);
+
+	/* 
+     * padding: 1rem
+     * Espaçamento interno de 1rem (16px).
+     */
+	padding: 1rem;
+
+	/* 
+     * border-radius: 1rem
+     * Cantos arredondados de 1rem (16px).
+     */
+	border-radius: 1rem;
+
+	/* 
+     * margin: 1rem 0
+     * Margem vertical de 1rem (16px).
+     */
+	margin: 1rem 0;
+
+	/* 
+     * font-style: italic
+     * Deixa o texto em itálico para dar um tom mais pessoal.
+     */
+	font-style: italic;
+
+	/* 
+     * color: #e0f0ff
+     * Azul muito claro para o texto.
+     */
+	color: #e0f0ff;
+
+	/* 
+     * line-height: 1.5
+     * Altura da linha maior (1.5x), ideal para textos longos (legibilidade).
+     */
+	line-height: 1.5;
+
+	/* 
+     * border-top e border-bottom: 1px dashed #2acce0
+     * Adiciona bordas tracejadas no topo e na base, emoldurando a biografia.
+     */
+	border-top: 1px dashed #2acce0;
+	border-bottom: 1px dashed #2acce0;
+}
+
+/*
+ * .voltar-btn
+ * Botão de voltar (geralmente presente na página sobre para retornar ao portfólio).
+ * Herda os estilos de .btn-projeto e adiciona/modifica alguns.
+ */
+.voltar-btn {
+	/* 
+     * margin-top: 0.8rem
+     * Espaço acima do botão, separando-o da biografia.
+     */
+	margin-top: 0.8rem;
+
+	/* 
+     * background: linear-gradient(95deg, #2a6e8a, #1a4e6a)
+     * Gradiente mais escuro que o padrão, para diferenciar o botão "voltar".
+     */
+	background: linear-gradient(95deg, #2a6e8a, #1a4e6a);
+}
+
+/*
+ * Efeito hover no botão voltar.
+ */
+.voltar-btn:hover {
+	/* 
+     * background: linear-gradient(95deg, #3a8eaa, #2a6e8a)
+     * Gradiente um pouco mais claro que o padrão do voltar-btn.
+     */
+	background: linear-gradient(95deg, #3a8eaa, #2a6e8a);
+}
+
+/* ==========================================================================
+   9. RESPONSIVIDADE (MEDIA QUERIES)
+   ========================================================================== */
+
+/*
+ * MEDIA QUERY para telas com LARGURA MÁXIMA de 650px.
+ * Todos os estilos dentro deste bloco só se aplicam se a largura da tela
+ * for IGUAL OU MENOR que 650 pixels (tablets pequenos e celulares grandes).
+ */
+@media (max-width: 650px) {
+
+	/* Reduz o espaçamento geral da página */
+	body {
+		padding: 1rem;
+		/* 1rem = 16px (menos espaço nas bordas) */
+	}
+
+	/* Reduz o padding interno do wrapper principal */
+	.wrapper {
+		padding: 1rem;
+		/* 16px em vez de 32px */
+	}
+
+	/* Título principal fica menor para caber em telas pequenas */
+	h1 {
+		font-size: 2.81rem;
+		/* ≈45px (redução de cerca de 30%) */
+	}
+
+	/* Reduz o espaço lateral do container do carrossel */
+	.carrossel-container {
+		padding: 0 1.8rem;
+		/* 1.8rem ≈ 29px (menos espaço para os botões) */
+	}
+
+	/* Botões de navegação ficam menores */
+	.carrossel-btn {
+		width: 38px;
+		/* Reduz de 48px para 38px */
+		height: 38px;
+		font-size: 1.3rem;
+		/* Ícone menor */
+	}
+
+	/* Ajusta a posição dos botões para não ficarem muito longe */
+	.carrossel-btn-prev {
+		left: -12px;
+		/* Antes era -20px, agora -12px (mais perto) */
+	}
+
+	.carrossel-btn-next {
+		right: -12px;
+	}
+
+	/* Reduz o padding interno do card de projeto */
+	.card-projeto {
+		padding: 1.2rem;
+		/* 1.2rem ≈ 19px (antes 1.5rem = 24px) */
+	}
+
+	/* Título do projeto um pouco menor */
+	h3 {
+		font-size: 1.2rem;
+		/* ≈19px (antes 1.4rem ≈22.4px) */
+	}
+
+	/* Logos dos projetos menores para caber melhor */
+	.logo-projeto {
+		width: 110px;
+		/* Antes 140px */
+		height: 85px;
+		/* Antes 110px */
+		padding: 6px;
+		/* Antes 8px */
+	}
+
+	/* Logo do cabeçalho menor */
+	.logo-simbolo {
+		height: 58px;
+		/* Antes 72px */
+		border-radius: 12px;
+	}
+
+	/* Descrição principal com fonte menor */
+	.descricao-principal {
+		font-size: 0.8rem;
+		/* ≈12.8px (antes 0.9rem ≈14.4px) */
+		padding: 0.4rem;
+		/* Reduz padding */
+	}
+
+	/* Snippet de código com fonte um pouco menor */
+	.code-snippet {
+		font-size: 0.91rem;
+		/* ≈14.5px (antes 1.04rem ≈16.6px) */
+		padding: 0.4rem 1rem;
+	}
+
+	/* Rodapé com fonte menor */
+	.footer {
+		font-size: 0.78rem;
+		/* ≈12.5px (antes 0.91rem ≈14.5px) */
+	}
+
+	/* ===== AJUSTES ESPECÍFICOS PARA A PÁGINA SOBRE ===== */
+
+	/* Card sobre com menos padding interno */
+	.card-sobre {
+		padding: 1.2rem;
+		/* 1.2rem ≈ 19px (antes 2rem = 32px) */
+	}
+
+	/* Muda a direção do flex para COLUNA (empilha os blocos) */
+	.detalhes {
+		flex-direction: column;
+		/* Blocos de contato e formação um embaixo do outro */
+		gap: 1rem;
+		/* Espaço reduzido entre eles (1rem = 16px) */
+	}
+
+	/* Avatar um pouco menor */
+	.avatar-img {
+		width: 120px;
+		/* Antes 150px */
+		height: 120px;
+	}
+
+	/* Título h2 menor */
+	h2 {
+		font-size: 1.6rem;
+		/* ≈25.6px (antes 2rem = 32px) */
+	}
+}
+
+/*
+ * MEDIA QUERY para telas MUITO pequenas (celulares, largura máxima de 480px).
+ * Aplicada quando a tela tem 480px de largura ou menos.
+ */
+@media (max-width: 480px) {
+
+	/* Reduz ainda mais o espaço lateral do carrossel */
+	.carrossel-container {
+		padding: 0 1rem;
+		/* 1rem = 16px (antes 1.8rem ≈29px) */
+	}
+
+	/* Botões quase colados nas bordas do carrossel */
+	.carrossel-btn-prev {
+		left: -8px;
+		/* Antes -12px */
+	}
+
+	.carrossel-btn-next {
+		right: -8px;
+		/* Antes -12px */
+	}
+
+	/* Botões ainda menores para economizar espaço */
+	.carrossel-btn {
+		width: 32px;
+		/* Reduz de 38px para 32px */
+		height: 32px;
+		font-size: 1.1rem;
+		/* Ícone ainda menor */
+	}
+}
