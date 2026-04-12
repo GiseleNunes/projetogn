@@ -1,12 +1,18 @@
+// ===================================================================
+//   Titulo do documento: Sistema de Carrossel de Imagens e Funcionalidades da Página Sobre
+// ===================================================================
+// Objetivo: Implementar um carrossel de imagens funcional com botões
+//           de navegação (anterior/próximo) e indicadores (dots)
+//           que permitem a troca manual de slides, além de gerenciar
+//           as funcionalidades da página sobre (cálculo de idade,
+//           botões de copiar, fallback de imagens, etc.)
+// Autor : Gisele Nunes
+// Data  : 2026
+// ===================================================================
+
 (function () {
   // ===================================================================
-  //   Titulo do documento: Sistema de Carrossel de Imagens com Controles
-  // ===================================================================
-  // Objetivo: Implementar um carrossel de imagens funcional com botões
-  //           de navegação (anterior/próximo) e indicadores (dots)
-  //           que permitem a troca manual de slides.
-  // Autor : Gisele Nunes
-  // Data  : 2026
+  //   PARTE 1: SISTEMA DE CARROSSEL
   // ===================================================================
 
   // Obtém o elemento HTML que contém todos os slides (container flex)
@@ -32,6 +38,7 @@
 
   // Função responsável por atualizar a posição do carrossel e os indicadores
   function updateCarrossel() {
+    if (!slidesContainer) return;
     // Calcula o deslocamento (offset) baseado no índice atual
     // Multiplica por 100% para mover o container exatamente a largura de um slide
     const offset = -currentIndex * 100;
@@ -67,7 +74,7 @@
   function createIndicators() {
     // Verifica se o container dos indicadores existe na página
     // Se não existir, sai da função (evita erros)
-    if (!indicatorsContainer) return;
+    if (!indicatorsContainer || totalSlides === 0) return;
 
     // Limpa o conteúdo interno do container para evitar duplicação
     indicatorsContainer.innerHTML = '';
@@ -102,6 +109,7 @@
 
   // Função que avança para o próximo slide
   function nextSlide() {
+    if (totalSlides === 0) return;
     // Incrementa o índice em 1
     // O operador % (módulo) garante que, ao chegar no último slide, volte para o primeiro (índice 0)
     // Exemplo: se totalSlides = 5 e currentIndex = 4, então (4+1)%5 = 0
@@ -113,6 +121,7 @@
 
   // Função que volta para o slide anterior
   function prevSlide() {
+    if (totalSlides === 0) return;
     // Decrementa o índice em 1
     // Adiciona totalSlides antes do módulo para garantir que o resultado nunca seja negativo
     // Exemplo: se totalSlides = 5 e currentIndex = 0, então (0-1+5)%5 = 4 (último slide)
@@ -128,11 +137,12 @@
   // Verifica se o botão "anterior" existe antes de adicionar o evento de clique
   if (prevBtn) prevBtn.addEventListener('click', prevSlide);
 
-  // Inicializa os indicadores (dots) pela primeira vez
-  createIndicators();
-
-  // Posiciona o carrossel no primeiro slide (índice 0)
-  updateCarrossel();
+  // Inicializa os indicadores (dots) pela primeira vez (apenas se houver slides)
+  if (totalSlides > 0) {
+    createIndicators();
+    // Posiciona o carrossel no primeiro slide (índice 0)
+    updateCarrossel();
+  }
 
   // ========== BOTÃO DE PROJETO FUTURO (funcionalidade extra) ==========
   // Tenta encontrar o botão com ID 'btnProjetoFuturo' na página
@@ -146,63 +156,104 @@
   }
 })();
 
-// ========== PÁGINA SOBRE GISELE NUNES ==========
-// Esta IIFE (função imediatamente invocada) só será executada se estivermos na página da Gisele Nunes
-// Ela calcula a idade automaticamente e trata fallback de imagem de avatar
+// ===================================================================
+//   PARTE 2: PÁGINA SOBRE GISELE NUNES
+// ===================================================================
+// Esta IIFE (função imediatamente invocada) gerencia a página sobre
 (function () {
   // ===================================================================
-  //   Titulo do documento: Cálculo Automático de Idade e Fallback de Avatar
+  //   Cálculo Automático de Idade e Funcionalidade Copiar
   // ===================================================================
   // Objetivo: Calcular dinamicamente a idade da Gisele Nunes com base
-  //           na data de nascimento (15/01/1990) e exibir no elemento
-  //           HTML correspondente. Também fornece um fallback visual
-  //           caso a imagem de avatar não seja carregada.
-  // Autor : Gisele Nunes
-  // Data  : 2026
+  //           na data de nascimento (10/04/1992) e exibir no elemento
+  //           HTML correspondente. Também fornece funcionalidade de copiar
+  //           texto para os botões de contato e fallback para imagens.
   // ===================================================================
 
+  // ========== CÁLCULO DE IDADE ==========
   // Verifica se estamos na página da Gisele Nunes
-  // Procura o elemento com ID 'idadeGisele' (que só existe nessa página)
-  const idadeSpan = document.getElementById('idadeGisele');
+  // Procura o elemento com ID 'idadeDinamica' (que só existe nessa página)
+  const idadeSpan = document.getElementById('idadeDinamica');
 
-  // Se o elemento NÃO foi encontrado, sai da função imediatamente
-  // Isso evita que o código seja executado em outras páginas onde não faz sentido
-  if (!idadeSpan) return;
+  // Se o elemento NÃO foi encontrado, não executa o cálculo de idade nesta página
+  if (idadeSpan) {
+    // Função que calcula a idade atual com base na data de nascimento fornecida
+    // Parâmetro: dataNascimento - string no formato 'YYYY-MM-DD' (ex: '1992-04-10')
+    // Retorno: número inteiro representando a idade em anos
+    function calcularIdade(dataNascimento) {
+      // Obtém a data atual (hoje)
+      const hoje = new Date();
 
-  // Função que calcula a idade atual com base na data de nascimento fornecida
-  // Parâmetro: dataNascimento - string no formato 'YYYY-MM-DD' (ex: '1990-01-15')
-  // Retorno: número inteiro representando a idade em anos
-  function calcularIdade(dataNascimento) {
-    // Obtém a data atual (hoje)
-    const hoje = new Date();
+      // Converte a string de nascimento para um objeto Date
+      const nascimento = new Date(dataNascimento);
 
-    // Converte a string de nascimento para um objeto Date
-    const nascimento = new Date(dataNascimento);
+      // Calcula a diferença inicial de anos (apenas comparando os anos)
+      let idade = hoje.getFullYear() - nascimento.getFullYear();
 
-    // Calcula a diferença inicial de anos (apenas comparando os anos)
-    let idade = hoje.getFullYear() - nascimento.getFullYear();
+      // Obtém o mês atual (0 = janeiro, 11 = dezembro)
+      const mesAtual = hoje.getMonth();
+      const mesNascimento = nascimento.getMonth();
 
-    // Obtém o mês atual (0 = janeiro, 11 = dezembro)
-    const mes = hoje.getMonth() - nascimento.getMonth();
+      // Obtém o dia atual
+      const diaAtual = hoje.getDate();
+      const diaNascimento = nascimento.getDate();
 
-    // Verifica se o aniversário deste ano já aconteceu
-    // Condição: se o mês atual for menor que o mês de nascimento
-    //          OU se for o mesmo mês mas o dia atual é menor que o dia de nascimento
-    if (mes < 0 || (mes === 0 && hoje.getDate() < nascimento.getDate())) {
-      // Se ainda não fez aniversário este ano, subtrai 1 ano
-      idade--;
+      // Verifica se o aniversário deste ano já aconteceu
+      // Condição: se o mês atual for menor que o mês de nascimento
+      //          OU se for o mesmo mês mas o dia atual é menor que o dia de nascimento
+      if (mesAtual < mesNascimento || (mesAtual === mesNascimento && diaAtual < diaNascimento)) {
+        // Se ainda não fez aniversário este ano, subtrai 1 ano
+        idade--;
+      }
+
+      // Retorna a idade calculada
+      return idade;
     }
 
-    // Retorna a idade calculada
-    return idade;
+    // Calcula a idade da Gisele (nascida em 10 de abril de 1992)
+    const idade = calcularIdade('1992-04-10');
+
+    // Insere a idade calculada dentro do elemento HTML <div id="idadeDinamica">
+    idadeSpan.innerHTML = `● ${idade} anos • Apaixonada por dados e educação`;
   }
 
-  // Calcula a idade da Gisele (nascida em 15 de janeiro de 1990)
-  const idade = calcularIdade('1990-01-15');
+  // ========== FUNCIONALIDADE DE COPIAR TEXTO ==========
+  // Seleciona todos os botões com a classe 'btn-copiar'
+  const botoesCopiar = document.querySelectorAll('.btn-copiar');
 
-  // Insere a idade calculada dentro do elemento HTML <span id="idadeGisele">
-  // O template string `${idade} anos` garante que a palavra "anos" apareça junto
-  idadeSpan.textContent = `${idade} anos`;
+  botoesCopiar.forEach(botao => {
+    botao.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Obtém o ID do elemento que contém o texto a ser copiado
+      const targetId = this.getAttribute('data-copiar');
+
+      if (targetId) {
+        // Obtém o elemento de texto pelo ID
+        const textoElement = document.getElementById(targetId);
+
+        if (textoElement) {
+          // Obtém o texto do elemento
+          const texto = textoElement.innerText.trim();
+
+          // Usa a API Clipboard para copiar o texto
+          navigator.clipboard.writeText(texto).then(() => {
+            // Feedback visual: muda o texto do botão temporariamente
+            const textoOriginal = this.innerText;
+            this.innerText = '✓ Copiado!';
+
+            // Restaura o texto original após 1.5 segundos
+            setTimeout(() => {
+              this.innerText = textoOriginal;
+            }, 1500);
+          }).catch(err => {
+            console.warn('Erro ao copiar: ', err);
+            // Fallback para navegadores antigos
+            alert('Não foi possível copiar automaticamente. Selecione o texto manualmente.');
+          });
+        }
+      }
+    });
+  });
 
   // ========== FALLBACK PARA IMAGEM DE AVATAR ==========
   // Tenta encontrar a imagem de avatar na página (classe 'avatar-img')
@@ -210,60 +261,75 @@
 
   // Se a imagem existir, configura um tratamento de erro
   if (avatarImg) {
-    // Define o que acontece se a imagem não puder ser carregada (ex: URL quebrada)
-    avatarImg.onerror = function () {
-      // Esconde a imagem original (quebrada) do layout
-      this.style.display = 'none';
-
-      // Cria um elemento fallback (alternativo) com as iniciais 'GN'
-      const fallback = document.createElement('div');
-
-      // Adiciona a classe CSS 'avatar-fallback' (caso exista estilos definidos)
-      fallback.className = 'avatar-fallback';
-
-      // Define o texto interno como 'GN' (iniciais de Gisele Nunes)
-      fallback.textContent = 'GN';
-
-      // ========== APLICA ESTILOS INLINE PARA O FALLBACK ==========
-      // Define largura de 150 pixels
-      fallback.style.width = '150px';
-
-      // Define altura de 150 pixels
-      fallback.style.height = '150px';
-
-      // Define bordas arredondadas (50% = círculo perfeito)
-      fallback.style.borderRadius = '50%';
-
-      // Define cor de fundo (azul médio/teal)
-      fallback.style.background = '#1a8aaa';
-
-      // Define o display como flex para centralizar o conteúdo
-      fallback.style.display = 'flex';
-
-      // Alinha os itens verticalmente ao centro
-      fallback.style.alignItems = 'center';
-
-      // Alinha os itens horizontalmente ao centro
-      fallback.style.justifyContent = 'center';
-
-      // Define o tamanho da fonte do texto 'GN'
-      fallback.style.fontSize = '3rem';
-
-      // Define o peso da fonte como negrito
-      fallback.style.fontWeight = 'bold';
-
-      // Define a cor do texto como branco
-      fallback.style.color = 'white';
-
-      // Adiciona uma borda sólida colorida ao redor do círculo
-      fallback.style.border = '3px solid #2acce0';
-
-      // Centraliza o elemento horizontalmente (útil se estiver dentro de um container)
-      fallback.style.margin = '0 auto';
-
-      // Insere o elemento fallback após a imagem original (no mesmo elemento pai)
-      // parentNode é o container que envolve a imagem
-      this.parentNode.appendChild(fallback);
-    };
+    // Verifica se a imagem já falhou ao carregar
+    if (avatarImg.complete && avatarImg.naturalWidth === 0) {
+      aplicarFallbackAvatar(avatarImg);
+    } else {
+      avatarImg.addEventListener('error', function () {
+        aplicarFallbackAvatar(this);
+      });
+    }
   }
+
+  function aplicarFallbackAvatar(imgElement) {
+    // Esconde a imagem original (quebrada) do layout
+    imgElement.style.display = 'none';
+
+    // Cria um elemento fallback (alternativo) com as iniciais 'GN'
+    const fallback = document.createElement('div');
+
+    // Adiciona a classe CSS 'avatar-fallback'
+    fallback.className = 'avatar-fallback';
+
+    // Define o texto interno como 'GN' (iniciais de Gisele Nunes)
+    fallback.textContent = 'GN';
+
+    // A classe CSS já contém os estilos, mas aplicamos inline como garantia
+    fallback.style.width = '180px';
+    fallback.style.height = '180px';
+    fallback.style.borderRadius = '50%';
+    fallback.style.background = 'linear-gradient(135deg, #1a8aaa, #0e6e8a)';
+    fallback.style.display = 'flex';
+    fallback.style.alignItems = 'center';
+    fallback.style.justifyContent = 'center';
+    fallback.style.fontSize = '3rem';
+    fallback.style.fontWeight = 'bold';
+    fallback.style.color = 'white';
+    fallback.style.border = '3px solid #2acce0';
+
+    // Insere o elemento fallback no mesmo container pai da imagem
+    imgElement.parentNode.appendChild(fallback);
+  }
+
+  // ========== FALLBACK PARA LOGOS DAS INSTITUIÇÕES ==========
+  // Para as logos das instituições: garantir fundo BRANCO mesmo nos fallbacks
+  const logosInstituicao = document.querySelectorAll('.logo-instituicao');
+
+  logosInstituicao.forEach(logo => {
+    // Função para garantir que o fallback mantenha o fundo branco
+    const aplicarFallbackBranco = (imgElement) => {
+      if (imgElement.src && imgElement.src.includes('placehold.co')) return;
+      const cursoNome = imgElement.alt || 'Instituição';
+      imgElement.src = `https://placehold.co/110x90?text=${encodeURIComponent(cursoNome)}&bg=ffffff&textColor=0a4b5e`;
+      imgElement.onerror = null;
+      // Garante estilo de fundo branco mesmo após fallback
+      imgElement.style.background = '#ffffff';
+      imgElement.style.backdropFilter = 'none';
+      imgElement.classList.add('fallback-logo');
+    };
+
+    // Verifica se a imagem já falhou ao carregar
+    if (logo.complete && logo.naturalWidth === 0) {
+      aplicarFallbackBranco(logo);
+    } else {
+      logo.addEventListener('error', function () {
+        aplicarFallbackBranco(this);
+      });
+    }
+
+    // Garantia inline para fundo branco (reforço visual)
+    logo.style.background = '#ffffff';
+    logo.style.backdropFilter = 'none';
+  });
+
 })();
