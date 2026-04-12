@@ -1,4 +1,3 @@
-
 # 🚀 projetosgn · Portfólio de Soluções
 
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -9,6 +8,15 @@
 ![Responsive](https://img.shields.io/badge/design-responsivo-brightgreen)
 
 > **IDEIAS • CÓDIGO • SOLUÇÕES**
+
+---
+
+## 📸 Preview do Projeto
+
+<!-- 👇 INSIRA AQUI O PRINT DO SEU PROJETO 👇 -->
+<p align="center">
+  <img src="assets/images/preview.png" alt="Preview do projetosgn" width="800">
+</p>
 
 ---
 
@@ -24,15 +32,17 @@ O projeto tem como foco o pensamento computacional, código limpo e soluções t
 
 O site é composto por duas páginas principais:
 
-- **`index.html`**: Página inicial com carrossel interativo, destacando os projetos em andamento e a filosofia de trabalho.
-- **`bio.html`**: Página institucional com informações profissionais, formação acadêmica, dados de contato e uma biografia detalhada de Gisele Nunes.
+| Página | Descrição |
+|--------|-----------|
+| **`index.html`** | Página inicial com carrossel interativo, destacando os projetos em andamento e a filosofia de trabalho. |
+| **`bio.html`** | Página institucional com informações profissionais, formação acadêmica, dados de contato e uma biografia detalhada. |
 
 ---
 
 ## 🧩 Funcionalidades
 
 - 🎯 **Carrossel de Projetos** interativo (navegação por botões e indicadores)
-- 📱 Design **totalmente responsivo** (mobile-first)
+- 📱 **Design totalmente responsivo** (mobile-first)
 - 👤 **Página "Bio"** com idade calculada dinamicamente via JavaScript
 - 🔗 **Links externos seguros** (com `noopener noreferrer`)
 - 🖼️ **Fallback de imagens** (caso não sejam carregadas)
@@ -91,7 +101,7 @@ cd projetosgn
 # Abra o arquivo principal no navegador
 index.html
 
-    ⚠️ Certifique-se de manter a estrutura de pastas (assets/, pages/) para o correto funcionamento dos estilos, scripts e imagens.
+    ⚠️ Atenção: Mantenha a estrutura de pastas (assets/, pages/) para o correto funcionamento dos estilos, scripts e imagens.
 
 🌍 Deploy
 
@@ -122,22 +132,19 @@ Contribuições são bem-vindas! Siga os passos abaixo:
     Faça um fork do projeto
 
     Crie uma branch para sua feature:
+    bash
 
-bash
-
-git checkout -b feature/minha-melhoria
+    git checkout -b feature/minha-melhoria
 
     Commit suas alterações:
+    bash
 
-bash
-
-git commit -m "Adicionando minha melhoria"
+    git commit -m "Adicionando minha melhoria"
 
     Push para a branch:
+    bash
 
-bash
-
-git push origin feature/minha-melhoria
+    git push origin feature/minha-melhoria
 
     Abra um Pull Request 🚀
 
@@ -145,6 +152,7 @@ git push origin feature/minha-melhoria
 
 Gisele Nunes
 Especialista em Business Intelligence | Bacharel em Sistemas de Informação | Licencianda em Computação
+
 📅 2026
 
 https://img.shields.io/badge/LinkedIn-Gisele_Nunes-blue
@@ -156,6 +164,5 @@ Consulte o arquivo LICENSE para mais informações.
 ⭐ Apoie
 
 Se este projeto foi útil para você, deixe uma ⭐ no repositório!
-💡 Frase de Efeito
 
-    console.log('Inovação. Criatividade. Resultado.');
+    💡 console.log('Inovação. Criatividade. Resultado.');
