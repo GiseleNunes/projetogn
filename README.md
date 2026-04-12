@@ -1,3 +1,5 @@
+markdown
+
 # 🚀 projetosgn · Portfólio de Soluções
 
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -11,43 +13,35 @@
 
 ---
 
-## 📸 Preview do Projeto
-
-<!-- 👇 INSIRA AQUI O PRINT DO SEU PROJETO 👇 -->
-<p align="center">
-  <img src="assets/images/preview.png" alt="Preview do projetosgn" width="800">
-</p>
-
----
-
 ## 📌 Sobre o Projeto
 
-O **projetosgn** é um portfólio web interativo desenvolvido para apresentar projetos de tecnologia, inovação educacional e a trajetória profissional de Gisele Nunes.
+O **projetosgn** é um portfólio web moderno desenvolvido para apresentar projetos de tecnologia, inovação educacional e soluções em Business Intelligence.
 
-O projeto tem como foco o pensamento computacional, código limpo e soluções transformadoras, apresentados em um formato de carrossel dinâmico que permite navegação fluida entre os projetos.
+Este projeto reúne iniciativas voltadas ao:
+- 💡 Pensamento criativo
+- 🧠 Pensamento computacional
+- 🎓 Educação tecnológica
+- 📊 Business Intelligence
+- 🌐 Desenvolvimento web
 
 ---
 
-## 🖥️ Estrutura do Site
+## 🖥️ Preview
 
-O site é composto por duas páginas principais:
-
-| Página | Descrição |
-|--------|-----------|
-| **`index.html`** | Página inicial com carrossel interativo, destacando os projetos em andamento e a filosofia de trabalho. |
-| **`bio.html`** | Página institucional com informações profissionais, formação acadêmica, dados de contato e uma biografia detalhada. |
+![Preview](assets/images/preview.png)
 
 ---
 
 ## 🧩 Funcionalidades
 
-- 🎯 **Carrossel de Projetos** interativo (navegação por botões e indicadores)
-- 📱 **Design totalmente responsivo** (mobile-first)
-- 👤 **Página "Bio"** com idade calculada dinamicamente via JavaScript
-- 🔗 **Links externos seguros** (com `noopener noreferrer`)
-- 🖼️ **Fallback de imagens** (caso não sejam carregadas)
-- ⚡ Alto desempenho e código organizado
-- 🧱 Componentes reutilizáveis e semânticos
+- 🎯 Interface moderna e intuitiva com carrossel interativo
+- 📱 Responsividade (mobile-first)
+- ⚡ Alto desempenho
+- 🧱 Código organizado
+- 🔗 Links externos seguros (abrem em nova aba)
+- 🖼️ Fallback de imagens
+- 👤 Página institucional "Bio" com idade calculada dinamicamente
+- 🎨 Design com elementos de código estilizados
 
 ---
 
@@ -55,57 +49,65 @@ O site é composto por duas páginas principais:
 
 projetosgn/
 │
-├── index.html # Página principal (carrossel)
+├── index.html
 ├── pages/
-│ └── bio.html # Página "Sobre"
+│ └── bio.html
 ├── assets/
 │ ├── css/
-│ │ └── style.css # Estilos globais
+│ │ └── style.css
 │ ├── js/
-│ │ └── script.js # Lógica do carrossel e idade dinâmica
-│ └── images/ # Imagens, logos e avatares
+│ │ └── script.js
+│ └── images/
 text
 
 
 ---
 
-## 📚 Projetos em Destaque
+## 📚 Projetos
 
-| Projeto | Descrição | Público-alvo |
-|--------|----------|-------------|
-| 🎓 Cartilha (1º ao 5º) | Introdução ao Scratch para professores da Educação Básica | 1º ao 5º Ano |
-| 🧠 Cartilha (6º ao 9º) | Sequência didática para Pensamento Computacional com Scratch | 6º ao 9º Ano |
-| 👤 Bio | Trajetória, formação e filosofia de trabalho de Gisele Nunes | Institucional |
-| 🚀 Novos Horizontes | Reservado para projetos futuros e tecnologias emergentes | Em breve |
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-- **HTML5** – Estrutura semântica e acessível
-- **CSS3** – Estilização moderna, Flexbox, Grid e responsividade
-- **JavaScript** – Lógica do carrossel, indicadores dinâmicos e cálculo de idade
-- **Git** – Controle de versão
+| Projeto | Descrição |
+|--------|----------|
+| 🎓 Cartilha (1º ao 5º) | Introdução ao Scratch para Professores da Educação Básica |
+| 🧠 Cartilha (6º ao 9º) | Sequência didática para Pensamento Computacional com Scratch |
+| 👤 Bio | Página institucional com trajetória e formação de Gisele Nunes |
+| 🚀 Novos Horizontes | Reservado para projetos futuros e tecnologias emergentes |
 
 ---
 
-## ▶️ Como Executar Localmente
+## 👨‍💻👩‍💻 Autoria
+
+**Idealizadora e Criadora:** Gisele Nunes  
+**Perfil profissional:** Especialista em Business Intelligence | Bacharel em Sistemas de Informação | Licencianda em Computação
+
+📅 2026
+
+---
+
+## 🛠️ Tecnologias
+
+- HTML5  
+- CSS3  
+- JavaScript (ES6+)  
+
+---
+
+## ▶️ Como Executar
 
 ```bash
-# Clone o repositório
 git clone https://github.com/seu-usuario/projetosgn.git
-
-# Acesse a pasta do projeto
 cd projetosgn
 
-# Abra o arquivo principal no navegador
+Abra o arquivo:
+text
+
 index.html
 
-    ⚠️ Atenção: Mantenha a estrutura de pastas (assets/, pages/) para o correto funcionamento dos estilos, scripts e imagens.
+Ou acesse a página institucional:
+text
+
+pages/bio.html
 
 🌍 Deploy
-
-O projeto pode ser facilmente publicado em plataformas como:
 
     GitHub Pages
 
@@ -115,54 +117,46 @@ O projeto pode ser facilmente publicado em plataformas como:
 
 📈 Roadmap
 
-    Modo escuro (dark mode)
+    Modo escuro
 
-    Filtro de projetos por categoria
+    Filtro de projetos no carrossel
 
     Dashboard administrativo
 
     Internacionalização (i18n)
 
-    Integração com CMS leve
+    CMS para gerenciamento de conteúdo
 
 🤝 Contribuição
 
-Contribuições são bem-vindas! Siga os passos abaixo:
+    Fork o projeto
 
-    Faça um fork do projeto
+    Crie uma branch
 
-    Crie uma branch para sua feature:
-    bash
+bash
 
-    git checkout -b feature/minha-melhoria
+git checkout -b feature/minha-feature
 
-    Commit suas alterações:
-    bash
+    Commit
 
-    git commit -m "Adicionando minha melhoria"
+bash
 
-    Push para a branch:
-    bash
+git commit -m "Minha melhoria"
 
-    git push origin feature/minha-melhoria
+    Push
 
-    Abra um Pull Request 🚀
+bash
 
-👩‍💻 Autora
+git push origin feature/minha-feature
 
-Gisele Nunes
-Especialista em Business Intelligence | Bacharel em Sistemas de Informação | Licencianda em Computação
+    Pull Request 🚀
 
-📅 2026
-
-https://img.shields.io/badge/LinkedIn-Gisele_Nunes-blue
-https://img.shields.io/badge/GitHub-projetosgn-lightgrey
 📄 Licença
 
 Este projeto está sob a licença MIT.
-Consulte o arquivo LICENSE para mais informações.
 ⭐ Apoie
 
-Se este projeto foi útil para você, deixe uma ⭐ no repositório!
+Se gostou, deixe uma estrela ⭐ no repositório!
+💡 Frase
 
-    💡 console.log('Inovação. Criatividade. Resultado.');
+    “Ideias em código. Soluções em ação.”
