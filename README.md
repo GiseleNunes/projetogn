@@ -1,5 +1,3 @@
-markdown
-
 # 🚀 projetosgn · Portfólio de Soluções
 
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -47,19 +45,19 @@ Este projeto reúne iniciativas voltadas ao:
 
 ## 🗂️ Estrutura do Projeto
 
+```
 projetosgn/
 │
 ├── index.html
 ├── pages/
-│ └── bio.html
+│   └── bio.html
 ├── assets/
-│ ├── css/
-│ │ └── style.css
-│ ├── js/
-│ │ └── script.js
-│ └── images/
-text
-
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   └── script.js
+│   └── images/
+```
 
 ---
 
@@ -96,67 +94,71 @@ text
 ```bash
 git clone https://github.com/seu-usuario/projetosgn.git
 cd projetosgn
+```
 
 Abra o arquivo:
-text
 
+```
 index.html
+```
 
 Ou acesse a página institucional:
-text
 
+```
 pages/bio.html
+```
 
-🌍 Deploy
+---
 
-    GitHub Pages
+## 🌍 Deploy
 
-    Vercel
+- GitHub Pages  
+- Vercel  
+- Netlify  
 
-    Netlify
+---
 
-📈 Roadmap
+## 📈 Roadmap
 
-    Modo escuro
+- [ ] Modo escuro  
+- [ ] Filtro de projetos no carrossel  
+- [ ] Dashboard administrativo  
+- [ ] Internacionalização (i18n)  
+- [ ] CMS para gerenciamento de conteúdo  
 
-    Filtro de projetos no carrossel
+---
 
-    Dashboard administrativo
+## 🤝 Contribuição
 
-    Internacionalização (i18n)
-
-    CMS para gerenciamento de conteúdo
-
-🤝 Contribuição
-
-    Fork o projeto
-
-    Crie uma branch
-
-bash
-
+1. Fork o projeto  
+2. Crie uma branch  
+```bash
 git checkout -b feature/minha-feature
-
-    Commit
-
-bash
-
+```
+3. Commit  
+```bash
 git commit -m "Minha melhoria"
-
-    Push
-
-bash
-
+```
+4. Push  
+```bash
 git push origin feature/minha-feature
+```
+5. Pull Request 🚀  
 
-    Pull Request 🚀
+---
 
-📄 Licença
+## 📄 Licença
 
 Este projeto está sob a licença MIT.
-⭐ Apoie
+
+---
+
+## ⭐ Apoie
 
 Se gostou, deixe uma estrela ⭐ no repositório!
-💡 Frase
 
-    “Ideias em código. Soluções em ação.”
+---
+
+## 💡 Frase
+
+> “Ideias em código. Soluções em ação.”
