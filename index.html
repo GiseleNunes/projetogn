@@ -139,13 +139,14 @@
                     </div>
                 </div>
 
-
-                <!-- ========== SLIDE 5: ODS na Escola - Projeto Paraná Sustentável (NOVO) ========== -->
+                <!-- ========== SLIDE 3: ODS na Escola - Projeto Paraná Sustentável ========== -->
                 <div class="carrossel-item">
                     <div class="card-projeto">
                         <!-- Logo do projeto ODS na Escola -->
-                        <img src="assets/images/logo_ODS_3.png" alt="ODS na Escola" class="logo-projeto"
+                        <img src="assets/images/logo_ODS_3.png" alt="ODS na Escola"
+                            class="logo-projeto logo-fundo-preto"
                             onerror="this.src='https://placehold.co/140x110?text=ODS+Escola&bg=1a8aaa&textColor=white'">
+
                         <!-- Título do projeto -->
                         <h3>ODS na Escola</h3>
                         <!-- Descrição curta: público-alvo e abordagem -->
@@ -167,29 +168,58 @@
                     </div>
                 </div>
 
-                <!-- ========== SLIDE 3: Sobre Mim (Criador) ========== -->
+                <!-- ========== SLIDE 4: Robô Fofoqueiro (Projeto Integrador - IA e Acessibilidade) ========== -->
                 <div class="carrossel-item">
                     <div class="card-projeto">
-                        <!-- Logo com fundo preto (classe específica) -->
-                        <img src="assets/images/logo_projetosgn_6.png" alt="Rodrigo Barbosa"
+                        <!-- Logo customizada com fundo escuro e efeito visual de robô -->
+                        <img src="assets/images/logo_fofoqueiro.png" alt="Robô Fofoqueiro"
                             class="logo-projeto logo-fundo-preto"
-                            onerror="this.src='https://placehold.co/140x110?text=RB'">
-                        <h3>Bio</h3>
-                        <div class="desc-curta">👤 Institucional · Criador</div>
+                            onerror="this.src='https://placehold.co/140x110?text=🤖+FOFOQUEIRO&bg=111111&textColor=00ccdd'">
+                        <h3>🤖 Robô Fofoqueiro</h3>
+                        <div class="desc-curta">🎙️ IA · Acessibilidade · Ensino Médio</div>
                         <div class="descricao-principal">
-                            Conheça a trajetória, formação acadêmica e filosofia de trabalho<br>
-                            de Gisele Nunes, idealizador do projetosgn.
+                            Assistente robótico com personalidade excêntrica que traduz sons ambientes em alertas
+                            visuais, textuais e emocionais.<br>
+                            Projeto integrador com Python, Visão Computacional, sensores de áudio e IA generativa com
+                            gírias paranaenses.
                         </div>
-                        <!-- Link para uma página interna (sobre_mim.html) -->
-                        <a href="pages/bio.html" class="btn-projeto">
-                            <span>👤</span> Conhecer criador
+                        <!-- Link para o repositório/documentação do projeto (simula material completo) -->
+                        <!--<a href="https://giselenunes.github.io/projeto-integrador/" class="btn-projeto"
+                            id="btnRoboFofoqueiro" target="_blank" rel="noopener noreferrer">-->
+
+
+                        <a href="https://giselenunes.github.io/projeto-integrador/" class="btn-projeto" target="_blank"
+                            rel="noopener noreferrer">
+
+
+
+
+                            <span>🤖</span> Conhecer projeto
                         </a>
                     </div>
                 </div>
 
+                <!-- ========== SLIDE 5: Sobre Mim (Criadora) ========== -->
+                <div class="carrossel-item">
+                    <div class="card-projeto">
+                        <!-- Logo com fundo preto (classe específica) -->
+                        <img src="assets/images/logo_projetosgn_6.png" alt="Gisele Nunes"
+                            class="logo-projeto logo-fundo-preto"
+                            onerror="this.src='https://placehold.co/140x110?text=GN'">
+                        <h3>Bio</h3>
+                        <div class="desc-curta">👤 Institucional · Criadora</div>
+                        <div class="descricao-principal">
+                            Conheça a trajetória, formação acadêmica e filosofia de trabalho<br>
+                            de Gisele Nunes, idealizadora do projetosgn.
+                        </div>
+                        <!-- Link para uma página interna (bio.html) -->
+                        <a href="pages/bio.html" class="btn-projeto">
+                            <span>👤</span> Conhecer criadora
+                        </a>
+                    </div>
+                </div>
 
-
-                <!-- ========== SLIDE 4: Novos Horizontes (Projeto Futuro) ========== -->
+                <!-- ========== SLIDE 6: Novos Horizontes (Projeto Futuro) ========== -->
                 <div class="carrossel-item">
                     <div class="card-projeto">
                         <img src="assets/images/logo_projetosgn_6.png" alt="Logo projetosgn"
@@ -248,6 +278,35 @@
         Deve ser carregado após o HTML para que os elementos existam quando o script executar.
     -->
     <script src="assets/js/script.js"></script>
+    <script>
+        // Funcionalidade extra para o card "Robô Fofoqueiro" abrir documentação do projeto integrador
+        (function () {
+            const btnRobo = document.getElementById('btnRoboFofoqueiro');
+            if (btnRobo) {
+                btnRobo.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    // Simula abertura de um material complementar detalhado (em uma nova aba)
+                    // Em um cenário real, isso poderia apontar para um PDF, GitHub ou página do projeto.
+                    // Como o material está nos anexos (planos de aula + escopo), criamos um alerta informativo
+                    // com link simbólico para um repositório futuro. Mantém a experiência alinhada ao padrão.
+                    const mensagem = "📘 Projeto Integrador: Robô Fofoqueiro da Acessibilidade\n\n" +
+                        "✅ 10 planos de aula completos (Google Colab + Python)\n" +
+                        "✅ Sensor de som irreverente com memes\n" +
+                        "✅ Reconhecimento de fala com gírias paranaenses\n" +
+                        "✅ Visão computacional (mãos + QR code)\n" +
+                        "✅ IA generativa com personalidade regional\n" +
+                        "✅ Display LCD / LEDs simulados e reais\n" +
+                        "✅ Mapa do Inferno Acústico (visualização de dados)\n" +
+                        "✅ Versão offline para escolas sem internet\n\n" +
+                        "📁 Material completo disponível no repositório institucional do projetosgn.\n" +
+                        "🔗 Em breve: github.com/projetosgn/robo-fofoqueiro";
+                    alert(mensagem);
+                    // Opcional: redirecionar para uma página de documentação quando existir.
+                    // window.open('https://github.com/projetosgn/robo-fofoqueiro', '_blank');
+                });
+            }
+        })();
+    </script>
 </body>
 
 </html>
