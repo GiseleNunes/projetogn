@@ -1140,6 +1140,7 @@ h1 {
 
 /*
  * Cards dos projetos dentro do carrossel
+ * AJUSTADO: largura máxima reduzida e centralizado para melhor harmonia visual
  */
 .card-projeto {
     background: rgba(25, 35, 50, 0.85);
@@ -1153,6 +1154,13 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* NOVOS AJUSTES: reduz largura horizontal e melhora proporção vertical */
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    min-height: 480px;
+    justify-content: space-between;
 }
 
 .card-projeto:hover {
@@ -1234,6 +1242,9 @@ h3 {
     margin: 0.8rem 0;
     font-size: 0.9rem;
     font-weight: 500;
+    flex: 1;
+    display: flex;
+    align-items: center;
 }
 
 /*
@@ -1255,7 +1266,7 @@ h3 {
     font-size: 0.85rem;
     transition: 0.2s;
     cursor: pointer;
-    margin-top: 0.3rem;
+    margin-top: 0.8rem;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -1446,6 +1457,12 @@ h3 {
         padding: 1.2rem;
     }
 
+    /* Ajuste para cards do carrossel em telas menores */
+    .card-projeto {
+        max-width: 320px;
+        min-height: 440px;
+    }
+
     .sobre-container h2 {
         font-size: 1.5rem;
     }
@@ -1484,6 +1501,13 @@ h3 {
         width: 32px;
         height: 32px;
         font-size: 1.1rem;
+    }
+
+    /* Ajuste adicional para cards em telas muito pequenas */
+    .card-projeto {
+        max-width: 280px;
+        min-height: 420px;
+        padding: 1.2rem;
     }
 
     .logo-instituicao {
