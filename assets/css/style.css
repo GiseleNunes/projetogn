@@ -14,35 +14,175 @@
    1. RESET E CONFIGURAÇÕES GLOBAIS
    ========================================================================== */
 
+/*
+ * SELETOR UNIVERSAL (*)
+ * O asterisco (*) seleciona TODOS os elementos HTML da página.
+ * Isso inclui tags como <body>, <div>, <p>, <h1>, etc.
+ * Aplicamos regras que serão herdadas por todos os elementos,
+ * garantindo uma base consistente em qualquer navegador.
+ */
 * {
+    /* Remove todas as margens externas padrão que os navegadores aplicam */
     margin: 0;
+
+    /* Remove todos os preenchimentos internos padrão */
     padding: 0;
+
+    /* 
+     * box-sizing: border-box
+     * Por padrão, a largura (width) de um elemento não inclui bordas e padding.
+     * Com 'border-box', a largura e altura TOTAL do elemento incluem conteúdo,
+     * padding e borda. Isso facilita muito o cálculo de layouts responsivos,
+     * pois evita que elementos "estourem" o container pai ao adicionar padding.
+     */
     box-sizing: border-box;
 }
 
+/*
+ * ELEMENTO BODY
+ * O <body> é o contêiner visível principal da página. Todo conteúdo que o
+ * usuário vê está dentro dele.
+ */
 body {
+    /* 
+     * font-family: Define a pilha de fontes (fallback)
+     * O navegador tenta usar a primeira fonte disponível. Se não encontrar,
+     * vai para a próxima, e assim por diante.
+     */
     font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+    /* 
+     * background-image: Define uma imagem como fundo do site.
+     * O caminho é relativo ao arquivo CSS. '..' significa "voltar um nível".
+     * Como o CSS está em assets/css/style.css, '../images/fundo_projetosgn.png'
+     * aponta para a pasta 'images' que está no mesmo nível de 'assets'.
+     */
     background-image: url('../images/fundo_projetosgn.png');
+
+    /* 
+     * background-size: cover
+     * Redimensiona a imagem de fundo para cobrir completamente o elemento,
+     * mantendo sua proporção. Pode cortar levemente as bordas, mas garante
+     * que não haverá espaços vazios.
+     */
     background-size: cover;
+
+    /* 
+     * background-position: center
+     * Centraliza a imagem de fundo tanto na horizontal quanto na vertical.
+     * Isso garante que a parte mais interessante da imagem fique visível.
+     */
     background-position: center;
+
+    /* 
+     * background-repeat: no-repeat
+     * Impede que a imagem se repita caso seja menor que o elemento.
+     * Queremos apenas uma instância da imagem.
+     */
     background-repeat: no-repeat;
+
+    /* 
+     * background-attachment: fixed
+     * Fixa a imagem de fundo em relação à viewport (janela do navegador).
+     * Quando o usuário rola a página, o conteúdo se move, mas a imagem de fundo
+     * permanece estática, criando um efeito parallax suave e elegante.
+     */
     background-attachment: fixed;
+
+    /* 
+     * min-height: 100vh
+     * Garante que o body tenha no mínimo 100% da altura da viewport (vh = viewport height).
+     * Isso é crucial para centralizar conteúdo verticalmente e para que o fundo
+     * cubra toda a tela inicial, mesmo com pouco conteúdo.
+     */
     min-height: 100vh;
+
+    /* 
+     * display: flex
+     * Ativa o Flexbox, um modelo de layout unidimensional poderoso.
+     * Permite alinhar e distribuir espaço entre os itens filhos de forma eficiente.
+     */
     display: flex;
+
+    /* 
+     * align-items: center
+     * Alinha os itens filhos (no caso, o .wrapper) ao centro do eixo transversal.
+     * Como o flex-direction padrão é 'row' (linha), o eixo transversal é o vertical.
+     * Portanto, centraliza o conteúdo VERTICALMENTE dentro do body.
+     */
     align-items: center;
+
+    /* 
+     * justify-content: center
+     * Alinha os itens filhos ao centro do eixo principal.
+     * Com flex-direction: row (padrão), o eixo principal é o horizontal.
+     * Portanto, centraliza o conteúdo HORIZONTALMENTE dentro do body.
+     */
     justify-content: center;
+
+    /* 
+     * padding: 2rem
+     * Adiciona um espaçamento interno de 2rem em TODOS os lados do body.
+     * rem é uma unidade relativa ao tamanho da fonte raiz (<html>).
+     * Por padrão, 1rem = 16px. Então, 2rem = 32px.
+     * Isso evita que o conteúdo grude nas bordas da tela em telas pequenas.
+     */
     padding: 2rem;
+
+    /* 
+     * position: relative
+     * Cria um novo contexto de posicionamento. Elementos com position: absolute
+     * dentro do body serão posicionados em relação a ele, não à viewport.
+     * Necessário para o pseudo-elemento ::before funcionar corretamente.
+     */
     position: relative;
 }
 
+/*
+ * PSEUDO-ELEMENTO BODY::BEFORE
+ * Um pseudo-elemento é como um "elemento fantasma" criado via CSS.
+ * ::before significa "antes do conteúdo do body".
+ * É usado aqui para criar uma camada de overlay (sobreposição) escura
+ * sobre a imagem de fundo, melhorando a legibilidade do texto.
+ */
 body::before {
+    /* 
+     * content: ""
+     * A propriedade 'content' é OBRIGATÓRIA para pseudo-elementos ::before e ::after.
+     * Mesmo vazia, deve ser declarada para que o elemento exista no DOM.
+     */
     content: "";
+
+    /* 
+     * position: fixed
+     * Posiciona o elemento em relação à viewport (janela do navegador).
+     * Ao contrário de 'absolute', 'fixed' não rola com a página.
+     * Isso garante que o overlay escuro cubra a tela inteira mesmo rolando,
+     * já que o fundo é fixed e o conteúdo rola sobre ele.
+     */
     position: fixed;
+
+    /* top, left, right, bottom: 0 */
+    /* Define que o elemento deve se esticar para tocar todas as bordas da viewport */
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+
+    /* 
+     * background: rgba(0, 0, 0, 0.3)
+     * Cor preta (0,0,0) com 30% de opacidade (0.3 = 30% visível, 70% transparente).
+     * rgba = Red, Green, Blue, Alpha (canal alfa = transparência).
+     * Escurece a imagem de fundo, fazendo o texto branco se destacar mais.
+     */
     background: rgba(0, 0, 0, 0.3);
+
+    /* 
+     * z-index: 0
+     * Controla a ordem de empilhamento (eixo Z).
+     * Quanto MAIOR o z-index, mais À FRENTE o elemento aparece.
+     * Com z-index:0, este overlay fica atrás do conteúdo (que terá z-index maior).
+     */
     z-index: 0;
 }
 
@@ -50,16 +190,89 @@ body::before {
    2. ESTRUTURA PRINCIPAL (WRAPPER)
    ========================================================================== */
 
+/*
+ * .wrapper
+ * Classe CSS (identificada pelo ponto .) que envolve TODO o conteúdo principal.
+ * É a caixa centralizada e estilizada que contém hero, carrossel e footer.
+ */
 .wrapper {
+    /* 
+     * position: relative
+     * Cria um novo contexto de posicionamento para os elementos filhos absolutos.
+     * Também permite que o z-index funcione corretamente dentro deste container.
+     */
     position: relative;
+
+    /* 
+     * z-index: 2
+     * Garante que o wrapper e todo seu conteúdo fiquem ACIMA do overlay escuro
+     * do body::before (que tem z-index:0).
+     */
     z-index: 2;
-    max-width: 1400px;
+
+    /* 
+     * max-width: 1200px
+     * Define uma largura máxima para o container.
+     * Em telas muito grandes (ex: 4K), o conteúdo não ficará excessivamente largo,
+     * mantendo a legibilidade e o conforto visual.
+     */
+    max-width: 1200px;
+
+    /* 
+     * width: 100%
+     * Ocupa 100% da largura disponível do elemento pai (o body centralizado),
+     * mas respeita o limite de max-width:1200px.
+     */
     width: 100%;
+
+    /* 
+     * background: rgba(20, 30, 45, 0.5)
+     * Fundo azul-escuro (20,30,45) com 50% de opacidade.
+     * A transparência permite que a imagem de fundo (já escurecida pelo overlay)
+     * apareça levemente através do conteúdo, criando profundidade.
+     */
     background: rgba(20, 30, 45, 0.5);
+
+    /* 
+     * backdrop-filter: blur(2px)
+     * Aplica um efeito de desfoque (blur) de 2px aos elementos que estão ATRÁS
+     * do .wrapper. Isso cria o famoso efeito "glassmorphism" (vidro fosco),
+     * onde o fundo parece estar embaçado atrás do conteúdo, similar a vidro.
+     * Diferente de 'filter', 'backdrop-filter' não desfoca o próprio elemento.
+     */
     backdrop-filter: blur(2px);
+
+    /* 
+     * border-radius: 2rem
+     * Arredonda os cantos do wrapper. 2rem = 32px (considerando 1rem=16px).
+     * Dá um aspecto mais suave e moderno ao container principal.
+     */
     border-radius: 2rem;
+
+    /* 
+     * padding: 2rem
+     * Adiciona espaço interno de 2rem em todos os lados.
+     * O conteúdo interno (hero, carrossel, footer) não encosta nas bordas arredondadas.
+     */
     padding: 2rem;
+
+    /* 
+     * box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3)
+     * Adiciona uma sombra externa ao elemento.
+     * Sintaxe: offset-x | offset-y | blur-radius | spread-radius | cor
+     * - offset-x: 0 (sombra centralizada horizontalmente)
+     * - offset-y: 25px (sombra para baixo)
+     * - blur-radius: 45px (quanto maior, mais esfumada a sombra)
+     * - cor: preto com 30% opacidade
+     * Cria a ilusão de que o wrapper está flutuando sobre o fundo.
+     */
     box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3);
+
+    /* 
+     * border: 1px solid rgba(0, 180, 200, 0.4)
+     * Adiciona uma borda fina de 1px na cor ciano/azul claro com 40% opacidade.
+     * A borda sutíl reforça as bordas do glassmorphism, dando um "brilho" nas extremidades.
+     */
     border: 1px solid rgba(0, 180, 200, 0.4);
 }
 
@@ -67,77 +280,415 @@ body::before {
    3. SEÇÃO HERO (CABEÇALHO DE APRESENTAÇÃO)
    ========================================================================== */
 
+/*
+ * .hero
+ * Seção de destaque no topo do site. Contém logo, título principal e tagline.
+ * É a primeira impressão visual do portfólio.
+ */
 .hero {
+    /* 
+     * text-align: center
+     * Centraliza horizontalmente todo o conteúdo de texto dentro da hero.
+     * Títulos, parágrafos, spans, etc, ficarão centralizados.
+     */
     text-align: center;
+
+    /* 
+     * margin-bottom: 2rem
+     * Adiciona um espaçamento externo abaixo da hero, separando-a do carrossel.
+     * 2rem = 32px (espaço confortável entre seções).
+     */
     margin-bottom: 2rem;
+
+    /* 
+     * padding: 1.5rem 1rem
+     * Espaçamento interno:
+     * - 1.5rem (24px) no topo e na base (vertical)
+     * - 1rem (16px) nas laterais (horizontal)
+     */
     padding: 1.5rem 1rem;
+
+    /* 
+     * background: rgba(30, 45, 65, 0.55)
+     * Fundo um pouco mais escuro e opaco que o wrapper para criar contraste.
+     * Cor azul-marinho (30,45,65) com 55% opacidade.
+     */
     background: rgba(30, 45, 65, 0.55);
+
+    /* 
+     * backdrop-filter: blur(4px)
+     * Desfoque de 4px no fundo atrás da hero. Mais intenso que o blur(2px) do wrapper,
+     * destacando ainda mais esta seção e melhorando a legibilidade do texto.
+     */
     backdrop-filter: blur(4px);
+
+    /* 
+     * border-radius: 1.5rem
+     * Cantos arredondados de 1.5rem (24px). Um pouco menos arredondado que o wrapper.
+     */
     border-radius: 1.5rem;
+
+    /* 
+     * border-bottom: 2px solid #00ccdd
+     * Adiciona uma borda apenas na PARTE INFERIOR da hero.
+     * Cor ciano brilhante (#00ccdd) com 2px de espessura.
+     * Funciona como uma linha de destaque que separa visualmente a hero do conteúdo abaixo.
+     */
     border-bottom: 2px solid #00ccdd;
+
+    /* 
+     * position: relative
+     * Para que o 'overflow: hidden' funcione corretamente e também para
+     * futuros elementos posicionados absolutamente dentro da hero.
+     */
     position: relative;
+
+    /* 
+     * overflow: hidden
+     * Esconde qualquer conteúdo que ultrapasse as bordas arredondadas da hero.
+     * Garante que os cantos fiquem perfeitamente redondos sem "vazamentos".
+     */
     overflow: hidden;
+
+    /* 
+     * box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2)
+     * Sombra sutil que dá um leve destaque, fazendo a hero "flutuar" levemente
+     * acima do wrapper, adicionando profundidade ao design.
+     */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
+/*
+ * .logo-titulo
+ * Container flexível que agrupa a imagem do logo e o título <h1>.
+ */
 .logo-titulo {
+    /* 
+     * display: flex
+     * Ativa o Flexbox para alinhar o logo e o título na mesma linha horizontal.
+     */
     display: flex;
+
+    /* 
+     * align-items: center
+     * Alinha verticalmente o logo e o título ao centro.
+     * Se um for maior que o outro, o menor será centralizado verticalmente.
+     */
     align-items: center;
+
+    /* 
+     * justify-content: center
+     * Centraliza o grupo (logo + título) horizontalmente dentro do container pai (.hero).
+     */
     justify-content: center;
+
+    /* 
+     * gap: 0.8rem
+     * Define um espaçamento de 0.8rem (cerca de 13px) entre o logo e o título.
+     * O 'gap' é uma propriedade do Flexbox e Grid que simplifica margens entre itens.
+     */
     gap: 0.8rem;
+
+    /* 
+     * flex-wrap: wrap
+     * Permite que os itens internos (logo e título) quebrem para a linha de baixo
+     * se não houver espaço horizontal suficiente em telas muito pequenas.
+     * Isso evita que o layout "estoure" ou crie scroll horizontal.
+     */
     flex-wrap: wrap;
+
+    /* 
+     * margin-bottom: 0.3rem
+     * Pequeno espaçamento abaixo do grupo logo-titulo, separando-o da tagline.
+     */
     margin-bottom: 0.3rem;
 }
 
+/*
+ * .logo-simbolo
+ * Estilo específico para a imagem do logo/símbolo.
+ */
 .logo-simbolo {
+    /* 
+     * height: 72px
+     * Define uma altura fixa de 72 pixels.
+     * Ao definir apenas a altura, a largura se ajusta automaticamente (width: auto)
+     * para manter a proporção original da imagem.
+     */
     height: 72px;
+
+    /* 
+     * width: auto
+     * A largura é calculada automaticamente baseada na altura definida (72px)
+     * e na proporção (aspect ratio) da imagem original.
+     */
     width: auto;
+
+    /* 
+     * filter: drop-shadow(0 0 8px #00ccdd)
+     * Aplica uma sombra diretamente ao redor da imagem, respeitando seus contornos
+     * e áreas transparentes (diferente de box-shadow, que cria uma sombra retangular).
+     * Cria um efeito de brilho neon ciano ao redor do logo.
+     */
     filter: drop-shadow(0 0 8px #00ccdd);
+
+    /* 
+     * transition: transform 0.3s ease
+     * Suaviza a animação de qualquer mudança na propriedade 'transform'.
+     * Quando a transformação ocorrer (ex: no hover), levará 0.3 segundos
+     * com uma aceleração 'ease' (começa devagar, acelera, desacelera no fim).
+     */
     transition: transform 0.3s ease;
+
+    /* 
+     * border-radius: 16px
+     * Arredonda os cantos da imagem do logo em 16 pixels.
+     * Dá um aspecto mais suave e integrado ao design.
+     */
     border-radius: 16px;
+
+    /* 
+     * background: rgba(0, 0, 0, 0.2)
+     * Adiciona um fundo preto com 20% de opacidade atrás da imagem.
+     * Útil se o logo tiver áreas transparentes ou for muito claro, garantindo contraste.
+     */
     background: rgba(0, 0, 0, 0.2);
+
+    /* 
+     * padding: 4px
+     * Espaçamento interno de 4px. Cria uma pequena borda entre a imagem e o fundo
+     * definido acima, ou entre a imagem e a borda arredondada.
+     */
     padding: 4px;
 }
 
+/*
+ * Efeito ao passar o mouse sobre o logo.
+ * A pseudo-classe :hover é ativada quando o cursor do mouse está sobre o elemento.
+ */
 .logo-simbolo:hover {
+    /* 
+     * transform: scale(1.02)
+     * Aumenta o elemento em 2% (1.02 = 102% do tamanho original).
+     * Combinado com o 'transition' definido acima, o crescimento é suave e sutil.
+     */
     transform: scale(1.02);
 }
 
+/*
+ * TÍTULO PRINCIPAL H1
+ * Representa o título mais importante da página (geralmente o nome do portfólio).
+ */
 h1 {
+    /* 
+     * font-size: 3.9rem
+     * Tamanho da fonte: 3.9rem = 3.9 * 16px = aproximadamente 62.4px.
+     * Um tamanho grande e impactante para o título principal.
+     */
     font-size: 3.9rem;
+
+    /* 
+     * background: linear-gradient(135deg, #e0f0ff, #7accee, #5aeecc)
+     * Cria um gradiente linear de 135 graus (diagonal, da esquerda inferior para direita superior).
+     * As cores do gradiente: azul muito claro -> azul médio -> verde-água.
+     * Este gradiente será usado como COR DE FUNDO do texto.
+     */
     background: linear-gradient(135deg, #e0f0ff, #7accee, #5aeecc);
+
+    /* 
+     * background-clip: text
+     * Esta é a propriedade mágica! Ela faz com que o fundo (no caso, o gradiente)
+     * seja recortado para se ajustar exatamente ao formato do texto.
+     * O resultado é que o texto parece ter uma cor gradiente.
+     * Suporte em navegadores modernos.
+     */
     background-clip: text;
+
+    /* 
+     * -webkit-background-clip: text
+     * Versão com prefixo para compatibilidade com navegadores baseados em WebKit
+     * (Chrome, Safari, Edge, Opera, etc). Necessária para garantir o funcionamento.
+     */
     -webkit-background-clip: text;
+
+    /* 
+     * color: transparent
+     * Torna a cor do texto propriamente dita completamente transparente.
+     * Assim, o que vemos é o GRADIENTE que está atrás (graças ao background-clip: text).
+     * Se a cor não fosse transparente, ela se sobreporia ao gradiente.
+     */
     color: transparent;
+
+    /* 
+     * letter-spacing: 2px
+     * Adiciona 2 pixels de espaçamento entre cada caractere do texto.
+     * Torna o título mais arejado e com um visual mais moderno.
+     */
     letter-spacing: 2px;
+
+    /* 
+     * font-weight: 700
+     * Define a espessura da fonte. 700 é equivalente a 'bold' (negrito).
+     * A maioria das fontes suporta valores de 100 (mais fino) a 900 (mais grosso).
+     */
     font-weight: 700;
+
+    /* 
+     * text-shadow: 0 0 15px rgba(0, 200, 220, 0.3)
+     * Adiciona uma sombra externa ao texto (não ao container).
+     * offset-x: 0 | offset-y: 0 | blur-radius: 15px | cor: ciano com 30% opacidade.
+     * Cria um efeito de brilho suave (glow) ao redor das letras.
+     */
     text-shadow: 0 0 15px rgba(0, 200, 220, 0.3);
 }
 
+/*
+ * .tagline
+ * Texto de apoio ou subtítulo que aparece abaixo do título principal.
+ */
 .tagline {
+    /* 
+     * font-size: 1rem
+     * Tamanho padrão da fonte: 1rem = 16px (a menos que a raiz seja modificada).
+     * É o tamanho base para texto corrido.
+     */
     font-size: 1rem;
+
+    /* 
+     * letter-spacing: 2px
+     * Mesmo espaçamento entre letras do título, mantendo a coerência visual.
+     */
     letter-spacing: 2px;
+
+    /* 
+     * color: #c5eaff
+     * Define a cor do texto como um azul bem claro e suave.
+     * Contrasta com o fundo escuro e combina com o tema tecnológico.
+     */
     color: #c5eaff;
+
+    /* 
+     * font-weight: 600
+     * Peso semi-negrito (600). Um pouco mais grosso que o normal (400),
+     * mas não tão grosso quanto o bold (700).
+     */
     font-weight: 600;
+
+    /* 
+     * margin: 0.5rem 0
+     * Margem externa:
+     * - 0.5rem (8px) no topo e na base (vertical)
+     * - 0 nas laterais (horizontal)
+     */
     margin: 0.5rem 0;
+
+    /* 
+     * border-top e border-bottom
+     * Adiciona bordas tracejadas (dashed) nas partes superior e inferior.
+     * Isso cria uma linha de destaque que "emoldura" visualmente a tagline.
+     */
     border-top: 1px dashed #5aaece;
     border-bottom: 1px dashed #5aaece;
+
+    /* 
+     * display: inline-block
+     * Por padrão, um <p> ou <div> é block (ocupa toda a linha).
+     * inline-block faz o elemento ocupar apenas a largura do seu conteúdo,
+     * permitindo que outros elementos (se houvessem) fiquem na mesma linha.
+     * Aqui, faz a tagline ficar centralizada e com largura ajustada ao texto.
+     */
     display: inline-block;
+
+    /* 
+     * padding: 0.4rem 1.2rem
+     * Espaçamento interno:
+     * - 0.4rem (6.4px) no topo/base
+     * - 1.2rem (19.2px) nas laterais
+     * Dá um "respiro" entre o texto e as bordas tracejadas.
+     */
     padding: 0.4rem 1.2rem;
+
+    /* 
+     * backdrop-filter: blur(4px)
+     * Aplica desfoque de 4px no fundo atrás da tagline.
+     * Melhora a legibilidade quando o fundo tem muito contraste.
+     */
     backdrop-filter: blur(4px);
 }
 
+/*
+ * .code-snippet
+ * Simula um trecho de código, usado para dar um toque "tech" à apresentação.
+ */
 .code-snippet {
+    /* 
+     * background: rgba(30, 46, 62, 0.8)
+     * Fundo escuro azulado com 80% opacidade, quase opaco.
+     * Garante que o "código" seja bem legível.
+     */
     background: rgba(30, 46, 62, 0.8);
+
+    /* 
+     * padding: 0.5rem 1.2rem
+     * Espaçamento interno confortável: 8px vertical, ~19px horizontal.
+     */
     padding: 0.5rem 1.2rem;
+
+    /* 
+     * border-radius: 40px
+     * Valor alto para criar um formato de "pílula" (retângulo com bordas muito arredondadas).
+     */
     border-radius: 40px;
+
+    /* 
+     * display: inline-block
+     * Faz com que o elemento ocupe apenas a largura do seu conteúdo,
+     * permitindo centralização fácil e layout mais compacto.
+     */
     display: inline-block;
+
+    /* 
+     * font-family: 'Courier New', monospace
+     * Força uma fonte monoespaçada (cada caractere tem a mesma largura),
+     * que é o padrão para representar código de programação.
+     */
     font-family: 'Courier New', monospace;
+
+    /* 
+     * color: #7affd0
+     * Cor verde-menta claro, típica de sintaxe de código em muitos editores.
+     */
     color: #7affd0;
+
+    /* 
+     * font-size: 1.04rem
+     * Ligeiramente maior que o padrão (1rem = 16px, 1.04rem ≈ 16.6px).
+     * Pequeno destaque sem exageros.
+     */
     font-size: 1.04rem;
+
+    /* 
+     * border: 1px solid #3acce0
+     * Borda sólida de 1px na cor ciano, reforçando o visual "tech".
+     */
     border: 1px solid #3acce0;
+
+    /* 
+     * margin-top: 0.8rem
+     * Espaço acima de 0.8rem (≈13px), separando o snippet da tagline.
+     */
     margin-top: 0.8rem;
+
+    /* 
+     * box-shadow: 0 0 10px rgba(0, 200, 210, 0.2)
+     * Sombra externa com brilho ciano, dando um leve "glow" ao elemento.
+     */
     box-shadow: 0 0 10px rgba(0, 200, 210, 0.2);
+
+    /* 
+     * font-weight: 500
+     * Peso da fonte médio (500). Entre o normal (400) e o semi-negrito (600).
+     */
     font-weight: 500;
 }
 
@@ -145,6 +696,10 @@ h1 {
    4. BOTÃO DE VOLTAR (PÁGINA SOBRE)
    ========================================================================== */
 
+/*
+ * .btn-voltar
+ * Botão de retorno que permite ao usuário voltar facilmente para a página inicial do portfólio.
+ */
 .btn-voltar {
     display: inline-flex;
     align-items: center;
@@ -174,36 +729,424 @@ h1 {
 }
 
 /* ==========================================================================
-   5. CARROSSEL DE PROJETOS - 2 CARDS POR VEZ COM ROLAGEM UM A UM
+   5. PÁGINA "SOBRE GISELE NUNES" - ESTILOS ESPECÍFICOS
    ========================================================================== */
 
-.carrossel-container {
-    position: relative;
-    margin: 1.5rem auto;
-    padding: 0 3.5rem;
-    overflow: hidden;
-    width: 95%;
+/*
+ * .sobre-container
+ * Container principal da página sobre.
+ */
+.sobre-container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
+/*
+ * .profile-card
+ * Card principal que exibe o perfil e as informações de contato.
+ */
+.profile-card {
+    background: rgba(25, 35, 50, 0.7);
+    backdrop-filter: blur(12px);
+    border-radius: 2rem;
+    padding: 1.8rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(0, 200, 220, 0.4);
+    transition: all 0.3s ease;
+}
+
+.profile-card:hover {
+    border-color: #2acce0;
+    box-shadow: 0 0 20px rgba(0, 200, 230, 0.2);
+}
+
+/*
+ * .perfil-linha
+ * Linha de perfil que organiza avatar e dados lado a lado.
+ */
+.perfil-linha {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+}
+
+/*
+ * .avatar-wrapper
+ * Envoltório da imagem de avatar.
+ */
+.avatar-wrapper {
+    flex-shrink: 0;
+}
+
+/*
+ * .avatar-img
+ * Estilo para a imagem do avatar.
+ */
+.avatar-img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #2acce0;
+    box-shadow: 0 0 15px rgba(42, 204, 224, 0.4);
+    background: #0a1a2a;
+    padding: 4px;
+}
+
+/*
+ * .info-dados
+ * Div que contém as informações textuais e de contato.
+ */
+.info-dados {
+    flex: 1;
+}
+
+.info-dados h2 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+/*
+ * .badge-idade
+ * Badge que exibe a idade calculada dinamicamente.
+ */
+.badge-idade {
+    display: inline-block;
+    background: rgba(42, 204, 224, 0.2);
+    border: 1px solid #2acce0;
+    border-radius: 50px;
+    padding: 0.3rem 1rem;
+    font-size: 0.85rem;
+    color: #7affd0;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+/*
+ * .contato-item
+ * Item de contato individual (telefone, e-mail, localização).
+ */
+.contato-item {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin: 0.8rem 0;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.contato-item:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/*
+ * .contato-icone
+ * Ícone representando o tipo de contato.
+ */
+.contato-icone {
+    font-size: 1.2rem;
+}
+
+/*
+ * .contato-texto
+ * Texto do contato.
+ */
+.contato-texto {
+    color: #c5ecff;
+    font-size: 0.95rem;
+    flex: 1;
+    word-break: break-all;
+}
+
+/*
+ * .btn-copiar
+ * Botão que copia o conteúdo do contato.
+ */
+.btn-copiar {
+    background: linear-gradient(95deg, #1a8aaa, #0e6e8a);
+    border: none;
+    padding: 0.3rem 0.8rem;
+    border-radius: 40px;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-copiar:hover {
+    background: linear-gradient(95deg, #2ac0e0, #1a90b0);
+    transform: scale(1.02);
+    box-shadow: 0 0 8px rgba(0, 200, 220, 0.4);
+}
+
+/*
+ * .card-projeto (reaproveitado da página inicial)
+ * Card que apresenta a trajetória e o propósito profissional.
+ */
+.card-projeto {
+    background: rgba(25, 35, 50, 0.7);
+    backdrop-filter: blur(12px);
+    border-radius: 1.5rem;
+    padding: 1.8rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(0, 200, 220, 0.4);
+    transition: all 0.3s ease;
+}
+
+.card-projeto:hover {
+    border-color: #00ddff;
+    box-shadow: 0 0 20px rgba(0, 200, 230, 0.25);
+    transform: translateY(-3px);
+    background: rgba(30, 42, 60, 0.75);
+}
+
+.card-projeto h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    color: #ffffff;
+}
+
+.card-projeto .descricao-principal {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/*
+ * Títulos H2 da página sobre
+ */
+.sobre-container h2 {
+    font-size: 1.8rem;
+    margin: 1.5rem 0 1rem 0;
+    color: #ffffff;
+    background: linear-gradient(135deg, #ffffff, #7accee);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    display: inline-block;
+}
+
+/*
+ * .formacao-grid
+ * Grid que organiza os cards de formação em layout responsivo.
+ */
+.formacao-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+/*
+ * .card-formacao
+ * Card individual de formação acadêmica.
+ */
+.card-formacao {
+    background: rgba(25, 35, 50, 0.7);
+    backdrop-filter: blur(12px);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(0, 200, 220, 0.4);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.card-formacao:hover {
+    border-color: #2acce0;
+    transform: translateY(-3px);
+    box-shadow: 0 0 15px rgba(0, 200, 230, 0.2);
+}
+
+/*
+ * .curso-logo-wrapper
+ * Envoltório para a logo da instituição de ensino.
+ */
+.curso-logo-wrapper {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*
+ * .logo-instituicao
+ * Logo da instituição de ensino - Fundo BRANCO com borda ciano e efeito suave
+ */
+.logo-instituicao {
+    width: 110px;
+    height: 90px;
+    object-fit: contain;
+    border-radius: 16px;
+    padding: 8px;
+    background: #ffffff;
+    backdrop-filter: none;
+    border: 1px solid rgba(0, 200, 220, 0.6);
+    transition: all 0.25s ease-in-out;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.logo-instituicao:hover {
+    border-color: #2acce0;
+    transform: translateY(-3px);
+    box-shadow: 0 0 14px rgba(0, 200, 230, 0.4);
+    background: #f8f9fa;
+}
+
+.logo-instituicao.fallback-logo {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+}
+
+/*
+ * .curso-titulo
+ * Título do curso com ícone temático.
+ */
+.curso-titulo {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.3px;
+}
+
+/*
+ * .curso-periodo
+ * Período de realização do curso.
+ */
+.curso-periodo {
+    font-size: 0.85rem;
+    color: #7affd0;
+    margin-bottom: 0.8rem;
+}
+
+/*
+ * .curso-desc
+ * Descrição resumida dos conhecimentos adquiridos.
+ */
+.curso-desc {
+    font-size: 0.9rem;
+    color: #c5ecff;
+    line-height: 1.5;
+    text-align: left;
+}
+
+/*
+ * .diferenciais-container
+ * Container para diferenciais: áreas de atuação e filosofia de trabalho.
+ */
+.diferenciais-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+/*
+ * .citacao
+ * Citação motivacional e visão pessoal, destacada visualmente.
+ */
+.citacao {
+    background: rgba(0, 0, 0, 0.3);
+    border-left: 4px solid #2acce0;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: #e0f0ff;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/*
+ * .footer
+ * Rodapé da página, alinhado com o design original do portfólio.
+ */
+.footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1rem;
+    border-top: 1px solid rgba(0, 180, 200, 0.3);
+    font-size: 0.9rem;
+    color: #c0d8f0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 500;
+}
+
+/*
+ * .footer-separator
+ * Separador visual entre os textos do rodapé.
+ */
+.footer-separator {
+    opacity: 0.6;
+}
+
+/* ==========================================================================
+   6. CARROSSEL DE PROJETOS - AJUSTADO PARA EXIBIÇÃO CORRETA
+   ========================================================================== */
+
+/*
+ * .carrossel-container
+ * Container principal do carrossel. Envolve os slides e os botões de navegação.
+ * IMPORTANTE: Deve ter overflow hidden para esconder slides fora da área visível
+ */
+.carrossel-container {
+    position: relative;
+    margin: 1.5rem 0;
+    padding: 0 3rem;
+    overflow: hidden;
+    /* Esconde os slides que estão fora da área visível */
+    width: 100%;
+}
+
+/*
+ * .carrossel-slides
+ * Container que agrupa todos os slides lado a lado (horizontalmente).
+ * A largura deve ser totalSlides * 100% e a transição é aplicada aqui
+ */
 .carrossel-slides {
     display: flex;
     transition: transform 0.4s ease-out;
     width: 100%;
     will-change: transform;
-    gap: 1.5rem;
+    /* Otimiza a animação */
 }
 
+/*
+ * .carrossel-item
+ * Cada slide individual do carrossel.
+ * flex: 0 0 100% - Garante que cada slide ocupe exatamente 100% da largura do container pai
+ * Isso é CRÍTICO para o funcionamento correto do carrossel
+ */
 .carrossel-item {
-    flex-shrink: 0;
+    flex: 0 0 100%;
     min-width: 0;
+    /* Previne problemas de overflow em flexbox */
     padding: 0.5rem;
 }
 
+/*
+ * Cards dos projetos dentro do carrossel
+ * AJUSTADO: largura máxima reduzida e centralizado para melhor harmonia visual
+ */
 .card-projeto {
     background: rgba(25, 35, 50, 0.85);
     backdrop-filter: blur(12px);
     border-radius: 1.5rem;
-    padding: 1.5rem;
+    padding: 1.8rem;
     border: 1px solid rgba(0, 200, 220, 0.4);
     transition: all 0.3s ease;
     text-align: center;
@@ -211,8 +1154,12 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* NOVOS AJUSTES: reduz largura horizontal e melhora proporção vertical */
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
     width: 100%;
-    min-height: 400px;
+    min-height: 480px;
     justify-content: space-between;
 }
 
@@ -223,13 +1170,17 @@ h1 {
     background: rgba(30, 42, 60, 0.9);
 }
 
+/*
+ * .logo-projeto
+ * Estilo para as imagens/logos dos projetos dentro dos cards.
+ */
 .logo-projeto {
-    width: 120px;
-    height: 95px;
+    width: 140px;
+    height: 110px;
     object-fit: contain;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.8rem;
     border-radius: 12px;
-    padding: 6px;
+    padding: 8px;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -247,14 +1198,18 @@ h1 {
     background: #000000;
 }
 
+/* Fundo branco específico para a logo ODS */
 .logo-projeto[src*="logo_ODS_3"] {
     background: #ffffff !important;
-    padding: 6px;
+    padding: 8px;
     object-fit: contain;
 }
 
+/*
+ * TÍTULO DO PROJETO (H3)
+ */
 h3 {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     color: #ffffff;
     margin-bottom: 0.3rem;
     font-weight: 700;
@@ -262,28 +1217,40 @@ h3 {
     letter-spacing: 0.5px;
 }
 
+/*
+ * .desc-curta
+ * Descrição breve, geralmente o tipo ou categoria do projeto.
+ */
 .desc-curta {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: #c5ecff;
     background: rgba(0, 0, 0, 0.35);
     display: inline-block;
-    padding: 0.2rem 0.6rem;
+    padding: 0.2rem 0.8rem;
     border-radius: 50px;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.8rem;
     font-weight: 500;
 }
 
+/*
+ * .descricao-principal
+ * Texto principal que descreve o projeto em detalhes.
+ */
 .descricao-principal {
     color: #f0f8ff;
-    line-height: 1.4;
-    margin: 0.6rem 0;
-    font-size: 0.85rem;
+    line-height: 1.45;
+    margin: 0.8rem 0;
+    font-size: 0.9rem;
     font-weight: 500;
     flex: 1;
     display: flex;
     align-items: center;
 }
 
+/*
+ * .btn-projeto
+ * Botão de ação do projeto.
+ */
 .btn-projeto {
     display: inline-flex;
     align-items: center;
@@ -291,15 +1258,15 @@ h3 {
     gap: 6px;
     background: linear-gradient(95deg, #1a8aaa, #0e6e8a);
     border: none;
-    padding: 0.45rem 1rem;
+    padding: 0.5rem 1.2rem;
     border-radius: 40px;
     color: white;
     font-weight: bold;
     text-decoration: none;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     transition: 0.2s;
     cursor: pointer;
-    margin-top: 0.6rem;
+    margin-top: 0.8rem;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -310,14 +1277,14 @@ h3 {
 }
 
 /* ==========================================================================
-   6. BOTÕES DE NAVEGAÇÃO DO CARROSSEL - COMPLETAMENTE VISÍVEIS
+   7. BOTÕES DE NAVEGAÇÃO DO CARROSSEL
    ========================================================================== */
 
 .carrossel-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(30, 55, 75, 0.95);
+    background: rgba(30, 55, 75, 0.9);
     border: 2px solid #2acce0;
     color: #c0ecff;
     font-size: 1.8rem;
@@ -351,7 +1318,7 @@ h3 {
 }
 
 /* ==========================================================================
-   7. INDICADORES (DOTS) DO CARROSSEL
+   8. INDICADORES (DOTS) DO CARROSSEL
    ========================================================================== */
 
 .carrossel-indicadores {
@@ -378,277 +1345,6 @@ h3 {
 }
 
 /* ==========================================================================
-   8. PÁGINA "SOBRE GISELE NUNES" - ESTILOS ESPECÍFICOS
-   ========================================================================== */
-
-.sobre-container {
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-.profile-card {
-    background: rgba(25, 35, 50, 0.7);
-    backdrop-filter: blur(12px);
-    border-radius: 2rem;
-    padding: 1.8rem;
-    margin-bottom: 2rem;
-    border: 1px solid rgba(0, 200, 220, 0.4);
-    transition: all 0.3s ease;
-}
-
-.profile-card:hover {
-    border-color: #2acce0;
-    box-shadow: 0 0 20px rgba(0, 200, 230, 0.2);
-}
-
-.perfil-linha {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    align-items: center;
-}
-
-.avatar-wrapper {
-    flex-shrink: 0;
-}
-
-.avatar-img {
-    width: 180px;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 3px solid #2acce0;
-    box-shadow: 0 0 15px rgba(42, 204, 224, 0.4);
-    background: #0a1a2a;
-    padding: 4px;
-}
-
-.info-dados {
-    flex: 1;
-}
-
-.info-dados h2 {
-    font-size: 2.2rem;
-    margin-bottom: 0.5rem;
-    text-align: left;
-}
-
-.badge-idade {
-    display: inline-block;
-    background: rgba(42, 204, 224, 0.2);
-    border: 1px solid #2acce0;
-    border-radius: 50px;
-    padding: 0.3rem 1rem;
-    font-size: 0.85rem;
-    color: #7affd0;
-    margin-bottom: 1rem;
-    font-weight: 500;
-}
-
-.contato-item {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.8rem;
-    margin: 0.8rem 0;
-    padding: 0.5rem;
-    background: rgba(0, 0, 0, 0.25);
-    border-radius: 12px;
-    transition: all 0.2s ease;
-}
-
-.contato-item:hover {
-    background: rgba(0, 0, 0, 0.4);
-}
-
-.contato-icone {
-    font-size: 1.2rem;
-}
-
-.contato-texto {
-    color: #c5ecff;
-    font-size: 0.95rem;
-    flex: 1;
-    word-break: break-all;
-}
-
-.btn-copiar {
-    background: linear-gradient(95deg, #1a8aaa, #0e6e8a);
-    border: none;
-    padding: 0.3rem 0.8rem;
-    border-radius: 40px;
-    color: white;
-    font-size: 0.7rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.btn-copiar:hover {
-    background: linear-gradient(95deg, #2ac0e0, #1a90b0);
-    transform: scale(1.02);
-    box-shadow: 0 0 8px rgba(0, 200, 220, 0.4);
-}
-
-.card-projeto {
-    background: rgba(25, 35, 50, 0.7);
-    backdrop-filter: blur(12px);
-    border-radius: 1.5rem;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    border: 1px solid rgba(0, 200, 220, 0.4);
-    transition: all 0.3s ease;
-}
-
-.card-projeto:hover {
-    border-color: #00ddff;
-    box-shadow: 0 0 20px rgba(0, 200, 230, 0.25);
-    transform: translateY(-3px);
-    background: rgba(30, 42, 60, 0.75);
-}
-
-.card-projeto h3 {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-    color: #ffffff;
-}
-
-.card-projeto .descricao-principal {
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-}
-
-.sobre-container h2 {
-    font-size: 1.8rem;
-    margin: 1.5rem 0 1rem 0;
-    color: #ffffff;
-    background: linear-gradient(135deg, #ffffff, #7accee);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    display: inline-block;
-}
-
-.formacao-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin: 1.5rem 0;
-}
-
-.card-formacao {
-    background: rgba(25, 35, 50, 0.7);
-    backdrop-filter: blur(12px);
-    border-radius: 1.5rem;
-    padding: 1.5rem;
-    border: 1px solid rgba(0, 200, 220, 0.4);
-    transition: all 0.3s ease;
-    text-align: center;
-}
-
-.card-formacao:hover {
-    border-color: #2acce0;
-    transform: translateY(-5px);
-    box-shadow: 0 0 15px rgba(0, 200, 230, 0.2);
-}
-
-.curso-logo-wrapper {
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.logo-instituicao {
-    width: 110px;
-    height: 90px;
-    object-fit: contain;
-    border-radius: 16px;
-    padding: 8px;
-    background: #ffffff;
-    backdrop-filter: none;
-    border: 1px solid rgba(0, 200, 220, 0.6);
-    transition: all 0.25s ease-in-out;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.logo-instituicao:hover {
-    border-color: #2acce0;
-    transform: translateY(-3px);
-    box-shadow: 0 0 14px rgba(0, 200, 230, 0.4);
-    background: #f8f9fa;
-}
-
-.logo-instituicao.fallback-logo {
-    background: #ffffff !important;
-    backdrop-filter: none !important;
-}
-
-.curso-titulo {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.3px;
-}
-
-.curso-periodo {
-    font-size: 0.85rem;
-    color: #7affd0;
-    margin-bottom: 0.8rem;
-}
-
-.curso-desc {
-    font-size: 0.9rem;
-    color: #c5ecff;
-    line-height: 1.5;
-    text-align: left;
-}
-
-.diferenciais-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin: 1.5rem 0;
-}
-
-.citacao {
-    background: rgba(0, 0, 0, 0.3);
-    border-left: 4px solid #2acce0;
-    border-radius: 1rem;
-    padding: 1.5rem;
-    margin: 2rem 0;
-    font-size: 1.1rem;
-    font-style: italic;
-    color: #e0f0ff;
-    line-height: 1.6;
-    text-align: center;
-}
-
-.footer {
-    text-align: center;
-    margin-top: 2rem;
-    padding: 1rem;
-    border-top: 1px solid rgba(0, 180, 200, 0.3);
-    font-size: 0.9rem;
-    color: #c0d8f0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-    font-weight: 500;
-}
-
-.footer-separator {
-    opacity: 0.6;
-}
-
-/* ==========================================================================
    9. FALLBACK PARA AVATAR
    ========================================================================== */
 
@@ -672,68 +1368,7 @@ h3 {
    10. RESPONSIVIDADE (MEDIA QUERIES)
    ========================================================================== */
 
-/* Desktop - 2 cards por vez */
-@media (min-width: 992px) {
-    .carrossel-item {
-        width: calc(50% - 0.75rem);
-    }
-
-    .carrossel-slides {
-        gap: 1.5rem;
-    }
-
-    .carrossel-container {
-        width: 90%;
-        padding: 0 3.5rem;
-    }
-
-    .carrossel-btn-prev {
-        left: 0;
-    }
-
-    .carrossel-btn-next {
-        right: 0;
-    }
-}
-
-/* Tablet - 2 cards */
-@media (min-width: 651px) and (max-width: 991px) {
-    .carrossel-item {
-        width: calc(50% - 0.75rem);
-    }
-
-    .carrossel-slides {
-        gap: 1.5rem;
-    }
-
-    .card-projeto {
-        min-height: 380px;
-    }
-
-    h1 {
-        font-size: 3rem;
-    }
-
-    .carrossel-container {
-        width: 92%;
-        padding: 0 3rem;
-    }
-
-    .carrossel-btn-prev {
-        left: 0;
-    }
-
-    .carrossel-btn-next {
-        right: 0;
-    }
-}
-
-/* Mobile Landscape - 1 card */
-@media (min-width: 481px) and (max-width: 650px) {
-    .carrossel-item {
-        width: calc(100% - 0rem);
-    }
-
+@media (max-width: 650px) {
     body {
         padding: 1rem;
     }
@@ -742,37 +1377,32 @@ h3 {
         padding: 1rem;
     }
 
-    .carrossel-container {
-        padding: 0 2.5rem;
-        width: 95%;
+    h1 {
+        font-size: 2.81rem;
     }
 
-    .carrossel-slides {
-        gap: 1rem;
+    .carrossel-container {
+        padding: 0 1.8rem;
     }
 
     .carrossel-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1.5rem;
+        width: 38px;
+        height: 38px;
+        font-size: 1.3rem;
     }
 
     .carrossel-btn-prev {
-        left: 0;
+        left: -8px;
     }
 
     .carrossel-btn-next {
-        right: 0;
-    }
-
-    h1 {
-        font-size: 2.4rem;
+        right: -8px;
     }
 
     .logo-projeto {
-        width: 100px;
-        height: 80px;
-        padding: 5px;
+        width: 110px;
+        height: 85px;
+        padding: 6px;
     }
 
     .logo-simbolo {
@@ -785,20 +1415,15 @@ h3 {
     }
 
     .code-snippet {
-        font-size: 0.85rem;
-        padding: 0.4rem 0.8rem;
+        font-size: 0.91rem;
+        padding: 0.4rem 1rem;
     }
 
     .footer {
-        font-size: 0.7rem;
-        flex-direction: column;
-        gap: 0.3rem;
+        font-size: 0.78rem;
     }
 
-    .footer span:not(:first-child) {
-        display: none;
-    }
-
+    /* Ajustes página sobre */
     .perfil-linha {
         flex-direction: column;
         text-align: center;
@@ -807,7 +1432,6 @@ h3 {
 
     .info-dados h2 {
         text-align: center;
-        font-size: 1.8rem;
     }
 
     .badge-idade {
@@ -833,9 +1457,10 @@ h3 {
         padding: 1.2rem;
     }
 
+    /* Ajuste para cards do carrossel em telas menores */
     .card-projeto {
-        max-width: 100%;
-        min-height: 360px;
+        max-width: 320px;
+        min-height: 440px;
     }
 
     .sobre-container h2 {
@@ -859,69 +1484,30 @@ h3 {
     }
 }
 
-/* Mobile pequeno - 1 card */
 @media (max-width: 480px) {
-    .carrossel-item {
-        width: calc(100% - 0rem);
-    }
-
     .carrossel-container {
-        padding: 0 2rem;
-        width: 95%;
+        padding: 0 1rem;
     }
 
     .carrossel-btn-prev {
-        left: 0;
+        left: -12px;
     }
 
     .carrossel-btn-next {
-        right: 0;
+        right: -12px;
     }
 
     .carrossel-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 1.3rem;
-    }
-
-    h1 {
-        font-size: 1.8rem;
-    }
-
-    .tagline {
-        font-size: 0.85rem;
-        padding: 0.3rem 0.8rem;
-    }
-
-    .logo-simbolo {
-        height: 48px;
-    }
-
-    .card-projeto {
-        padding: 1rem;
-        min-height: 340px;
-    }
-
-    .logo-projeto {
-        width: 85px;
-        height: 70px;
-    }
-
-    h3 {
+        width: 32px;
+        height: 32px;
         font-size: 1.1rem;
     }
 
-    .desc-curta {
-        font-size: 0.65rem;
-    }
-
-    .descricao-principal {
-        font-size: 0.7rem;
-    }
-
-    .btn-projeto {
-        font-size: 0.7rem;
-        padding: 0.35rem 0.7rem;
+    /* Ajuste adicional para cards em telas muito pequenas */
+    .card-projeto {
+        max-width: 280px;
+        min-height: 420px;
+        padding: 1.2rem;
     }
 
     .logo-instituicao {
@@ -930,36 +1516,4 @@ h3 {
         padding: 5px;
     }
 
-    .citacao {
-        font-size: 0.85rem;
-        padding: 0.8rem;
-    }
-}
-
-/* Suporte para telas muito grandes */
-@media (min-width: 1920px) {
-    .wrapper {
-        max-width: 1600px;
-    }
-
-    .carrossel-item {
-        width: calc(50% - 0.75rem);
-    }
-
-    h1 {
-        font-size: 4.5rem;
-    }
-
-    .tagline {
-        font-size: 1.2rem;
-    }
-
-    .card-projeto {
-        min-height: 420px;
-    }
-
-    .carrossel-container {
-        width: 85%;
-        padding: 0 4rem;
-    }
 }
