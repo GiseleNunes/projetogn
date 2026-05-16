@@ -6,289 +6,313 @@
 //           que permitem a troca manual de slides, além de gerenciar
 //           as funcionalidades da página sobre (cálculo de idade,
 //           botões de copiar, fallback de imagens, etc.)
-//           O carrossel exibe 2 cards por vez em desktop/tablet,
-//           1 card em mobile, com rolagem um a um.
+//           
+//           🆕 VERSÃO CARROSSEL ATUALIZADA: Sistema de scroll suave
+//           com navegação por setas, dots clicáveis e suporte a teclado
+//           (totalmente compatível com o estilo do projetosrb)
+//           
 // Autor : Gisele Nunes
-// Data  : 2026
+// Data  : 2026 (Atualizado com sistema de carrossel estilo projetosrb)
 // ===================================================================
 
+// IIFE (Immediately Invoked Function Expression) para isolar o escopo
 (function () {
-  // ===================================================================
-  //   PARTE 1: SISTEMA DE CARROSSEL - ROLAGEM UM A UM
-  // ===================================================================
+  // ============================================================
+  // FUNCIONALIDADES DO PORTFÓLIO PRINCIPAL (index.html)
+  // ============================================================
 
-  // Obtém o elemento HTML que contém todos os slides (container flex)
-  const slidesContainer = document.getElementById('carrosselSlides');
+  // 1. Obtém o elemento do botão "Projeto Futuro" pelo seu ID
+  const btnFuture = document.getElementById('btnProjetoFuturo');
 
-  // Obtém todos os elementos individuais que representam cada slide (card)
-  const items = document.querySelectorAll('.carrossel-item');
-
-  // Obtém o botão de navegação para o slide anterior
-  const prevBtn = document.getElementById('btnPrev');
-
-  // Obtém o botão de navegação para o próximo slide
-  const nextBtn = document.getElementById('btnNext');
-
-  // Obtém o container onde os indicadores (dots) serão inseridos
-  const indicatorsContainer = document.getElementById('carrosselIndicadores');
-
-  // Índice do primeiro slide visível (começa no primeiro slide: índice 0)
-  let currentIndex = 0;
-
-  // Quantidade total de slides presentes no carrossel
-  const totalSlides = items.length;
-
-  // Número de cards visíveis por vez (ajustado dinamicamente com base na largura)
-  let cardsPerView = getCardsPerView();
-
-  // Função para determinar quantos cards exibir por vez com base na largura da tela
-  function getCardsPerView() {
-    const width = window.innerWidth;
-    if (width >= 651) {
-      return 2; // Desktop e tablet: 2 cards
-    } else {
-      return 1; // Mobile: 1 card
-    }
-  }
-
-  // Número total de "páginas" no carrossel
-  let totalPages = Math.ceil(totalSlides / cardsPerView);
-
-  // Função que atualiza a largura de cada item com base nos cards por vez
-  function updateItemWidth() {
-    if (!slidesContainer) return;
-
-    // Calcula a largura baseada no número de cards por vez
-    const gap = 1.5; // gap em rem
-    const gapPx = gap * parseFloat(getComputedStyle(document.documentElement).fontSize);
-    const containerWidth = slidesContainer.parentElement.clientWidth;
-
-    items.forEach(item => {
-      if (cardsPerView === 2) {
-        // Para 2 cards: (100% - gap) / 2
-        item.style.width = `calc((100% - ${gap}rem) / 2)`;
-      } else {
-        // Para 1 card: 100%
-        item.style.width = `calc(100% - 0rem)`;
-      }
-    });
-  }
-
-  // Função responsável por atualizar a posição do carrossel e os indicadores
-  function updateCarrossel() {
-    if (!slidesContainer) return;
-
-    // Recalcula total de páginas
-    totalPages = Math.ceil(totalSlides / cardsPerView);
-
-    // Garante que currentIndex esteja dentro dos limites
-    if (currentIndex >= totalPages) {
-      currentIndex = totalPages - 1;
-    }
-    if (currentIndex < 0) {
-      currentIndex = 0;
-    }
-
-    // Calcula o deslocamento baseado no índice atual
-    // Cada "página" equivale a 100% da largura visível do container
-    const offset = -currentIndex * 100;
-
-    // Aplica a transformação CSS translateX no eixo horizontal
-    slidesContainer.style.transform = `translateX(${offset}%)`;
-
-    // Atualiza os indicadores (dots)
-    updateIndicators();
-  }
-
-  // Função que altera a classe visual dos indicadores (dots)
-  function updateIndicators() {
-    const dots = document.querySelectorAll('.dot');
-
-    dots.forEach((dot, idx) => {
-      if (idx === currentIndex) {
-        dot.classList.add('active');
-      } else {
-        dot.classList.remove('active');
-      }
-    });
-  }
-
-  // Função que cria os indicadores (dots) dinamicamente no HTML
-  function createIndicators() {
-    if (!indicatorsContainer || totalPages === 0) return;
-
-    // Limpa o conteúdo interno do container
-    indicatorsContainer.innerHTML = '';
-
-    // Cria um dot para cada página disponível
-    for (let i = 0; i < totalPages; i++) {
-      const dot = document.createElement('button');
-      dot.classList.add('dot');
-      if (i === currentIndex) dot.classList.add('active');
-
-      // Adiciona evento de clique para navegar diretamente para a página
-      dot.addEventListener('click', (function (index) {
-        return function () {
-          currentIndex = index;
-          updateCarrossel();
-        };
-      })(i));
-
-      indicatorsContainer.appendChild(dot);
-    }
-  }
-
-  // Função que avança para o próximo conjunto de cards (um a um)
-  function nextSlide() {
-    if (totalPages === 0) return;
-    if (currentIndex < totalPages - 1) {
-      currentIndex++;
-      updateCarrossel();
-    }
-  }
-
-  // Função que volta para o conjunto anterior de cards (um a um)
-  function prevSlide() {
-    if (totalPages === 0) return;
-    if (currentIndex > 0) {
-      currentIndex--;
-      updateCarrossel();
-    }
-  }
-
-  // Função para reconfigurar o carrossel em caso de redimensionamento
-  function reconfigureCarrossel() {
-    const newCardsPerView = getCardsPerView();
-
-    if (newCardsPerView !== cardsPerView) {
-      cardsPerView = newCardsPerView;
-      totalPages = Math.ceil(totalSlides / cardsPerView);
-
-      // Ajusta o índice atual se necessário
-      if (currentIndex >= totalPages) {
-        currentIndex = totalPages - 1;
-      }
-      if (currentIndex < 0) {
-        currentIndex = 0;
-      }
-
-      updateItemWidth();
-      createIndicators();
-      updateCarrossel();
-    } else {
-      updateItemWidth();
-      updateCarrossel();
-    }
-  }
-
-  // Configura os event listeners apenas se os elementos existirem
-  if (nextBtn) {
-    nextBtn.addEventListener('click', nextSlide);
-  }
-
-  if (prevBtn) {
-    prevBtn.addEventListener('click', prevSlide);
-  }
-
-  // Adiciona suporte para teclas de navegação (setas do teclado)
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowLeft') {
-      prevSlide();
-    } else if (e.key === 'ArrowRight') {
-      nextSlide();
-    }
-  });
-
-  // Adiciona listener para redimensionamento da tela
-  let resizeTimeout;
-  window.addEventListener('resize', function () {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(reconfigureCarrossel, 250);
-  });
-
-  // Inicializa o carrossel apenas se houver slides
-  if (totalSlides > 0) {
-    cardsPerView = getCardsPerView();
-    totalPages = Math.ceil(totalSlides / cardsPerView);
-    updateItemWidth();
-    createIndicators();
-    updateCarrossel();
-  }
-
-  // ========== BOTÃO DE PROJETO FUTURO ==========
-  const btnFuturo = document.getElementById('btnProjetoFuturo');
-
-  if (btnFuturo) {
-    btnFuturo.addEventListener('click', () => {
+  // Verifica se o botão existe na página
+  if (btnFuture) {
+    // Adiciona um listener para o evento de clique no botão
+    btnFuture.addEventListener('click', (e) => {
+      e.preventDefault();
       alert('✨ Novos horizontes em construção — IDEIAS • CÓDIGO • SOLUÇÕES ✨');
     });
   }
-})();
 
-// ===================================================================
-//   PARTE 2: PÁGINA SOBRE GISELE NUNES
-// ===================================================================
-(function () {
-  // ===================================================================
-  //   Cálculo Automático de Idade e Funcionalidade Copiar
-  // ===================================================================
+  // 2. Seleciona todos os links externos que abrem em nova aba
+  const externalLinks = document.querySelectorAll('.btn-projeto[target="_blank"]');
 
-  // ========== CÁLCULO DE IDADE ==========
-  const idadeSpan = document.getElementById('idadeDinamica');
+  // Para cada link encontrado, aplica configurações de segurança
+  externalLinks.forEach(link => {
+    link.setAttribute('rel', 'noopener noreferrer');
+  });
 
-  if (idadeSpan) {
-    function calcularIdade(dataNascimento) {
-      const hoje = new Date();
-      const nascimento = new Date(dataNascimento);
-      let idade = hoje.getFullYear() - nascimento.getFullYear();
-      const mesAtual = hoje.getMonth();
-      const mesNascimento = nascimento.getMonth();
-      const diaAtual = hoje.getDate();
-      const diaNascimento = nascimento.getDate();
+  // ============================================================
+  // 🆕 FUNCIONALIDADES DO CARROSSEL (SISTEMA DE SCROLL SUAVE)
+  // ============================================================
 
-      if (mesAtual < mesNascimento || (mesAtual === mesNascimento && diaAtual < diaNascimento)) {
-        idade--;
-      }
-      return idade;
+  // Verifica se os elementos do carrossel existem na página
+  const carrosselSlides = document.getElementById('carrosselSlides');
+  const btnPrev = document.getElementById('btnPrev');
+  const btnNext = document.getElementById('btnNext');
+  const indicadoresContainer = document.getElementById('carrosselIndicadores');
+
+  // Só executa a lógica do carrossel se os elementos existirem
+  if (carrosselSlides && btnPrev && btnNext && indicadoresContainer) {
+
+    // Obtém todos os slides (itens do carrossel)
+    const slides = document.querySelectorAll('.carrossel-item');
+    const totalSlides = slides.length;
+
+    // Variável para controlar o índice atual
+    let currentIndex = 0;
+
+    // Flag para evitar múltiplos scrolls simultâneos
+    let isScrolling = false;
+
+    /**
+     * Função: atualizarIndicadores
+     * Descrição: Atualiza a classe 'ativo' nos indicadores (dots)
+     *            baseado no slide que está visível no momento
+     */
+    function atualizarIndicadores() {
+      // Calcula qual slide está mais visível baseado na posição de scroll
+      const scrollLeft = carrosselSlides.scrollLeft;
+      const slideWidth = slides[0]?.offsetWidth || 0;
+      const gap = 32; // Gap entre os slides (2rem = 32px)
+      const slideTotalWidth = slideWidth + gap;
+
+      // Calcula o índice aproximado baseado no scroll
+      let newIndex = Math.round(scrollLeft / slideTotalWidth);
+
+      // Garante que o índice esteja dentro dos limites
+      newIndex = Math.max(0, Math.min(newIndex, totalSlides - 1));
+
+      // Atualiza o índice atual
+      currentIndex = newIndex;
+
+      // Remove a classe 'ativo' de todos os indicadores e adiciona ao atual
+      document.querySelectorAll('.indicador').forEach((indicador, idx) => {
+        if (idx === currentIndex) {
+          indicador.classList.add('ativo');
+        } else {
+          indicador.classList.remove('ativo');
+        }
+      });
     }
 
-    const idade = calcularIdade('1992-04-10');
-    idadeSpan.innerHTML = `● ${idade} anos • Apaixonada por dados e educação`;
+    /**
+     * Função: scrollParaSlide
+     * Parâmetro: index (número do slide desejado)
+     * Descrição: Rola o carrossel suavemente até o slide especificado
+     */
+    function scrollParaSlide(index) {
+      // Impede execução durante scroll em andamento
+      if (isScrolling) return;
+
+      // Garante que o índice esteja dentro dos limites válidos
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+
+      // Calcula a posição de scroll baseada na largura do slide + gap
+      const slideWidth = slides[0]?.offsetWidth || 0;
+      const gap = 32;
+      const scrollPosition = index * (slideWidth + gap);
+
+      // Marca que está em scroll
+      isScrolling = true;
+
+      // Realiza o scroll suave
+      carrosselSlides.scrollTo({
+        left: scrollPosition,
+        behavior: 'smooth'
+      });
+
+      // Atualiza o índice atual
+      currentIndex = index;
+
+      // Após o scroll, reativa a flag
+      setTimeout(() => {
+        isScrolling = false;
+        atualizarIndicadores();
+      }, 500);
+    }
+
+    /**
+     * Função: slideAnterior
+     * Descrição: Navega para o slide anterior
+     */
+    function slideAnterior() {
+      if (currentIndex > 0) {
+        scrollParaSlide(currentIndex - 1);
+      } else {
+        // Efeito visual para indicar que está no primeiro slide
+        carrosselSlides.style.transform = 'translateX(5px)';
+        setTimeout(() => {
+          carrosselSlides.style.transform = '';
+        }, 200);
+      }
+    }
+
+    /**
+     * Função: proximoSlide
+     * Descrição: Navega para o próximo slide
+     */
+    function proximoSlide() {
+      if (currentIndex < totalSlides - 1) {
+        scrollParaSlide(currentIndex + 1);
+      } else {
+        // Efeito visual para indicar que está no último slide
+        carrosselSlides.style.transform = 'translateX(-5px)';
+        setTimeout(() => {
+          carrosselSlides.style.transform = '';
+        }, 200);
+      }
+    }
+
+    /**
+     * Função: criarIndicadores
+     * Descrição: Cria os indicadores (dots) dinamicamente baseado no número de slides
+     */
+    function criarIndicadores() {
+      // Limpa o container de indicadores
+      indicadoresContainer.innerHTML = '';
+
+      // Cria um indicador para cada slide
+      for (let i = 0; i < totalSlides; i++) {
+        const indicador = document.createElement('div');
+        indicador.classList.add('indicador');
+        // Adiciona evento de clique para navegar diretamente ao slide correspondente
+        indicador.addEventListener('click', () => {
+          scrollParaSlide(i);
+        });
+        indicadoresContainer.appendChild(indicador);
+      }
+
+      // Marca o primeiro indicador como ativo
+      if (totalSlides > 0) {
+        document.querySelectorAll('.indicador')[0]?.classList.add('ativo');
+      }
+    }
+
+    /**
+     * Função: debounce
+     * Descrição: Limita a taxa de execução de uma função
+     */
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    // Cria os indicadores ao carregar a página
+    criarIndicadores();
+
+    // Adiciona os listeners de eventos para os botões de navegação
+    btnPrev.addEventListener('click', slideAnterior);
+    btnNext.addEventListener('click', proximoSlide);
+
+    // Adiciona listener para o evento de scroll no carrossel
+    carrosselSlides.addEventListener('scroll', debounce(() => {
+      atualizarIndicadores();
+    }, 100));
+
+    // Adiciona listener para redimensionamento da janela
+    window.addEventListener('resize', debounce(() => {
+      atualizarIndicadores();
+    }, 200));
+
+    // Suporte a teclado para acessibilidade
+    document.addEventListener('keydown', (e) => {
+      const carrosselContainer = document.querySelector('.carrossel-container');
+      if (carrosselContainer && carrosselContainer.offsetParent !== null) {
+        if (e.key === 'ArrowLeft') {
+          slideAnterior();
+          e.preventDefault();
+        } else if (e.key === 'ArrowRight') {
+          proximoSlide();
+          e.preventDefault();
+        }
+      }
+    });
+
+    // Suporte a touch para dispositivos móveis
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    carrosselSlides.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    carrosselSlides.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diffX = touchEndX - touchStartX;
+      if (Math.abs(diffX) > 50) {
+        if (diffX > 0) {
+          slideAnterior();
+        } else {
+          proximoSlide();
+        }
+      }
+    });
+
+    console.log(`🎠 Carrossel inicializado com ${totalSlides} slides`);
   }
 
-  // ========== FUNCIONALIDADE DE COPIAR TEXTO ==========
+  // ============================================================
+  // FUNCIONALIDADES DA PÁGINA "SOBRE" (bio.html)
+  // ============================================================
+
+  // 1. Cálculo automático da idade
+  function calcularIdade(dataNascimentoStr) {
+    const hoje = new Date();
+    const nascimento = new Date(dataNascimentoStr);
+    let idade = hoje.getFullYear() - nascimento.getFullYear();
+    const mesAtual = hoje.getMonth();
+    const diaAtual = hoje.getDate();
+    const mesNasc = nascimento.getMonth();
+    const diaNasc = nascimento.getDate();
+
+    if (mesAtual < mesNasc || (mesAtual === mesNasc && diaAtual < diaNasc)) {
+      idade--;
+    }
+    return idade;
+  }
+
+  const dataNasc = "1992-04-10";
+  const idade = calcularIdade(dataNasc);
+  const idadeElemento = document.getElementById('idadeDinamica');
+  if (idadeElemento) {
+    idadeElemento.innerHTML = `● ${idade} anos • Apaixonada por dados e educação`;
+  }
+
+  // 2. Funcionalidade de copiar texto
   const botoesCopiar = document.querySelectorAll('.btn-copiar');
-
   botoesCopiar.forEach(botao => {
-    botao.addEventListener('click', function (e) {
+    botao.addEventListener('click', (e) => {
       e.preventDefault();
-      const targetId = this.getAttribute('data-copiar');
-
+      const targetId = botao.getAttribute('data-copiar');
       if (targetId) {
-        const textoElement = document.getElementById(targetId);
-
-        if (textoElement) {
-          const texto = textoElement.innerText.trim();
-
-          navigator.clipboard.writeText(texto).then(() => {
-            const textoOriginal = this.innerText;
-            this.innerText = '✓ Copiado!';
-
+        const elementoTexto = document.getElementById(targetId);
+        if (elementoTexto) {
+          const textoParaCopiar = elementoTexto.innerText.trim();
+          navigator.clipboard.writeText(textoParaCopiar).then(() => {
+            const textoOriginal = botao.innerText;
+            botao.innerText = '✓ Copiado!';
             setTimeout(() => {
-              this.innerText = textoOriginal;
+              botao.innerText = textoOriginal;
             }, 1500);
           }).catch(err => {
-            console.warn('Erro ao copiar: ', err);
-            alert('Não foi possível copiar automaticamente. Selecione o texto manualmente.');
+            console.error('Erro ao copiar: ', err);
+            alert('Não foi possível copiar automaticamente. Copie manualmente.');
           });
         }
       }
     });
   });
 
-  // ========== FALLBACK PARA IMAGEM DE AVATAR ==========
+  // 3. Tratamento de fallback para imagem de avatar
   const avatarImg = document.querySelector('.avatar-img');
-
   if (avatarImg) {
     if (avatarImg.complete && avatarImg.naturalWidth === 0) {
       aplicarFallbackAvatar(avatarImg);
@@ -301,7 +325,6 @@
 
   function aplicarFallbackAvatar(imgElement) {
     imgElement.style.display = 'none';
-
     const fallback = document.createElement('div');
     fallback.className = 'avatar-fallback';
     fallback.textContent = 'GN';
@@ -316,13 +339,11 @@
     fallback.style.fontWeight = 'bold';
     fallback.style.color = 'white';
     fallback.style.border = '3px solid #2acce0';
-
     imgElement.parentNode.appendChild(fallback);
   }
 
-  // ========== FALLBACK PARA LOGOS DAS INSTITUIÇÕES ==========
+  // 4. Tratamento de fallback para logos das instituições
   const logosInstituicao = document.querySelectorAll('.logo-instituicao');
-
   logosInstituicao.forEach(logo => {
     const aplicarFallbackBranco = (imgElement) => {
       if (imgElement.src && imgElement.src.includes('placehold.co')) return;
@@ -346,9 +367,8 @@
     logo.style.backdropFilter = 'none';
   });
 
-  // ========== BOTÃO DE VOLTAR (PARA PÁGINA INICIAL) ==========
+  // 5. Botão de voltar para página inicial
   const btnVoltar = document.querySelector('.btn-voltar');
-
   if (btnVoltar) {
     btnVoltar.addEventListener('click', function (e) {
       if (window.location.pathname.includes('bio.html')) {
@@ -358,4 +378,19 @@
     });
   }
 
+  // ============================================================
+  // MENSAGENS DE CONSOLE
+  // ============================================================
+  console.log("🚀 projetosgn | IDEIAS • CÓDIGO • SOLUÇÕES");
+  console.log("🎠 Carrossel interativo ativo: navegação por setas, dots e teclado.");
+
+  if (document.querySelector('.sobre-container')) {
+    console.log(`📄 Sobre | projetosgn — Idade calculada: ${idade} anos. Contatos com cópia segura.`);
+  }
+
+  if (document.querySelector('.carrossel-container')) {
+    const totalSlidesCarrossel = document.querySelectorAll('.carrossel-item').length;
+    console.log(`✨ Carrossel com ${totalSlidesCarrossel} projetos disponíveis`);
+  }
 })();
+

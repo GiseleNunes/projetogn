@@ -6,8 +6,12 @@
         incluindo layout do carrossel de projetos, página sobre, efeitos de vidro
         (glassmorphism), responsividade e animações. Garante uma experiência
         visual moderna, legível e consistente em diferentes dispositivos.
+        
+        🆕 VERSÃO CARROSSEL ATUALIZADA: Estilos adaptados para scroll suave
+        com navegação por setas e indicadores clicáveis (sistema projetosrb).
+        
     Autor : Gisele Nunes
-    Data  : 2026
+    Data  : 2026 (Atualizado com sistema de carrossel estilo projetosrb)
 ===================================================================*/
 
 /* ==========================================================================
@@ -174,29 +178,50 @@ h1 {
 }
 
 /* ==========================================================================
-   5. CARROSSEL DE PROJETOS - 2 CARDS POR VEZ COM ROLAGEM UM A UM
+   5. CARROSSEL DE PROJETOS - SISTEMA DE SCROLL SUAVE (ESTILO PROJETOSRB)
    ========================================================================== */
 
 .carrossel-container {
     position: relative;
-    margin: 1.5rem auto;
-    padding: 0 3.5rem;
-    overflow: hidden;
-    width: 95%;
+    margin: 2rem 0;
+    padding: 0 2.5rem;
 }
 
 .carrossel-slides {
     display: flex;
-    transition: transform 0.4s ease-out;
-    width: 100%;
-    will-change: transform;
-    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 2rem;
+    padding: 1rem 0.5rem;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #2acce0 rgba(255, 255, 255, 0.2);
+}
+
+.carrossel-slides::-webkit-scrollbar {
+    height: 8px;
+}
+
+.carrossel-slides::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+.carrossel-slides::-webkit-scrollbar-thumb {
+    background: #2acce0;
+    border-radius: 10px;
 }
 
 .carrossel-item {
-    flex-shrink: 0;
-    min-width: 0;
-    padding: 0.5rem;
+    flex: 0 0 calc(33.333% - 1.35rem);
+    min-width: 280px;
+    scroll-snap-align: start;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.carrossel-item:hover {
+    transform: scale(1.02);
 }
 
 .card-projeto {
@@ -310,36 +335,29 @@ h3 {
 }
 
 /* ==========================================================================
-   6. BOTÕES DE NAVEGAÇÃO DO CARROSSEL - COMPLETAMENTE VISÍVEIS
+   6. BOTÕES DE NAVEGAÇÃO DO CARROSSEL (SETAS)
    ========================================================================== */
 
 .carrossel-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(30, 55, 75, 0.95);
-    border: 2px solid #2acce0;
-    color: #c0ecff;
-    font-size: 1.8rem;
-    width: 48px;
-    height: 48px;
+    background: rgba(42, 204, 224, 0.85);
+    backdrop-filter: blur(4px);
+    border: none;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     cursor: pointer;
-    backdrop-filter: blur(8px);
-    transition: 0.2s;
+    font-size: 1.8rem;
     font-weight: bold;
-    z-index: 10;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.carrossel-btn:hover {
-    background: #2acce0;
-    color: #1a2a3a;
-    border-color: white;
-    transform: translateY(-50%) scale(1.1);
+    transition: all 0.2s ease;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .carrossel-btn-prev {
@@ -350,6 +368,16 @@ h3 {
     right: 0;
 }
 
+.carrossel-btn:hover {
+    background: #00ccdd;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.carrossel-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
 /* ==========================================================================
    7. INDICADORES (DOTS) DO CARROSSEL
    ========================================================================== */
@@ -357,24 +385,30 @@ h3 {
 .carrossel-indicadores {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
 }
 
-.dot {
+.indicador {
     width: 10px;
     height: 10px;
-    background: rgba(74, 106, 130, 0.8);
-    border-radius: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
     cursor: pointer;
-    transition: 0.2s;
-    border: none;
+    transition: all 0.2s ease;
+    display: inline-block;
 }
 
-.dot.active {
+.indicador.ativo {
     background: #2acce0;
-    width: 24px;
-    box-shadow: 0 0 8px #2acce0;
+    width: 28px;
+    border-radius: 12px;
+}
+
+.indicador:hover {
+    background: rgba(42, 204, 224, 0.7);
+    transform: scale(1.2);
 }
 
 /* ==========================================================================
@@ -489,35 +523,6 @@ h3 {
     background: linear-gradient(95deg, #2ac0e0, #1a90b0);
     transform: scale(1.02);
     box-shadow: 0 0 8px rgba(0, 200, 220, 0.4);
-}
-
-.card-projeto {
-    background: rgba(25, 35, 50, 0.7);
-    backdrop-filter: blur(12px);
-    border-radius: 1.5rem;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    border: 1px solid rgba(0, 200, 220, 0.4);
-    transition: all 0.3s ease;
-}
-
-.card-projeto:hover {
-    border-color: #00ddff;
-    box-shadow: 0 0 20px rgba(0, 200, 230, 0.25);
-    transform: translateY(-3px);
-    background: rgba(30, 42, 60, 0.75);
-}
-
-.card-projeto h3 {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-    color: #ffffff;
-}
-
-.card-projeto .descricao-principal {
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 1rem;
 }
 
 .sobre-container h2 {
@@ -644,10 +649,6 @@ h3 {
     font-weight: 500;
 }
 
-.footer-separator {
-    opacity: 0.6;
-}
-
 /* ==========================================================================
    9. FALLBACK PARA AVATAR
    ========================================================================== */
@@ -672,66 +673,25 @@ h3 {
    10. RESPONSIVIDADE (MEDIA QUERIES)
    ========================================================================== */
 
-/* Desktop - 2 cards por vez */
-@media (min-width: 992px) {
+@media (max-width: 1200px) {
     .carrossel-item {
-        width: calc(50% - 0.75rem);
-    }
-
-    .carrossel-slides {
-        gap: 1.5rem;
-    }
-
-    .carrossel-container {
-        width: 90%;
-        padding: 0 3.5rem;
-    }
-
-    .carrossel-btn-prev {
-        left: 0;
-    }
-
-    .carrossel-btn-next {
-        right: 0;
+        flex: 0 0 calc(50% - 1rem);
     }
 }
 
-/* Tablet - 2 cards */
-@media (min-width: 651px) and (max-width: 991px) {
-    .carrossel-item {
-        width: calc(50% - 0.75rem);
-    }
-
-    .carrossel-slides {
-        gap: 1.5rem;
-    }
-
-    .card-projeto {
-        min-height: 380px;
-    }
-
-    h1 {
-        font-size: 3rem;
-    }
-
+@media (max-width: 680px) {
     .carrossel-container {
-        width: 92%;
-        padding: 0 3rem;
+        padding: 0 1.5rem;
     }
 
-    .carrossel-btn-prev {
-        left: 0;
-    }
-
-    .carrossel-btn-next {
-        right: 0;
-    }
-}
-
-/* Mobile Landscape - 1 card */
-@media (min-width: 481px) and (max-width: 650px) {
     .carrossel-item {
-        width: calc(100% - 0rem);
+        flex: 0 0 calc(100% - 1rem);
+    }
+
+    .carrossel-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 1.4rem;
     }
 
     body {
@@ -740,29 +700,6 @@ h3 {
 
     .wrapper {
         padding: 1rem;
-    }
-
-    .carrossel-container {
-        padding: 0 2.5rem;
-        width: 95%;
-    }
-
-    .carrossel-slides {
-        gap: 1rem;
-    }
-
-    .carrossel-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1.5rem;
-    }
-
-    .carrossel-btn-prev {
-        left: 0;
-    }
-
-    .carrossel-btn-next {
-        right: 0;
     }
 
     h1 {
@@ -793,10 +730,6 @@ h3 {
         font-size: 0.7rem;
         flex-direction: column;
         gap: 0.3rem;
-    }
-
-    .footer span:not(:first-child) {
-        display: none;
     }
 
     .perfil-linha {
@@ -859,29 +792,15 @@ h3 {
     }
 }
 
-/* Mobile pequeno - 1 card */
 @media (max-width: 480px) {
-    .carrossel-item {
-        width: calc(100% - 0rem);
-    }
-
     .carrossel-container {
-        padding: 0 2rem;
-        width: 95%;
-    }
-
-    .carrossel-btn-prev {
-        left: 0;
-    }
-
-    .carrossel-btn-next {
-        right: 0;
+        padding: 0 1rem;
     }
 
     .carrossel-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 1.3rem;
+        width: 32px;
+        height: 32px;
+        font-size: 1.2rem;
     }
 
     h1 {
@@ -936,14 +855,9 @@ h3 {
     }
 }
 
-/* Suporte para telas muito grandes */
 @media (min-width: 1920px) {
     .wrapper {
         max-width: 1600px;
-    }
-
-    .carrossel-item {
-        width: calc(50% - 0.75rem);
     }
 
     h1 {
@@ -959,7 +873,50 @@ h3 {
     }
 
     .carrossel-container {
-        width: 85%;
         padding: 0 4rem;
     }
+}
+
+/* Animações */
+@keyframes fadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card-projeto,
+.card-formacao {
+    animation: fadeUp 0.5s ease forwards;
+    opacity: 0;
+}
+
+.card-projeto:nth-child(1),
+.card-formacao:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.card-projeto:nth-child(2),
+.card-formacao:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.card-projeto:nth-child(3),
+.card-formacao:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.card-projeto:nth-child(4),
+.card-formacao:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.card-projeto:nth-child(5),
+.card-formacao:nth-child(5) {
+    animation-delay: 0.25s;
 }
